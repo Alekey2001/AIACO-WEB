@@ -432,8 +432,10 @@
                         <div class="md:col-span-3">
                             <div class="bg-gray-900/70 backdrop-blur-lg border border-indigo-500/20 p-6 rounded-xl shadow-xl">
                                 <div class="text-xl font-medium text-white mb-4">Send us a message</div>
-                                <!-- Contact form (handled with JS -> mailto) -->
-                              <form id="contact-form" novalidate>
+<!-- Contact form (handled with JS -> mailto) -->
+<form id="contact-form" name="contact" method="POST" data-netlify="true" netlify-honeypot="bot-field">
+  <input type="hidden" name="form-name" value="contact">
+  <input type="hidden" name="bot-field">
       <div class="grid md:grid-cols-2 gap-4 mb-4">
         <div>
           <label for="name" class="block text-sm text-gray-400 mb-1">Name</label>
@@ -461,6 +463,10 @@
           <span class="bg-gradient-to-r from-cyan-300 to-indigo-300 bg-clip-text text-transparent">Send Message</span>
         </button>
       </div>
+      <!-- Mensaje de agradecimiento -->
+<p id="thank-you" class="hidden text-green-400 mt-4 text-center font-medium">
+  ¡Gracias por contactarnos! Te responderemos pronto.
+</p>
     </form>
   </div>
  </div>
@@ -520,60 +526,31 @@
         </div>
     </footer>
     <script>
-    (function(){
-      const form = document.getElementById('contact-form');
-      const submitBtn = document.getElementById('contact-submit');
+(function(){
+  const form = document.getElementById('contact-form');
+  const thankYou = document.getElementById('thank-you');
 
-      function encodeNewlines(text){
-        // Use CRLF for better mail client support
-        return encodeURIComponent(text).replace(/%0A/g, '%0D%0A');
-      }
+  form.addEventListener('submit', function(e){
+    e.preventDefault();
 
-      form.addEventListener('submit', function(e){
-        e.preventDefault();
+    const data = new FormData(form);
 
-        // Simple client-side validation
-        const name = (document.getElementById('name').value || '').trim();
-        const email = (document.getElementById('email').value || '').trim();
-        const subject = (document.getElementById('subject').value || '').trim();
-        const message = (document.getElementById('message').value || '').trim();
+    fetch("/", {
+      method: "POST",
+      headers: { "Content-Type": "application/x-www-form-urlencoded" },
+      body: new URLSearchParams(data).toString()
+    })
+    .then(() => {
+      // Mostrar mensaje de agradecimiento
+      thankYou.classList.remove('hidden');
+      // Limpiar formulario
+      form.reset();
+    })
+    .catch(err => alert('Error al enviar el formulario: ' + err));
+  });
+})();
+</script>
 
-        if(!name || !email || !subject || !message){
-          alert('Por favor completa todos los campos antes de enviar.');
-          return;
-        }
-
-        // Build subject and body
-        const subjectPrefix = '[Contacto - AIACO Web] ';
-        const fullSubject = subjectPrefix + subject;
-
-        const bodyLines = [
-          `Nombre: ${name}`,
-          `Email: ${email}`,
-          '',
-          `Mensaje:`,
-          message,
-          '',
-          `--`,
-          `Página: ${location.href}`,
-          `Fecha: ${new Date().toLocaleString()}`
-        ];
-        const body = bodyLines.join('\r\n');
-
-        // Construct mailto link
-        const mailTo = 'AIACO_E_M_P@hotmail.com';
-        const mailtoLink = `mailto:${mailTo}?subject=${encodeURIComponent(fullSubject)}&body=${encodeNewlines(body)}`;
-
-        // Provide a small visual cue on the button
-        submitBtn.disabled = true;
-        submitBtn.classList.add('opacity-70');
-        setTimeout(()=> { submitBtn.disabled = false; submitBtn.classList.remove('opacity-70'); }, 1200);
-
-        // Open user's mail client
-        window.location.href = mailtoLink;
-      });
-    })();
-    </script>
   <script src="script.js"></script>
 </body>
 </html>
