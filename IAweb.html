@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>AIACO - Inteligencia Artificial</title>
+
+    <!-- Hoja de estilos específica para esta página -->
+    <link rel="stylesheet" href="iaweb.css" />
+</head>
+<body>
+    <div class="page-wrap">
+        <!-- Header con logo mejorado (centrado) -->
+        <header class="header">
+            <div class="logo-plate" aria-hidden="false">
+                <img src="LOGO AIACO.png" alt="AIACO Logo" class="logo-main" />
+                <div class="logo-meta">
+                    <div class="brand">AIACO</div>
+                    <div class="brand-sub">Inteligencia Artificial · Apps · Ciberseguridad</div>
+                </div>
+            </div>
+
+            <h1 class="page-title gradient-text">Soluciones de Inteligencia Artificial</h1>
+            <p class="subtitle">Automatización, análisis y tecnología para empresas modernas</p>
+        </header>
+
+        <!-- Decor: logo grande (fondo suave) -->
+        <div class="hero-logo-decor" aria-hidden="true"></div>
+
+        <main class="main">
+            <section class="services">
+                <article class="card" id="sol-1">
+                    <h2 class="card-title accent-indigo">Automatización Inteligente</h2>
+                    <p class="card-desc">Robots y algoritmos que optimizan tareas repetitivas y procesos empresariales.</p>
+                </article>
+
+                <article class="card" id="sol-2">
+                    <h2 class="card-title accent-indigo">Análisis Predictivo</h2>
+                    <p class="card-desc">Modelos de IA que anticipan tendencias y ayudan en la toma de decisiones estratégicas.</p>
+                </article>
+
+                <article class="card" id="sol-3">
+                    <h2 class="card-title accent-indigo">Soluciones Personalizadas</h2>
+                    <p class="card-desc">Desarrollo de sistemas inteligentes adaptados a las necesidades de cada cliente.</p>
+                </article>
+            </section>
+
+            <aside class="contact">
+                <a id="contact-cta" class="btn btn-primary" href="mailto:AIACO_E_M_P@hotmail.com?subject=Quiero%20IA%20para%20mi%20empresa">
+                    Solicita tu solución IA
+                </a>
+                <p class="contact-note">Nos pondremos en contacto contigo para evaluar la mejor solución.</p>
+            </aside>
+        </main>
+
+        <footer class="site-footer">
+            <div class="footer-inner">
+                <img src="logos.png" alt="AIACO" class="footer-logo" />
+                <div class="footer-text">© 2025 AIACO. Todos los derechos reservados.</div>
+            </div>
+        </footer>
+    </div>
+
+    <script>
+    // Añade un efecto visual breve cuando el usuario hace click en el CTA
+    document.addEventListener('DOMContentLoaded', () => {
+      const cta = document.getElementById('contact-cta');
+      if(cta){
+        cta.addEventListener('click', (e) => {
+          // Clase temporal para animación de "presionado"
+          cta.classList.add('btn-active');
+          setTimeout(()=> cta.classList.remove('btn-active'), 600);
+        });
+      }
+
+      // Si viene desde index (opcional): si la URL contiene ?from=index entonces resaltamos el panel
+      if(location.search.includes('from=index')){
+        const firstCard = document.querySelector('.card');
+        if(firstCard){
+          firstCard.classList.add('highlight-from-index');
+          setTimeout(()=> firstCard.classList.remove('highlight-from-index'), 1600);
+        }
+      }
+    });
+    </script>
+</body>
+</html>

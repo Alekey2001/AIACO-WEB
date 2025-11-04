@@ -1,0 +1,128 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>AIACO - Ciberseguridad</title>
+
+  <!-- hoja de estilos específica -->
+  <link rel="stylesheet" href="cybersegurity.css" />
+</head>
+<body>
+  <div class="page-wrap">
+    <!-- Header con logo mejorado -->
+    <header class="header">
+      <div class="logo-plate">
+        <img src="LOGO AIACO.png" alt="AIACO Logo" class="logo-main" />
+        <div class="logo-meta">
+          <div class="brand">AIACO</div>
+          <div class="brand-sub">Ciberseguridad · Confianza Digital</div>
+        </div>
+      </div>
+
+      <h1 class="page-title">Servicios de Ciberseguridad</h1>
+      <p class="subtitle">Protege tu empresa con tecnología avanzada y confianza digital</p>
+    </header>
+
+    <!-- decor: logo grande (fondo suave) -->
+    <div class="hero-logo-decor" aria-hidden="true"></div>
+
+    <main class="main">
+      <section class="services">
+        <!-- Card 1 -->
+        <article class="card group">
+          <div class="card-bg-spot"></div>
+          <div class="card-inner">
+            <div class="card-head">
+              <div class="icon-plate">
+                <!-- icon svg (decorativo) -->
+                <svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" xmlns="http://www.w3.org/2000/svg">
+                  <path d="M10 20l4-16m4 4l4 4-4 4M6 16l-4-4 4-4" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/>
+                </svg>
+              </div>
+              <div class="title-wrap">
+                <div class="card-title purple-txt">Monitoreo y Detección de Amenazas</div>
+              </div>
+            </div>
+            <p class="card-desc">Supervisión continua de sistemas y redes para identificar y neutralizar riesgos en tiempo real.</p>
+            <a class="card-cta" href="mailto:AIACO_E_M_P@hotmail.com?subject=Interés%20-%20Monitoreo%20y%20Detección">Contactar</a>
+          </div>
+        </article>
+
+        <!-- Card 2 -->
+        <article class="card group">
+          <div class="card-bg-spot"></div>
+          <div class="card-inner">
+            <div class="card-head">
+              <div class="icon-plate">
+                <svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" xmlns="http://www.w3.org/2000/svg">
+                  <path d="M12 2v6m0 8v6m8-8h-6M6 12H0" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/>
+                </svg>
+              </div>
+              <div class="title-wrap">
+                <div class="card-title purple-txt">Gestión de Incidentes</div>
+              </div>
+            </div>
+            <p class="card-desc">Respuesta rápida y profesional ante ataques, minimizando el impacto y recuperando la operatividad.</p>
+            <a class="card-cta" href="mailto:AIACO_E_M_P@hotmail.com?subject=Interés%20-%20Gestión%20de%20Incidentes">Contactar</a>
+          </div>
+        </article>
+
+        <!-- Card 3 -->
+        <article class="card group">
+          <div class="card-bg-spot"></div>
+          <div class="card-inner">
+            <div class="card-head">
+              <div class="icon-plate">
+                <svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" xmlns="http://www.w3.org/2000/svg">
+                  <path d="M3 7h18M3 12h18M3 17h18" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/>
+                </svg>
+              </div>
+              <div class="title-wrap">
+                <div class="card-title purple-txt">Consultoría y Auditoría</div>
+              </div>
+            </div>
+            <p class="card-desc">Evaluación de vulnerabilidades, asesoría en normativas y fortalecimiento de la seguridad digital.</p>
+            <a class="card-cta" href="mailto:AIACO_E_M_P@hotmail.com?subject=Interés%20-%20Consultoría%20y%20Auditoría">Contactar</a>
+          </div>
+        </article>
+      </section>
+
+      <aside class="contact">
+        <a id="contact-cta" class="btn btn-primary" href="mailto:AIACO_E_M_P@hotmail.com?subject=Solicitar%20Servicios%20de%20Ciberseguridad">
+          Solicita protección digital
+        </a>
+        <p class="contact-note">Te contactamos para analizar tu caso y proponer un plan de seguridad.</p>
+      </aside>
+    </main>
+
+    <footer class="site-footer">
+      <div class="footer-inner">
+        <img src="logos.png" alt="AIACO" class="footer-logo" />
+        <div class="footer-text">© 2025 AIACO. Todos los derechos reservados.</div>
+      </div>
+    </footer>
+  </div>
+
+  <script>
+    // Efecto CTA "press" y highlight opcional desde index
+    document.addEventListener('DOMContentLoaded', () => {
+      const cta = document.getElementById('contact-cta');
+      if(cta){
+        cta.addEventListener('click', () => {
+          cta.classList.add('btn-active');
+          setTimeout(()=> cta.classList.remove('btn-active'), 600);
+        });
+      }
+
+      if(location.search.includes('from=index')){
+        const first = document.querySelector('.card');
+        if(first){
+          first.classList.add('highlight-from-index');
+          setTimeout(()=> first.classList.remove('highlight-from-index'), 1500);
+        }
+      }
+    });
+  </script>
+</body>
+</html>

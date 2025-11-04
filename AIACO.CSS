@@ -1,0 +1,260 @@
+/* AIACO.css
+   Diseño: futurista / glassmorphism / neon accents
+   Fuente: Space Grotesk (añadir link en el HTML)
+*/
+
+:root{
+  --bg-900: #0b0f14;
+  --glass: rgba(255,255,255,0.04);
+  --glass-strong: rgba(255,255,255,0.06);
+  --cyan: #06b6d4;
+  --indigo: #6366f1;
+  --purple: #8b5cf6;
+  --muted: #9ca3af;
+  --card-border: rgba(99,102,241,0.12);
+}
+
+*{box-sizing:border-box}
+html,body{height:100%}
+body{
+  margin:0;
+  font-family: "Space Grotesk", Inter, system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial;
+  background: radial-gradient(1200px 600px at 10% 10%, rgba(99,102,241,0.06), transparent 8%),
+              radial-gradient(900px 400px at 90% 90%, rgba(139,92,246,0.05), transparent 10%),
+              var(--bg-900);
+  color:#e6eef6;
+  -webkit-font-smoothing:antialiased;
+  -moz-osx-font-smoothing:grayscale;
+  overflow-x:hidden;
+  padding:0;
+}
+
+/* animated background (subtle grid + moving gradient) */
+.background-animated{
+  position:fixed;
+  inset:0;
+  z-index:0;
+  pointer-events:none;
+  background-image:
+    linear-gradient(180deg, rgba(255,255,255,0.01) 0%, rgba(255,255,255,0.00) 100%);
+  mix-blend-mode: overlay;
+}
+
+/* big soft logo in background */
+.logo-bg{
+  position:fixed;
+  inset:0;
+  z-index:0;
+  background-image:
+    radial-gradient(circle at 30% 30%, rgba(6,182,212,0.06), transparent 10%),
+    radial-gradient(circle at 75% 70%, rgba(99,102,241,0.05), transparent 12%);
+  backdrop-filter: blur(0px);
+}
+
+/* main content container */
+.main-content{
+  position:relative;
+  z-index:10;
+  min-height:100vh;
+  display:flex;
+  flex-direction:column;
+  gap:40px;
+  align-items:center;
+  justify-content:center;
+  padding:48px 24px;
+}
+
+/* PARALLAX / HERO CARD */
+.parallax-card{
+  width:100%;
+  max-width:1100px;
+  border-radius:18px;
+  padding:48px;
+  background: linear-gradient(180deg, rgba(255,255,255,0.02), rgba(255,255,255,0.01));
+  border: 1px solid var(--card-border);
+  box-shadow: 0 10px 30px rgba(2,6,23,0.6), inset 0 1px 0 rgba(255,255,255,0.02);
+  backdrop-filter: blur(8px) saturate(120%);
+  transform-origin:center;
+  transition: transform 300ms ease, box-shadow 300ms ease;
+  display:grid;
+  grid-template-columns: 1fr 360px;
+  gap:24px;
+  align-items:center;
+  overflow:hidden;
+}
+
+/* left area (text) */
+.parallax-card .title{
+  margin:0 0 8px 0;
+  font-size: clamp(28px, 4.6vw, 48px);
+  line-height:1.02;
+  letter-spacing:-0.01em;
+  font-weight:700;
+  background: linear-gradient(90deg, var(--indigo), var(--cyan), var(--purple));
+  -webkit-background-clip:text;
+  background-clip:text;
+  color:transparent;
+  text-shadow: 0 6px 30px rgba(99,102,241,0.08);
+}
+.parallax-card .subtitle{
+  margin:0 0 18px 0;
+  color:var(--muted);
+  font-size:16px;
+}
+.parallax-card .info p{
+  margin:0 0 18px 0;
+  color:#cbd5e1;
+  line-height:1.6;
+  max-width:60ch;
+}
+
+/* CTA */
+.cta-btn{
+  display:inline-block;
+  text-decoration:none;
+  padding:12px 20px;
+  border-radius:12px;
+  background:linear-gradient(90deg, rgba(6,182,212,0.14), rgba(99,102,241,0.16));
+  color:var(--cyan);
+  border: 1px solid rgba(6,182,212,0.16);
+  font-weight:600;
+  transition: transform .15s ease, box-shadow .15s;
+  box-shadow: 0 6px 18px rgba(6,182,212,0.06);
+}
+.cta-btn:hover{
+  transform:translateY(-3px) scale(1.01);
+  box-shadow: 0 16px 40px rgba(99,102,241,0.12);
+}
+
+/* right column: visual/logo or quick stats */
+.parallax-card .hero-visual{
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  gap:12px;
+  flex-direction:column;
+}
+.parallax-card .hero-logo{
+  width:180px;
+  height:180px;
+  border-radius:20px;
+  background:linear-gradient(180deg, rgba(255,255,255,0.02), rgba(255,255,255,0.01));
+  border:1px solid rgba(255,255,255,0.03);
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  box-shadow: 0 12px 30px rgba(6,182,212,0.06), inset 0 -6px 18px rgba(0,0,0,0.25);
+  overflow:hidden;
+}
+.parallax-card .hero-logo img{
+  width:60%;
+  height:auto;
+  filter:drop-shadow(0 6px 18px rgba(0,0,0,0.45));
+  transform:translateY(2px);
+}
+
+/* small badges / stats */
+.hero-stats{
+  display:flex;
+  gap:10px;
+  flex-wrap:wrap;
+  justify-content:center;
+}
+.hero-stat{
+  background:rgba(255,255,255,0.02);
+  padding:8px 12px;
+  border-radius:10px;
+  font-size:13px;
+  color:var(--muted);
+  border:1px solid rgba(255,255,255,0.02);
+}
+
+/* right aligned info cards section */
+.info-cards-right{
+  width:100%;
+  max-width:1100px;
+  display:flex;
+  flex-direction:column;
+  gap:18px;
+  align-items:flex-end;
+  padding:0 16px;
+}
+@media (min-width:900px){
+  .info-cards-right{
+    flex-direction:column;
+    align-items:flex-end;
+  }
+}
+
+/* individual cards */
+.card{
+  width:100%;
+  max-width:640px;
+  background: linear-gradient(180deg, rgba(11,15,20,0.6), rgba(11,15,20,0.5));
+  border:1px solid rgba(99,102,241,0.06);
+  padding:18px 20px;
+  border-radius:14px;
+  display:flex;
+  gap:14px;
+  align-items:flex-start;
+  box-shadow: 0 8px 30px rgba(2,6,23,0.5);
+  transition: transform .25s ease, box-shadow .25s ease, border-color .25s;
+}
+.card h2{
+  margin:0;
+  font-size:18px;
+  color:linear-gradient;
+  background: linear-gradient(90deg, var(--indigo), var(--purple));
+  -webkit-background-clip:text;
+  color:transparent;
+  font-weight:700;
+}
+.card p{
+  margin:6px 0 0 0;
+  color:#b9c4d2;
+  line-height:1.5;
+  font-size:14px;
+}
+.card:hover{
+  transform: translateY(-8px) translateX(-6px);
+  border-color: rgba(6,182,212,0.18);
+  box-shadow: 0 20px 60px rgba(6,182,212,0.07);
+}
+
+/* small accent icon */
+.card::before{
+  content:'';
+  width:8px;
+  height:42px;
+  border-radius:6px;
+  background:linear-gradient(180deg, var(--indigo), var(--cyan));
+  margin-right:12px;
+  display:inline-block;
+}
+
+/* responsive */
+@media (max-width:880px){
+  .parallax-card{grid-template-columns:1fr; padding:28px}
+  .parallax-card .hero-visual{order:-1; margin-bottom:8px}
+  .parallax-card .hero-logo{width:140px;height:140px}
+  .info-cards-right{align-items:center}
+  .card{max-width:100%}
+}
+
+/* subtle glow animation for CTA */
+@keyframes neon {
+  0%,100%{ box-shadow: 0 6px 18px rgba(6,182,212,0.05);}
+  50%{ box-shadow: 0 18px 50px rgba(99,102,241,0.08);}
+}
+.cta-btn{ animation: neon 4s ease-in-out infinite; }
+
+/* small decorative floating motion for logo-bg */
+@keyframes floaty {
+  0%{ transform: translateY(0px) }
+  50%{ transform: translateY(-8px) }
+  100%{ transform: translateY(0px) }
+}
+.logo-bg{ animation: floaty 8s ease-in-out infinite; }
+
+/* utility */
+.container{max-width:1200px;margin:0 auto;padding:0 20px}

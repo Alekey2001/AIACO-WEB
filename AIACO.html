@@ -1,0 +1,117 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>AIACO — Bienvenido</title>
+
+    <!-- Fuente -->
+    <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;700&display=swap" rel="stylesheet">
+
+    <!-- Estilos -->
+    <link rel="stylesheet" href="AIACO.css">
+</head>
+<body>
+    <!-- Fondo animado y decorativo con logo -->
+    <div class="background-animated" aria-hidden="true"></div>
+    <div class="logo-bg" aria-hidden="true"></div>
+
+    <main class="main-content container" role="main">
+        <!-- Card principal grande -->
+        <section class="intro-card parallax-card" aria-labelledby="welcome-title">
+            <div>
+                <h1 id="welcome-title" class="title">Bienvenido a AIACO</h1>
+                <p class="subtitle">Artificial Intelligence, Apps, Cybersecurity & Online solutions</p>
+
+                <div class="info">
+                    <p>
+                        Somos una empresa líder en tecnología, especializada en soluciones de IA, desarrollo de aplicaciones y ciberseguridad. Construimos el futuro digital con confianza y creatividad.
+                    </p>
+                </div>
+
+                <div style="margin-top:18px;">
+                    <a href="mailto:AIACO_E_M_P@hotmail.com?subject=Contacto%20desde%20AIACO%20WEB&body=Hola,%20quiero%20más%20información%20sobre%20sus%20servicios." class="cta-btn" role="button" aria-label="Contactar por correo">Contáctanos</a>
+                </div>
+
+                <div class="hero-stats" style="margin-top:18px;">
+                    <div class="hero-stat">Proyectos: <strong style="color: #fff">+24</strong></div>
+                    <div class="hero-stat">Clientes: <strong style="color: #fff">+12</strong></div>
+                    <div class="hero-stat">Año: <strong style="color: #fff">2025</strong></div>
+                </div>
+            </div>
+
+            <div class="hero-visual" aria-hidden="false">
+                <div class="hero-logo" title="AIACO">
+                    <!-- Ajusta "logos.png" si tiene un tamaño diferente -->
+                    <img src="logos.png" alt="AIACO logo">
+                </div>
+            </div>
+        </section>
+
+        <!-- Cards informativas alineadas a la derecha -->
+        <section class="info-cards-right" aria-label="Servicios destacados">
+            <div class="card futuristic-card">
+                <div style="flex:1">
+                    <h2>Soluciones de IA</h2>
+                    <p>Automatización, análisis de datos y modelos inteligentes que transforman decisiones en resultados.</p>
+                </div>
+            </div>
+
+            <div class="card futuristic-card">
+                <div style="flex:1">
+                    <h2>Desarrollo de Apps</h2>
+                    <p>Aplicaciones web y móviles seguras, escalables y orientadas a experiencia de usuario.</p>
+                </div>
+            </div>
+
+            <div class="card futuristic-card">
+                <div style="flex:1">
+                    <h2>Ciberseguridad</h2>
+                    <p>Protección avanzada, monitoreo continuo y planes de respuesta para mantener tu negocio seguro.</p>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <!-- Footer (sin cambios funcionales) -->
+    <footer class="footer" role="contentinfo" style="position:relative; z-index:10; padding:28px 12px;">
+        <div class="footer-content container" style="display:flex; align-items:center; gap:12px; justify-content:center; color:var(--muted);">
+            <img src="logos.png" alt="AIACO Icon" style="width:36px; height:36px; object-fit:contain; border-radius:6px;"/>
+            <span>© 2025 AIACO. Todos los derechos reservados.</span>
+        </div>
+    </footer>
+
+    <!-- Script para parallax en el card principal (mejorado y throttled) -->
+    <script>
+    (function() {
+      const card = document.querySelector('.parallax-card');
+      let last = 0;
+      function onMove(e){
+        const now = Date.now();
+        if(now - last < 16) return; // throttle ~60fps
+        last = now;
+        const rect = card.getBoundingClientRect();
+        const cx = rect.left + rect.width/2;
+        const cy = rect.top + rect.height/2;
+        const x = (e.clientX - cx) / rect.width;
+        const y = (e.clientY - cy) / rect.height;
+        const rx = (y * 6); // rotateX
+        const ry = (x * -6); // rotateY
+        card.style.transform = `perspective(900px) rotateX(${rx}deg) rotateY(${ry}deg) scale(1.01)`;
+      }
+      function reset(){
+        card.style.transform = 'perspective(900px) rotateX(0deg) rotateY(0deg) scale(1)';
+      }
+      if(card){
+        document.addEventListener('mousemove', onMove);
+        document.addEventListener('mouseleave', reset);
+        // touch support (simple)
+        document.addEventListener('touchmove', function(e){ if(e.touches && e.touches[0]) onMove(e.touches[0]); }, {passive:true});
+        document.addEventListener('touchend', reset);
+      }
+
+      // floating background subtle movement (already handled in CSS animation)
+    })();
+    </script>
+</body>
+</html>
