@@ -439,7 +439,6 @@
   method="POST" 
   data-netlify="true" 
   netlify-honeypot="bot-field"
-  action="/"
 >
   <input type="hidden" name="form-name" value="contact">
   <input type="hidden" name="bot-field">
@@ -534,27 +533,31 @@
     </footer>
     <!-- Script para para el pull request -->
 <script>
-(function(){
+(function() {
   const form = document.getElementById('contact-form');
   const thankYou = document.getElementById('thank-you');
 
-  form.addEventListener('submit', function(e){
+  form.addEventListener('submit', function(e) {
     e.preventDefault();
 
     const data = new FormData(form);
 
     fetch("/", {
       method: "POST",
+      headers: { "Content-Type": "application/x-www-form-urlencoded" },
       body: new URLSearchParams(data).toString()
     })
     .then(() => {
-      thankYou.classList.remove('hidden'); // muestra mensaje
-      form.reset(); // limpia campos
+      // Mostrar mensaje de agradecimiento
+      thankYou.classList.remove('hidden');
+      // Limpiar formulario
+      form.reset();
     })
     .catch(err => alert('Error al enviar el formulario: ' + err));
   });
 })();
 </script>
+
  <!-- Script para parallax en el card principal (mejorado y throttled) -->
     <script>
     (function() {
