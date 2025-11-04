@@ -432,8 +432,15 @@
                         <div class="md:col-span-3">
                             <div class="bg-gray-900/70 backdrop-blur-lg border border-indigo-500/20 p-6 rounded-xl shadow-xl">
                                 <div class="text-xl font-medium text-white mb-4">Send us a message</div>
-<!-- Contact form (handled with JS -> mailto) -->
-<form id="contact-form" name="contact" method="POST" data-netlify="true" netlify-honeypot="bot-field">
+<!-- Contact form  -->
+<form 
+  id="contact-form" 
+  name="contact" 
+  method="POST" 
+  data-netlify="true" 
+  netlify-honeypot="bot-field"
+  action="/"
+>
   <input type="hidden" name="form-name" value="contact">
   <input type="hidden" name="bot-field">
       <div class="grid md:grid-cols-2 gap-4 mb-4">
@@ -525,7 +532,8 @@
             </div>
         </div>
     </footer>
-    <script>
+    <!-- Script para para el pull request -->
+<script>
 (function(){
   const form = document.getElementById('contact-form');
   const thankYou = document.getElementById('thank-you');
@@ -537,14 +545,11 @@
 
     fetch("/", {
       method: "POST",
-      headers: { "Content-Type": "application/x-www-form-urlencoded" },
       body: new URLSearchParams(data).toString()
     })
     .then(() => {
-      // Mostrar mensaje de agradecimiento
-      thankYou.classList.remove('hidden');
-      // Limpiar formulario
-      form.reset();
+      thankYou.classList.remove('hidden'); // muestra mensaje
+      form.reset(); // limpia campos
     })
     .catch(err => alert('Error al enviar el formulario: ' + err));
   });
