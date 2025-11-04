@@ -550,6 +550,38 @@
   });
 })();
 </script>
+ <!-- Script para parallax en el card principal (mejorado y throttled) -->
+    <script>
+    (function() {
+      const card = document.querySelector('.parallax-card');
+      let last = 0;
+      function onMove(e){
+        const now = Date.now();
+        if(now - last < 16) return; // throttle ~60fps
+        last = now;
+        const rect = card.getBoundingClientRect();
+        const cx = rect.left + rect.width/2;
+        const cy = rect.top + rect.height/2;
+        const x = (e.clientX - cx) / rect.width;
+        const y = (e.clientY - cy) / rect.height;
+        const rx = (y * 6); // rotateX
+        const ry = (x * -6); // rotateY
+        card.style.transform = `perspective(900px) rotateX(${rx}deg) rotateY(${ry}deg) scale(1.01)`;
+      }
+      function reset(){
+        card.style.transform = 'perspective(900px) rotateX(0deg) rotateY(0deg) scale(1)';
+      }
+      if(card){
+        document.addEventListener('mousemove', onMove);
+        document.addEventListener('mouseleave', reset);
+        // touch support (simple)
+        document.addEventListener('touchmove', function(e){ if(e.touches && e.touches[0]) onMove(e.touches[0]); }, {passive:true});
+        document.addEventListener('touchend', reset);
+      }
+
+      // floating background subtle movement (already handled in CSS animation)
+    })();
+    </script>
 
   <script src="script.js"></script>
 </body>
