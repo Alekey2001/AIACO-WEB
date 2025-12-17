@@ -244,6 +244,7 @@ section:first-of-type {
   box-shadow: 0 0 24px #06d6a0;
 }
 
+
 /* Form Styles */
 .form-group {
   margin-bottom: 2rem;
@@ -413,3 +414,130 @@ a:focus, button:focus {
   outline: 2px solid #06d6a0;
   outline-offset: 2px;
 }
+
+/* ---- AIACO GAMES - Estilos gamer (añadidos) ---- */
+/* Añadir al final de style.css para diferenciar la tarjeta de juegos */
+.card-gamer {
+  position: relative;
+  box-shadow: 0 8px 30px rgba(16,185,129,0.06), inset 0 1px 0 rgba(255,255,255,0.02);
+  transition: box-shadow 0.28s ease, transform 0.28s ease;
+}
+.card-gamer:hover {
+  box-shadow: 0 20px 60px rgba(16,185,129,0.14), inset 0 0 32px rgba(16,185,129,0.04);
+  transform: translateY(-6px);
+}
+
+/* glow exterior sutil al hacer hover (no rompe layout) */
+.group:hover .card-gamer::after {
+  content: "";
+  position: absolute;
+  inset: -6px;
+  border-radius: 12px;
+  box-shadow: 0 0 48px rgba(16,185,129,0.06);
+  pointer-events: none;
+  z-index: 0;
+}
+
+/* Colores utilitarios (si no tienes utilidades para estos) */
+.text-green-300 { color: #86efac !important; }
+.text-green-400 { color: #34d399 !important; }
+.text-green-200 { color: #bbf7d0 !important; }
+.bg-green-900\/60 { background-color: rgba(4,120,87,0.6); }
+
+/* Asegurar que el contenido interno quede por encima del glow */
+.card-gamer > .flex { position: relative; z-index: 1; }
+
+/* Responsividad: sigue el comportamiento de las demás tarjetas */
+@media (max-width: 900px) {
+  .card-gamer { width: 100%; }
+}
+
+/* ---- fin AIACO GAMES ---- */
+
+/* Posicionar AIACO GAMES debajo de Cybersecurity en pantallas grandes para mejor estética */
+@media (min-width: 1024px) {
+  /* La grid en pantallas grandes usa 4 columnas; colocar la tarjeta games en la columna 2, fila 2 */
+  .grid > .card-games {
+    grid-column: 2 / span 1;
+    grid-row: 2 / span 1;
+    transition: transform 220ms ease, box-shadow 220ms ease;
+  }
+  /* Asegurar que la tarjeta de cybersecurity quede en la fila 1, columna 2 (por si cambia el orden) */
+  .grid > .card-cyber {
+    grid-column: 2 / span 1;
+    grid-row: 1 / span 1;
+  }
+}
+
+/* Glow y hover uniforme para todas las tarjetas de servicio */
+.service-card {
+  position: relative;
+  box-shadow: 0 8px 30px rgba(16,24,40,0.12);
+  transition: transform 0.28s ease, box-shadow 0.28s ease;
+}
+
+.group:hover .service-card {
+  transform: translateY(-6px);
+  box-shadow: 0 20px 60px rgba(2,6,23,0.45);
+}
+
+/* glow pseudo-element for service cards (but not for card-gamer which has its own stronger glow) */
+.group:hover .service-card:not(.card-gamer)::after {
+  content: "";
+  position: absolute;
+  inset: -6px;
+  border-radius: 12px;
+  pointer-events: none;
+  z-index: 0;
+}
+
+/* Accent-specific glows */
+.group:hover .service-card.accent-indigo::after { box-shadow: 0 0 72px rgba(59,130,246,0.28), 0 12px 30px rgba(59,130,246,0.10); }
+.group:hover .service-card.accent-purple::after { box-shadow: 0 0 72px rgba(167,139,250,0.28), 0 12px 30px rgba(167,139,250,0.10); }
+.group:hover .service-card.accent-cyan::after { box-shadow: 0 0 64px rgba(6,214,160,0.18), 0 10px 28px rgba(6,214,160,0.08); }
+.group:hover .service-card.accent-green::after { box-shadow: 0 0 64px rgba(16,185,129,0.18), 0 10px 28px rgba(16,185,129,0.08); }
+
+/* Ensure inner content stays above the glow */
+.service-card > * { position: relative; z-index: 1; }
+
+/* Portfolio item normalization: equal scaling, consistent hover, images cover */
+.portfolio-item {
+  overflow: hidden;
+  border-radius: 0.75rem;
+}
+
+.portfolio-item > .aspect-video {
+  width: 100%;
+  aspect-ratio: 16/9;
+  position: relative;
+  overflow: hidden;
+  border-radius: inherit;
+}
+
+/* Ensure images fill container without distortion and are centered */
+.portfolio-item img,
+.portfolio-item > .aspect-video img {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: center;
+  display: block;
+}
+
+/* Optional: slightly reduce image visual scale so focal content isn't cropped harshly */
+.portfolio-item img { transform: scale(0.99); }
+
+/* Make overlay content and transitions identical across items */
+.portfolio-item .absolute.inset-0 {
+  transition: opacity 0.32s ease, transform 0.32s ease;
+}
+.portfolio-item .text-center {
+  transition: transform 0.32s ease, opacity 0.32s ease;
+}
+.portfolio-item .text-center { transform: translateY(2rem); }
+.portfolio-item:hover .text-center { transform: translateY(0); }
+
+/* Prevent different items from causing row height variance in grid */
+.portfolio-item { min-height: 0; }
