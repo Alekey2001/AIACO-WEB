@@ -1,4 +1,4 @@
-// createweb.js - Funcionalidad interactiva para la landing page AIACO WEB
+// createweb.js - Versión para Carrusel Infinito (Simplificado)
 
 document.addEventListener('DOMContentLoaded', function() {
     
@@ -11,7 +11,6 @@ document.addEventListener('DOMContentLoaded', function() {
     if (menuToggle && mainNav) {
         menuToggle.addEventListener('click', function() {
             mainNav.classList.toggle('active');
-            // Cambiar ícono del botón
             const icon = this.querySelector('i');
             if (mainNav.classList.contains('active')) {
                 icon.classList.remove('fa-bars');
@@ -22,7 +21,6 @@ document.addEventListener('DOMContentLoaded', function() {
             }
         });
         
-        // Cerrar menú al hacer clic en un enlace (en móviles)
         const navLinks = mainNav.querySelectorAll('a');
         navLinks.forEach(link => {
             link.addEventListener('click', () => {
@@ -36,75 +34,152 @@ document.addEventListener('DOMContentLoaded', function() {
     }
     
     // ====================
-    // 2. FORMULARIO LEAD MAGNET
+    // 2. CARRUSEL INFINITO CORREGIDO (SIMPLIFICADO)
     // ====================
-    const leadForm = document.getElementById('leadForm');
+    const carouselTrack = document.querySelector('.carousel-track');
+    const carouselWrapper = document.querySelector('.carousel-wrapper');
     
-    if (leadForm) {
-        leadForm.addEventListener('submit', function(e) {
-            e.preventDefault();
-            
-            // Obtener valores del formulario
-            const name = document.getElementById('name').value.trim();
-            const email = document.getElementById('email').value.trim();
-            const business = document.getElementById('business').value.trim();
-            
-            // Validación simple
-            if (!name || !email) {
-                alert('Por favor, completa al menos los campos de Nombre y Correo Electrónico.');
-                return;
+    if (carouselTrack && carouselWrapper) {
+        let carouselInterval;
+        let currentIndex = 0;
+        let isAnimating = false;
+        
+        // Obtener todos los slides
+        const slides = Array.from(carouselTrack.querySelectorAll('.carousel-slide'));
+        const originalSlidesCount = 6; // Tus 6 slides originales
+        const totalSlides = slides.length;
+        
+        // Calcular el ancho de cada slide
+        let slideWidth = 0;
+        if (slides[0]) {
+            slideWidth = slides[0].getBoundingClientRect().width + 
+                        parseInt(getComputedStyle(slides[0]).marginRight || 0) +
+                        parseInt(getComputedStyle(slides[0]).marginLeft || 0);
+        }
+        
+        // Función para actualizar el ancho en resize
+        function updateSlideWidth() {
+            if (slides[0]) {
+                slideWidth = slides[0].getBoundingClientRect().width + 
+                            parseInt(getComputedStyle(slides[0]).marginRight || 0) +
+                            parseInt(getComputedStyle(slides[0]).marginLeft || 0);
             }
+        }
+        
+        // Función para mover al siguiente slide
+        function nextSlide() {
+            if (isAnimating) return;
             
-            // Aquí normalmente enviarías los datos a un servidor
-            // Para este ejemplo, simularemos un envío exitoso
+            isAnimating = true;
+            currentIndex++;
             
-            // Mostrar mensaje de éxito
-            const originalButtonText = leadForm.querySelector('button[type="submit"]').innerHTML;
-            leadForm.querySelector('button[type="submit"]').innerHTML = '<i class="fas fa-spinner fa-spin"></i> Procesando...';
-            leadForm.querySelector('button[type="submit"]').disabled = true;
+            // Aplicar la transición
+            carouselTrack.style.transition = 'transform 0.5s ease-in-out';
+            carouselTrack.style.transform = `translateX(-${currentIndex * slideWidth}px)`;
             
-            // Simular demora de red
-            setTimeout(() => {
-                // Crear enlace de descarga simulado
-                const downloadLink = document.createElement('a');
-                downloadLink.href = '#';
-                downloadLink.setAttribute('download', 'Checklist-Web-Que-Vende-AIACO-WEB.pdf');
-                downloadLink.click();
-                
-                // Restaurar botón
-                leadForm.querySelector('button[type="submit"]').innerHTML = originalButtonText;
-                leadForm.querySelector('button[type="submit"]').disabled = false;
-                
-                // Mostrar mensaje de agradecimiento
-                alert(`¡Gracias ${name}! Tu checklist "Web que Vende" ha sido enviado a ${email}. Revisa tu correo (incluye la carpeta de spam) para más consejos.`);
-                
-                // Opcional: Limpiar formulario
-                leadForm.reset();
-                
-                // Aquí podrías enviar los datos a Google Analytics, etc.
-                console.log('Lead capturado:', { name, email, business });
-                
-            }, 1500);
+            // Si llegamos al final de los slides duplicados, resetear sin animación
+            if (currentIndex >= originalSlidesCount) {
+                setTimeout(() => {
+                    carouselTrack.style.transition = 'none';
+                    currentIndex = 0;
+                    carouselTrack.style.transform = `translateX(0px)`;
+                    isAnimating = false;
+                }, 500);
+            } else {
+                setTimeout(() => {
+                    isAnimating = false;
+                }, 500);
+            }
+        }
+        
+        // Función para iniciar el carrusel automático
+        function startAutoSlide() {
+            clearInterval(carouselInterval);
+            carouselInterval = setInterval(nextSlide, 3000); // Cambia cada 3 segundos
+        }
+        
+        // Inicializar carrusel
+        function initCarousel() {
+            updateSlideWidth();
+            startAutoSlide();
+            
+            // Configurar el ancho del track para que contenga todos los slides
+            carouselTrack.style.width = `${totalSlides * slideWidth}px`;
+            
+            console.log('Carrusel infinito inicializado - Modo automático');
+        }
+        
+        // Inicializar cuando todo esté cargado
+        setTimeout(initCarousel, 100);
+        
+        // Pausar al hacer hover (opcional)
+        carouselWrapper.addEventListener('mouseenter', () => {
+            clearInterval(carouselInterval);
         });
+        
+        carouselWrapper.addEventListener('mouseleave', () => {
+            startAutoSlide();
+        });
+        
+        // Ajustar en resize
+        window.addEventListener('resize', function() {
+            updateSlideWidth();
+            carouselTrack.style.transition = 'none';
+            carouselTrack.style.transform = `translateX(-${currentIndex * slideWidth}px)`;
+            carouselTrack.style.width = `${totalSlides * slideWidth}px`;
+        });
+        
+        // Transición cuando termine la animación
+        carouselTrack.addEventListener('transitionend', function() {
+            isAnimating = false;
+        });
+        
+        console.log('Carrusel infinito listo - Funcionamiento automático');
     }
     
     // ====================
-    // 3. AÑADIR AÑO ACTUAL AL FOOTER
+    // 3. EFECTOS 3D EN TARJETAS
     // ====================
-    const currentYearSpan = document.getElementById('currentYear');
-    if (currentYearSpan) {
-        currentYearSpan.textContent = new Date().getFullYear();
-    }
+    const benefitCards = document.querySelectorAll('.benefit-card, .pricing-card, .testimonial-card');
+    
+    benefitCards.forEach(card => {
+        card.addEventListener('mousemove', function(e) {
+            const rect = this.getBoundingClientRect();
+            const x = e.clientX - rect.left;
+            const y = e.clientY - rect.top;
+            
+            const centerX = rect.width / 2;
+            const centerY = rect.height / 2;
+            
+            const rotateY = (x - centerX) / 25;
+            const rotateX = (centerY - y) / 25;
+            
+            this.style.transform = `perspective(1000px) rotateX(${rotateX}deg) rotateY(${rotateY}deg) scale3d(1.05, 1.05, 1.05)`;
+            
+            // Efecto de iluminación
+            const shadowX = (x - centerX) / 10;
+            const shadowY = (y - centerY) / 10;
+            const shadowBlur = 30;
+            const shadowColor = `rgba(0, 0, 0, 0.1)`;
+            
+            this.style.boxShadow = `
+                ${shadowX}px ${shadowY}px ${shadowBlur}px ${shadowColor},
+                0 20px 40px rgba(0, 0, 0, 0.1)
+            `;
+        });
+        
+        card.addEventListener('mouseleave', function() {
+            this.style.transform = 'perspective(1000px) rotateX(0) rotateY(0) scale3d(1, 1, 1)';
+            this.style.boxShadow = 'var(--shadow-3d)';
+        });
+    });
     
     // ====================
-    // 4. ANIMACIÓN SUAVE AL SCROLL
+    // 4. ANIMACIONES AL SCROLL
     // ====================
-    // Esta funcionalidad ya está habilitada por "scroll-behavior: smooth" en el CSS
-    // Pero añadimos un pequeño efecto adicional a las tarjetas al aparecer
-    
     const observerOptions = {
         threshold: 0.1,
-        rootMargin: '0px 0px -50px 0px'
+        rootMargin: '0px 0px -100px 0px'
     };
     
     const observer = new IntersectionObserver(function(entries) {
@@ -115,60 +190,129 @@ document.addEventListener('DOMContentLoaded', function() {
         });
     }, observerOptions);
     
-    // Observar tarjetas para animación
-    const cards = document.querySelectorAll('.benefit-card, .pricing-card, .testimonial-card');
-    cards.forEach(card => {
-        observer.observe(card);
+    const animatedElements = document.querySelectorAll('.fade-in-up, .benefit-card, .pricing-card, .testimonial-card');
+    animatedElements.forEach(el => {
+        observer.observe(el);
     });
     
     // ====================
-    // 5. EFECTO "STICKY" MEJORADO PARA EL HEADER
+    // 5. FORMULARIO LEAD MAGNET
     // ====================
-    let lastScroll = 0;
-    const header = document.querySelector('.header');
+    const leadForm = document.getElementById('leadForm');
     
-    window.addEventListener('scroll', function() {
-        const currentScroll = window.pageYOffset;
-        
-        if (currentScroll <= 0) {
-            header.classList.remove('scroll-up');
-            return;
-        }
-        
-        if (currentScroll > lastScroll && !header.classList.contains('scroll-down')) {
-            // Scroll hacia abajo
-            header.classList.remove('scroll-up');
-            header.classList.add('scroll-down');
-        } else if (currentScroll < lastScroll && header.classList.contains('scroll-down')) {
-            // Scroll hacia arriba
-            header.classList.remove('scroll-down');
-            header.classList.add('scroll-up');
-        }
-        
-        lastScroll = currentScroll;
-    });
-    
-    // ====================
-    // 6. CONTADOR ESTADÍSTICAS (Ejemplo dinámico)
-    // ====================
-    // Podrías añadir contadores animados para estadísticas si lo deseas
-    // Ejemplo: "Más de 150 sitios web creados"
-    
-    // ====================
-    // 7. PREVENCIÓN DE ENVÍO DE FORMULARIO CON ENTER EN INPUTS NO-SUBMIT
-    // ====================
-    const formInputs = document.querySelectorAll('input');
-    formInputs.forEach(input => {
-        input.addEventListener('keypress', function(e) {
-            if (e.key === 'Enter' && this.type !== 'submit') {
-                e.preventDefault();
+    if (leadForm) {
+        leadForm.addEventListener('submit', function(e) {
+            e.preventDefault();
+            
+            const name = document.getElementById('name').value.trim();
+            const email = document.getElementById('email').value.trim();
+            const business = document.getElementById('business').value.trim();
+            
+            if (!name || !email) {
+                showNotification('Por favor, completa al menos los campos de Nombre y Correo Electrónico.', 'error');
+                return;
             }
+            
+            const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+            if (!emailRegex.test(email)) {
+                showNotification('Por favor, introduce un correo electrónico válido.', 'error');
+                return;
+            }
+            
+            const submitBtn = leadForm.querySelector('button[type="submit"]');
+            const originalText = submitBtn.innerHTML;
+            
+            submitBtn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Procesando...';
+            submitBtn.disabled = true;
+            
+            setTimeout(() => {
+                const downloadLink = document.createElement('a');
+                downloadLink.href = 'pdf/Checklist-Web-Que-Genera-Clientes.pdf';
+                downloadLink.setAttribute('download', 'Checklist-Web-Que-Genera-Clientes.pdf');
+                downloadLink.click();
+                
+                submitBtn.innerHTML = originalText;
+                submitBtn.disabled = false;
+                
+                showNotification(`¡Gracias ${name}! Tu checklist ha sido enviado a ${email}.`, 'success');
+                leadForm.reset();
+                
+                createConfetti();
+                
+            }, 1500);
         });
-    });
+    }
+    
+    // Función para mostrar notificaciones
+    function showNotification(message, type = 'success') {
+        const notification = document.createElement('div');
+        notification.className = `notification ${type}`;
+        notification.innerHTML = `
+            <i class="fas fa-${type === 'success' ? 'check-circle' : 'exclamation-circle'}"></i>
+            <span>${message}</span>
+            <button class="notification-close"><i class="fas fa-times"></i></button>
+        `;
+        
+        document.body.appendChild(notification);
+        
+        setTimeout(() => notification.classList.add('show'), 10);
+        
+        setTimeout(() => {
+            notification.classList.remove('show');
+            setTimeout(() => notification.remove(), 300);
+        }, 5000);
+        
+        notification.querySelector('.notification-close').addEventListener('click', () => {
+            notification.classList.remove('show');
+            setTimeout(() => notification.remove(), 300);
+        });
+    }
+    
+    // Función para efecto confeti
+    function createConfetti() {
+        const confettiCount = 100;
+        const colors = ['#f59e0b', '#1a56db', '#10b981', '#7c3aed', '#ec4899'];
+        
+        for (let i = 0; i < confettiCount; i++) {
+            const confetti = document.createElement('div');
+            confetti.className = 'confetti';
+            confetti.style.cssText = `
+                position: fixed;
+                width: 10px;
+                height: 10px;
+                background: ${colors[Math.floor(Math.random() * colors.length)]};
+                top: -20px;
+                left: ${Math.random() * 100}vw;
+                border-radius: ${Math.random() > 0.5 ? '50%' : '0'};
+                opacity: ${Math.random() * 0.5 + 0.5};
+                z-index: 9999;
+                transform: rotate(${Math.random() * 360}deg);
+            `;
+            
+            document.body.appendChild(confetti);
+            
+            const animation = confetti.animate([
+                { transform: `translateY(0) rotate(0deg)`, opacity: 1 },
+                { transform: `translateY(${window.innerHeight}px) rotate(${Math.random() * 360}deg)`, opacity: 0 }
+            ], {
+                duration: Math.random() * 2000 + 1000,
+                easing: 'cubic-bezier(0.215, 0.610, 0.355, 1)'
+            });
+            
+            animation.onfinish = () => confetti.remove();
+        }
+    }
     
     // ====================
-    // 8. INICIALIZACIÓN ADICIONAL
+    // 6. AÑADIR AÑO ACTUAL
     // ====================
-    console.log('Landing page AIACO WEB cargada correctamente.');
-    console.log('Diseño inspirado en principios de conversión de Landingi[citation:2][citation:9] y estética moderna de Squarespace/Shopify.');
+    const currentYearSpan = document.getElementById('currentYear');
+    if (currentYearSpan) {
+        currentYearSpan.textContent = new Date().getFullYear();
+    }
+    
+    console.log('AIACO WEB - Sitio cargado correctamente');
+    console.log('🎯 Carrusel infinito: Funcionamiento automático');
+    console.log('🎯 Efectos 3D: Activados en tarjetas');
+    console.log('🎯 Formulario: Listo para capturar leads');
 });
