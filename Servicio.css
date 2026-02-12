@@ -1025,3 +1025,56 @@ button {
         height: calc(100% + 1rem);
     }
 }
+/* =====================================================
+   FIX DEFINITIVO: BOTONES DE SERVICIOS (CLICK + HOVER)
+   Elimina doble clic, bloqueos y overlays
+   ===================================================== */
+
+/* El enlace siempre debe ser prioritario */
+.service-cta a {
+    position: relative;
+    z-index: 50;
+    pointer-events: auto;
+    cursor: pointer;
+    touch-action: manipulation;
+    -webkit-tap-highlight-color: transparent;
+}
+
+/* Todo lo decorativo NO debe capturar eventos */
+.service-card-3d *:not(a) {
+    pointer-events: none;
+}
+
+/* El wrapper solo da contexto visual */
+.card-3d-wrapper {
+    pointer-events: auto;
+}
+
+/* Eliminar cualquier overlay decorativo que bloquee */
+.service-card-3d::before,
+.service-card-3d::after {
+    pointer-events: none !important;
+}
+
+/* Hover limpio, SIN rotaciones ni tracking */
+.service-card-3d {
+    will-change: transform;
+}
+
+.service-card-3d:hover {
+    transform: translateY(-6px) scale(1.02);
+    box-shadow: 0 18px 40px -8px rgba(26, 86, 219, 0.18);
+}
+
+/* Quitar resaltado de borde agresivo */
+.service-card:hover {
+    border-color: var(--color-gray-200);
+}
+
+/* Evitar interferencia en móviles */
+@media (hover: none) {
+    .service-card-3d:hover {
+        transform: none;
+        box-shadow: var(--shadow-md);
+    }
+}
