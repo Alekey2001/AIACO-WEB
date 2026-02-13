@@ -1,117 +1,669 @@
 <!DOCTYPE html>
-<html lang="es">
+<html lang="es-MX">
 <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>AIACO — Bienvenido</title>
+  <!-- =========================================================
+    AIACO /aiaco — Landing premium (estilo Reflect-inspired)
+    Archivo: AIACO.html
+    Notas:
+    - Cambia placeholders (logo, og image, screenshots, video) en TODO:.
+    - Si usas Netlify Forms, activa data-netlify="true" en el form.
+  ========================================================== -->
 
-    <!-- Fuente -->
-    <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;700&display=swap" rel="stylesheet">
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta name="theme-color" content="#0b0f19" />
+  <meta name="color-scheme" content="light dark" />
 
-    <!-- Estilos -->
-    <link rel="stylesheet" href="AIACO.css">
+  <title>AIACO | Sitios Web, Contabilidad, Juegos, IA y Ciberseguridad</title>
+  <!-- Favicon - AGREGA ESTA LÍNEA -->
+  <link rel="icon" type="image/x-icon" href="LOGO AIACO.png">
+  <meta
+    name="description"
+    content="AIACO: Sitios web y plataformas, contabilidad para negocios, AIACO juegos, IA aplicada, apps y ciberseguridad. Construimos el futuro digital con confianza y creatividad."
+  />
+  <meta name="robots" content="index,follow,max-image-preview:large" />
+  <link rel="canonical" href="https://aiacoweb.netlify.app/aiaco" />
+
+  <!-- Open Graph -->
+  <meta property="og:type" content="website" />
+  <meta property="og:locale" content="es_MX" />
+  <meta property="og:title" content="AIACO | Sitios Web, Contabilidad, Juegos, IA y Ciberseguridad" />
+  <meta
+    property="og:description"
+    content="Sitios web y plataformas, contabilidad para negocios, AIACO juegos, IA aplicada, apps y ciberseguridad."
+  />
+  <meta property="og:url" content="https://aiacoweb.netlify.app/aiaco" />
+  <!-- TODO: pon una imagen real 1200x630 -->
+  <meta property="og:image" content="https://aiacoweb.netlify.app/images/og-aiaco.jpg" />
+
+  <!-- Twitter Cards -->
+  <meta name="twitter:card" content="summary_large_image" />
+  <meta name="twitter:title" content="AIACO | Sitios Web + Contabilidad + Tech" />
+  <meta
+    name="twitter:description"
+    content="Servicios premium: sitios web, contabilidad, AIACO juegos, IA, apps y ciberseguridad."
+  />
+  <meta name="twitter:image" content="https://aiacoweb.netlify.app/images/og-aiaco.jpg" />
+
+  <!-- Preconnect fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+
+  <!-- Typography (editorial + clean) -->
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Fraunces:opsz,wght@9..144,500;9..144,600&display=swap" rel="stylesheet" />
+
+  <!-- Icons -->
+  <script src="https://unpkg.com/lucide@latest"></script>
+
+  <!-- CSS -->
+  <link rel="stylesheet" href="AIACO.css" />
+
+  <!-- =========================
+       Structured data (JSON-LD)
+  ========================== -->
+  <script type="application/ld+json">
+  {
+    "@context":"https://schema.org",
+    "@type":"Organization",
+    "name":"AIACO",
+    "url":"https://aiacoweb.netlify.app/aiaco",
+    "logo":"https://aiacoweb.netlify.app/images/aiaco-logo.png",
+    "description":"AIACO: Sitios web, contabilidad, juegos, IA, apps y ciberseguridad.",
+    "sameAs":[
+      "https://www.instagram.com/",
+      "https://www.linkedin.com/",
+      "https://www.youtube.com/"
+    ]
+  }
+  </script>
+
+  <script type="application/ld+json">
+  {
+    "@context":"https://schema.org",
+    "@type":"WebSite",
+    "name":"AIACO",
+    "url":"https://aiacoweb.netlify.app/aiaco",
+    "inLanguage":"es-MX"
+  }
+  </script>
+
+  <!-- Offer catalog (servicios principales) -->
+  <script type="application/ld+json">
+  {
+    "@context":"https://schema.org",
+    "@type":"Service",
+    "name":"Servicios AIACO",
+    "provider":{"@type":"Organization","name":"AIACO"},
+    "areaServed":"MX",
+    "hasOfferCatalog":{
+      "@type":"OfferCatalog",
+      "name":"Catálogo de servicios",
+      "itemListElement":[
+        {"@type":"Offer","itemOffered":{"@type":"Service","name":"AIACO Sitios Web"}},
+        {"@type":"Offer","itemOffered":{"@type":"Service","name":"AIACO Contabilidad"}},
+        {"@type":"Offer","itemOffered":{"@type":"Service","name":"AIACO Juegos"}},
+        {"@type":"Offer","itemOffered":{"@type":"Service","name":"Soluciones de IA"}},
+        {"@type":"Offer","itemOffered":{"@type":"Service","name":"Desarrollo de Apps"}},
+        {"@type":"Offer","itemOffered":{"@type":"Service","name":"Ciberseguridad"}}
+      ]
+    }
+  }
+  </script>
 </head>
+
 <body>
-    <!-- Fondo animado y decorativo con logo -->
-    <div class="background-animated" aria-hidden="true"></div>
-    <div class="logo-bg" aria-hidden="true"></div>
+  <!-- Skip link -->
+  <a class="skip-link" href="#main">Saltar al contenido</a>
 
-    <main class="main-content container" role="main">
-        <!-- Card principal grande -->
-        <section class="intro-card parallax-card" aria-labelledby="welcome-title">
-            <div>
-                <h1 id="welcome-title" class="title">Bienvenido a AIACO</h1>
-                <p class="subtitle">Artificial Intelligence, Apps, Cybersecurity & Online solutions</p>
+  <!-- Background (subtle, premium) -->
+  <div class="bg" aria-hidden="true">
+    <div class="bg-noise"></div>
+    <div class="bg-grad g1"></div>
+    <div class="bg-grad g2"></div>
+    <div class="bg-grad g3"></div>
+  </div>
 
-                <div class="info">
-                    <p>
-                        Somos una empresa líder en tecnología, especializada en soluciones de IA, desarrollo de aplicaciones y ciberseguridad. Construimos el futuro digital con confianza y creatividad.
-                    </p>
-                </div>
+  <!-- Header -->
+  <header class="header" id="top">
+    <nav class="nav container" aria-label="Navegación principal">
+      <a class="brand" href="index.html" aria-label="AIACO Home">
+        <!-- TODO: reemplaza por <img src="/images/aiaco-logo.png" ...> si quieres -->
+        <span class="brand-mark" aria-hidden="true"></span>
+        <span class="brand-name">AIACO</span>
+      </a>
 
-                <div style="margin-top:18px;">
-                    <a href="mailto:AIACO_E_M_P@hotmail.com?subject=Contacto%20desde%20AIACO%20WEB&body=Hola,%20quiero%20más%20información%20sobre%20sus%20servicios." class="cta-btn" role="button" aria-label="Contactar por correo">Contáctanos</a>
-                </div>
+      <button class="nav-toggle" id="navToggle" aria-label="Abrir menú" aria-expanded="false" aria-controls="navMenu">
+        <span class="nav-toggle-icon" aria-hidden="true"></span>
+      </button>
 
-                <div class="hero-stats" style="margin-top:18px;">
-                    <div class="hero-stat">Proyectos: <strong style="color: #fff">+24</strong></div>
-                    <div class="hero-stat">Clientes: <strong style="color: #fff">+12</strong></div>
-                    <div class="hero-stat">Año: <strong style="color: #fff">2025</strong></div>
-                </div>
-            </div>
+      <div class="nav-links" id="navMenu">
+        <a href="#servicios">Servicios</a>
+        <a href="#capturas">Capturas</a>
+        <a href="#proceso">Proceso</a>
+        <a href="#clientes">Clientes</a>
+        <a href="#faq">FAQ</a>
+        <a class="btn btn-primary" href="#contacto">
+          <i data-lucide="send"></i>
+          Contáctanos
+        </a>
+      </div>
+    </nav>
+  </header>
 
-            <div class="hero-visual" aria-hidden="false">
-                <div class="hero-logo" title="AIACO">
-                    <!-- Ajusta "logos.png" si tiene un tamaño diferente -->
-                    <img src="logos.png" alt="AIACO logo">
-                </div>
-            </div>
-        </section>
-
-        <!-- Cards informativas alineadas a la derecha -->
-        <section class="info-cards-right" aria-label="Servicios destacados">
-            <div class="card futuristic-card">
-                <div style="flex:1">
-                    <h2>Soluciones de IA</h2>
-                    <p>Automatización, análisis de datos y modelos inteligentes que transforman decisiones en resultados.</p>
-                </div>
-            </div>
-
-            <div class="card futuristic-card">
-                <div style="flex:1">
-                    <h2>Desarrollo de Apps</h2>
-                    <p>Aplicaciones web y móviles seguras, escalables y orientadas a experiencia de usuario.</p>
-                </div>
-            </div>
-
-            <div class="card futuristic-card">
-                <div style="flex:1">
-                    <h2>Ciberseguridad</h2>
-                    <p>Protección avanzada, monitoreo continuo y planes de respuesta para mantener tu negocio seguro.</p>
-                </div>
-            </div>
-        </section>
-    </main>
-
-    <!-- Footer (sin cambios funcionales) -->
-    <footer class="footer" role="contentinfo" style="position:relative; z-index:10; padding:28px 12px;">
-        <div class="footer-content container" style="display:flex; align-items:center; gap:12px; justify-content:center; color:var(--muted);">
-            <img src="logos.png" alt="AIACO Icon" style="width:36px; height:36px; object-fit:contain; border-radius:6px;"/>
-            <span>© 2025 AIACO. Todos los derechos reservados.</span>
+  <main id="main">
+    <!-- =========================================================
+      HERO (Reflect-like): headline limpio + preview media + stats
+    ========================================================== -->
+    <section class="hero container">
+      <div class="hero-copy">
+        <div class="eyebrow">
+          <span class="pill">
+            <i data-lucide="sparkles"></i>
+            Sitios Web • Contabilidad • Juegos • IA • Apps • Ciberseguridad
+          </span>
         </div>
-    </footer>
 
-    <!-- Script para parallax en el card principal (mejorado y throttled) -->
-    <script>
-    (function() {
-      const card = document.querySelector('.parallax-card');
-      let last = 0;
-      function onMove(e){
-        const now = Date.now();
-        if(now - last < 16) return; // throttle ~60fps
-        last = now;
-        const rect = card.getBoundingClientRect();
-        const cx = rect.left + rect.width/2;
-        const cy = rect.top + rect.height/2;
-        const x = (e.clientX - cx) / rect.width;
-        const y = (e.clientY - cy) / rect.height;
-        const rx = (y * 6); // rotateX
-        const ry = (x * -6); // rotateY
-        card.style.transform = `perspective(900px) rotateX(${rx}deg) rotateY(${ry}deg) scale(1.01)`;
-      }
-      function reset(){
-        card.style.transform = 'perspective(900px) rotateX(0deg) rotateY(0deg) scale(1)';
-      }
-      if(card){
-        document.addEventListener('mousemove', onMove);
-        document.addEventListener('mouseleave', reset);
-        // touch support (simple)
-        document.addEventListener('touchmove', function(e){ if(e.touches && e.touches[0]) onMove(e.touches[0]); }, {passive:true});
-        document.addEventListener('touchend', reset);
-      }
+        <h1 class="h1">
+          Bienvenido a <span class="grad">AIACO</span>
+        </h1>
 
-      // floating background subtle movement (already handled in CSS animation)
-    })();
-    </script>
+        <p class="lead">
+          Somos una empresa líder en tecnología, especializada en soluciones de IA, desarrollo de aplicaciones y ciberseguridad.
+          Construimos el futuro digital con confianza y creatividad.
+        </p>
+
+        <div class="cta">
+          <a class="btn btn-primary" href="#contacto">
+            <i data-lucide="send"></i>
+            Contáctanos
+          </a>
+
+          <a class="btn btn-secondary" href="#servicios">
+            Ver servicios
+            <i data-lucide="arrow-right"></i>
+          </a>
+        </div>
+
+        <!-- Stats (mantiene tus métricas actuales) -->
+        <dl class="stats" aria-label="Métricas">
+          <div class="stat">
+            <dt>Proyectos</dt>
+            <dd><span class="count" data-count="24">0</span></dd>
+          </div>
+          <div class="stat">
+            <dt>Clientes</dt>
+            <dd><span class="count" data-count="12">0</span></dd>
+          </div>
+          <div class="stat">
+            <dt>Año</dt>
+            <dd><span class="count" data-count="2025">0</span></dd>
+          </div>
+        </dl>
+
+        <p class="micro muted">
+          <i data-lucide="lock"></i>
+          Enfoque en calidad, performance y seguridad desde el día 1.
+        </p>
+      </div>
+
+      <!-- HERO MEDIA PREVIEW -->
+      <div class="hero-media">
+        <div class="media-card">
+          <div class="media-top">
+            <span class="dot"></span><span class="dot"></span><span class="dot"></span>
+          </div>
+
+          <!-- TODO: si quieres un VIDEO real:
+               1) pon poster: /images/hero-poster.jpg
+               2) pon video:  /videos/hero.mp4
+               3) en AIACO.js: modal abre el video
+          -->
+          <button class="media-preview" id="openVideo" type="button" aria-label="Ver preview">
+            <div class="media-art" aria-hidden="true">
+              <div class="grid-lines"></div>
+
+              <!-- TODO: pon aquí un screenshot real como background:
+                   En CSS: .media-art { background-image:url(...); }
+              -->
+              <div class="preview-badges">
+                <span class="badge"><i data-lucide="layout-template"></i> Sitios Web</span>
+                <span class="badge"><i data-lucide="calculator"></i> Contabilidad</span>
+                <span class="badge"><i data-lucide="gamepad-2"></i> Juegos</span>
+              </div>
+            </div>
+
+            <div class="play">
+              <span class="play-btn" aria-hidden="true"><i data-lucide="play"></i></span>
+              <span class="play-txt">Ver demo</span>
+            </div>
+          </button>
+
+          <div class="media-bottom">
+            <div class="mini">
+              <i data-lucide="zap"></i>
+              <div>
+                <p class="mini-title">Rápido</p>
+                <p class="mini-desc">UX + performance</p>
+              </div>
+            </div>
+            <div class="mini">
+              <i data-lucide="shield-check"></i>
+              <div>
+                <p class="mini-title">Seguro</p>
+                <p class="mini-desc">Buenas prácticas</p>
+              </div>
+            </div>
+            <div class="mini">
+              <i data-lucide="bar-chart-3"></i>
+              <div>
+                <p class="mini-title">Medible</p>
+                <p class="mini-desc">KPIs y entregables</p>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- =========================================================
+      SERVICIOS (prioridad: Sitios Web + Contabilidad)
+    ========================================================== -->
+    <section class="section container" id="servicios">
+      <header class="section-head">
+        <h2 class="h2">Servicios principales</h2>
+        <p class="muted">
+          Priorizamos lo que hoy más se vende y se promociona: <strong>Sitios Web</strong> y <strong>Contabilidad</strong>.
+          Además, AIACO Juegos y servicios tech complementarios.
+        </p>
+      </header>
+
+      <!-- Primary cards (bigger) -->
+      <div class="cards-primary">
+        <article class="card primary reveal">
+          <div class="card-icon">
+            <i data-lucide="layout-template"></i>
+          </div>
+          <h3>AIACO Sitios Web</h3>
+          <p>
+            Landings premium, sitios corporativos y plataformas listas para convertir:
+            SEO técnico, performance, accesibilidad y un UI de alto nivel.
+          </p>
+          <ul class="bullets">
+            <li><i data-lucide="check"></i> Diseño UI/UX profesional</li>
+            <li><i data-lucide="check"></i> SEO técnico + velocidad</li>
+            <li><i data-lucide="check"></i> Integración con formularios, CRM, analytics</li>
+          </ul>
+          <a class="link" href="#contacto">Cotizar <i data-lucide="arrow-right"></i></a>
+          <!-- TODO: opcional: logo/imagen -->
+          <!-- <img src="/images/serv-web.png" alt="Sitios web" /> -->
+        </article>
+
+        <article class="card primary reveal">
+          <div class="card-icon">
+            <i data-lucide="calculator"></i>
+          </div>
+          <h3>AIACO Contabilidad</h3>
+          <p>
+            Servicios contables y administrativos para negocios: control, cumplimiento y orden.
+            Ideal para emprendedores y PyMEs.
+          </p>
+          <ul class="bullets">
+            <li><i data-lucide="check"></i> Asesoría contable (paquetes)</li>
+            <li><i data-lucide="check"></i> Reportes y control financiero</li>
+            <li><i data-lucide="check"></i> Procesos claros y documentación</li>
+          </ul>
+          <a class="link" href="#contacto">Cotizar <i data-lucide="arrow-right"></i></a>
+          <!-- TODO: opcional: imagen -->
+        </article>
+
+        <article class="card primary reveal">
+          <div class="card-icon">
+            <i data-lucide="gamepad-2"></i>
+          </div>
+          <h3>AIACO Juegos</h3>
+          <p>
+            Desarrollo y publicación de experiencias interactivas. Desde prototipos hasta releases.
+          </p>
+          <ul class="bullets">
+            <li><i data-lucide="check"></i> Prototipado rápido</li>
+            <li><i data-lucide="check"></i> Arte/UX para juegos</li>
+            <li><i data-lucide="check"></i> Roadmap de lanzamiento</li>
+          </ul>
+          <a class="link" href="#contacto">Cotizar <i data-lucide="arrow-right"></i></a>
+          <!-- TODO: video trailer / screenshots -->
+        </article>
+      </div>
+
+      <!-- Secondary services (clean grid, smaller) -->
+      <div class="subhead">
+        <h3 class="h3">Servicios tech complementarios</h3>
+        <p class="muted">Para ampliar tu stack: IA aplicada, apps y ciberseguridad.</p>
+      </div>
+
+      <div class="cards-secondary">
+        <article class="card secondary reveal">
+          <div class="card-icon">
+            <i data-lucide="brain-circuit"></i>
+          </div>
+          <h4>Soluciones de IA</h4>
+          <p>Automatización, analítica y modelos inteligentes con integración a tus herramientas.</p>
+        </article>
+
+        <article class="card secondary reveal">
+          <div class="card-icon">
+            <i data-lucide="smartphone"></i>
+          </div>
+          <h4>Desarrollo de Apps</h4>
+          <p>Web y móvil, APIs, autenticación y sincronización para productos escalables.</p>
+        </article>
+
+        <article class="card secondary reveal">
+          <div class="card-icon">
+            <i data-lucide="shield"></i>
+          </div>
+          <h4>Ciberseguridad</h4>
+          <p>Hardening, monitoreo, alertas y planes de respuesta para reducir riesgos.</p>
+        </article>
+      </div>
+    </section>
+
+    <!-- =========================================================
+      CAPTURAS (súper importante para “screenshot-ready”)
+      - Layout tipo “device frames”
+      - Botones para cambiar screenshot (placeholders)
+    ========================================================== -->
+    <section class="section container" id="capturas">
+      <header class="section-head">
+        <h2 class="h2">Capturas listas para marketing</h2>
+        <p class="muted">
+          Sección pensada para que metas screenshots y videos enmarcados (web, móvil y dashboard).
+        </p>
+      </header>
+
+      <div class="shots reveal">
+        <div class="shot-controls" role="tablist" aria-label="Cambiar captura">
+          <button class="chip is-active" type="button" data-shot="web" role="tab" aria-selected="true">Sitios Web</button>
+          <button class="chip" type="button" data-shot="conta" role="tab" aria-selected="false">Contabilidad</button>
+          <button class="chip" type="button" data-shot="games" role="tab" aria-selected="false">Juegos</button>
+        </div>
+
+        <div class="shot-grid">
+          <!-- Desktop frame -->
+          <figure class="device desktop" aria-label="Captura escritorio">
+            <div class="device-top">
+              <span class="dot"></span><span class="dot"></span><span class="dot"></span>
+              <span class="device-label">Desktop</span>
+            </div>
+            <div class="device-screen" id="shotDesktop" aria-hidden="true">
+              <!-- TODO: cambia a <img> si prefieres:
+                   <img src="/images/screens/web-desktop.jpg" alt="..." />
+              -->
+              <div class="screen-placeholder">
+                <p class="muted">TODO: /images/screens/<span id="shotDesktopName">web-desktop.jpg</span></p>
+              </div>
+            </div>
+          </figure>
+
+          <!-- Mobile frame -->
+          <figure class="device phone" aria-label="Captura móvil">
+            <div class="device-top">
+              <span class="device-label">Mobile</span>
+            </div>
+            <div class="device-screen" id="shotPhone" aria-hidden="true">
+              <div class="screen-placeholder">
+                <p class="muted">TODO: /images/screens/<span id="shotPhoneName">web-phone.jpg</span></p>
+              </div>
+            </div>
+          </figure>
+
+          <!-- Notes box -->
+          <div class="shot-notes">
+            <h3 class="h3" id="shotTitle">Sitios Web que convierten</h3>
+            <p class="muted" id="shotDesc">
+              UI premium, copy claro, SEO técnico, performance y estructura pensada para captar clientes.
+            </p>
+            <ul class="bullets" id="shotBullets">
+              <li><i data-lucide="check"></i> Landing / multi-page</li>
+              <li><i data-lucide="check"></i> Optimización Core Web Vitals</li>
+              <li><i data-lucide="check"></i> Integraciones (WhatsApp, forms, analytics)</li>
+            </ul>
+
+            <div class="shot-cta">
+              <a class="btn btn-primary" href="#contacto"><i data-lucide="send"></i> Pedir propuesta</a>
+              <a class="btn btn-secondary" href="#servicios">Ver servicios <i data-lucide="arrow-right"></i></a>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- =========================================================
+      PROCESO (simple, limpio)
+    ========================================================== -->
+    <section class="section container" id="proceso">
+      <header class="section-head">
+        <h2 class="h2">Proceso simple, resultados claros</h2>
+        <p class="muted">De idea a producción sin fricción: alcance, entregables y seguimiento.</p>
+      </header>
+
+      <div class="process reveal">
+        <article class="step">
+          <span class="step-n">1</span>
+          <h3>Diagnóstico</h3>
+          <p class="muted">Objetivo, alcance, riesgos y prioridades. Se define el “qué” y el “por qué”.</p>
+        </article>
+
+        <article class="step">
+          <span class="step-n">2</span>
+          <h3>Diseño</h3>
+          <p class="muted">UX/UI, arquitectura, plan de ejecución, entregables y criterios de éxito.</p>
+        </article>
+
+        <article class="step">
+          <span class="step-n">3</span>
+          <h3>Construcción</h3>
+          <p class="muted">Iteraciones + QA. Performance, SEO y seguridad desde el inicio.</p>
+        </article>
+
+        <article class="step">
+          <span class="step-n">4</span>
+          <h3>Lanzamiento</h3>
+          <p class="muted">Deploy + monitoreo. Ajustes finales y soporte si lo requieres.</p>
+        </article>
+      </div>
+    </section>
+
+    <!-- =========================================================
+      CLIENTES / WALL OF LOVE (muy Reflect)
+    ========================================================== -->
+    <section class="section container" id="clientes">
+      <header class="section-head">
+        <h2 class="h2">Lo que dicen de nosotros</h2>
+        <p class="muted">Pon testimonios reales + logos (esto sube conversión fuerte).</p>
+      </header>
+
+      <div class="love reveal">
+        <article class="quote">
+          <p class="q">“Nos mejoraron el sitio en diseño y SEO. Se nota la diferencia en conversiones.”</p>
+          <p class="by muted">— Cliente (placeholder)</p>
+        </article>
+
+        <article class="quote">
+          <p class="q">“La contabilidad quedó clara y ordenada. Ahora tenemos reportes y control.”</p>
+          <p class="by muted">— Cliente (placeholder)</p>
+        </article>
+
+        <article class="quote">
+          <p class="q">“Rápidos, profesionales y con entregables concretos. Se trabaja fácil con AIACO.”</p>
+          <p class="by muted">— Cliente (placeholder)</p>
+        </article>
+      </div>
+
+      <!-- TODO: Logos (opcional) -->
+      <!--
+      <div class="logos">
+        <img src="/images/logos/cliente1.svg" alt="Cliente 1" />
+        <img src="/images/logos/cliente2.svg" alt="Cliente 2" />
+        <img src="/images/logos/cliente3.svg" alt="Cliente 3" />
+      </div>
+      -->
+    </section>
+
+    <!-- =========================================================
+      FAQ
+    ========================================================== -->
+    <section class="section container" id="faq">
+      <header class="section-head">
+        <h2 class="h2">Preguntas frecuentes</h2>
+        <p class="muted">Respuestas rápidas para cerrar ventas sin fricción.</p>
+      </header>
+
+      <div class="faq reveal">
+        <details class="faq-item">
+          <summary>¿Cuánto tarda un sitio web?</summary>
+          <p class="muted">
+            Depende del alcance. Un landing premium puede salir rápido; plataformas multi-sección requieren más iteraciones y contenido.
+          </p>
+        </details>
+
+        <details class="faq-item">
+          <summary>¿La contabilidad incluye paquetes?</summary>
+          <p class="muted">
+            Sí. Puedes ofrecer paquetes por tipo de negocio (emprendedor, PyME, etc.). Esta sección ya está lista para eso.
+          </p>
+        </details>
+
+        <details class="faq-item">
+          <summary>¿Pueden conectar apps y escritorio con API?</summary>
+          <p class="muted">
+            Sí. Una API central permite sincronización, autenticación y un “single source of truth” para móvil y desktop.
+          </p>
+        </details>
+      </div>
+    </section>
+
+    <!-- =========================================================
+      CONTACTO
+    ========================================================== -->
+    <section class="section container" id="contacto">
+      <div class="contact reveal">
+        <div class="contact-left">
+          <h2 class="h2">Contáctanos</h2>
+          <p class="muted">
+            Cuéntanos qué necesitas y te proponemos un plan con alcance, tiempos y entregables.
+          </p>
+
+          <div class="contact-actions">
+            <button class="chip" id="copyEmail" type="button">
+              <i data-lucide="mail"></i> Copiar email
+            </button>
+
+            <!-- TODO: pon tu WhatsApp real -->
+            <a class="chip" href="https://wa.me/" target="_blank" rel="noopener">
+              <i data-lucide="message-circle"></i> WhatsApp
+            </a>
+
+            <a class="chip" href="#top">
+              <i data-lucide="arrow-up"></i> Volver arriba
+            </a>
+          </div>
+
+          <p class="muted small">
+            Email actual (placeholder): <span class="mono">AIACO_E_M_P@hotmail.com</span>
+          </p>
+        </div>
+
+        <form class="form" id="contactForm" novalidate>
+          <!-- NETLIFY FORMS (opcional) -->
+          <!-- <form class="form" id="contactForm" name="contacto-aiaco" method="POST" data-netlify="true"> -->
+          <!-- <input type="hidden" name="form-name" value="contacto-aiaco" /> -->
+
+          <label>
+            Nombre
+            <input name="name" type="text" autocomplete="name" placeholder="Tu nombre" required />
+          </label>
+
+          <label>
+            Email
+            <input name="email" type="email" autocomplete="email" placeholder="tucorreo@dominio.com" required />
+          </label>
+
+          <label>
+            Servicio de interés
+            <select name="service" required>
+              <option value="" selected>Selecciona uno</option>
+              <option>AIACO Sitios Web</option>
+              <option>AIACO Contabilidad</option>
+              <option>AIACO Juegos</option>
+              <option>Soluciones de IA</option>
+              <option>Desarrollo de Apps</option>
+              <option>Ciberseguridad</option>
+            </select>
+          </label>
+
+          <label>
+            Mensaje
+            <textarea name="message" rows="5" placeholder="Describe tu proyecto, objetivo y fecha ideal." required></textarea>
+          </label>
+
+          <button class="btn btn-primary" type="submit">
+            <i data-lucide="send"></i> Enviar
+          </button>
+
+          <p class="form-note muted" id="formNote" role="status" aria-live="polite"></p>
+        </form>
+      </div>
+    </section>
+  </main>
+
+  <!-- Footer -->
+  <footer class="footer container">
+    <div class="footer-top">
+      <a class="brand" href="#top" aria-label="AIACO">
+        <span class="brand-mark" aria-hidden="true"></span>
+        <span class="brand-name">AIACO</span>
+      </a>
+
+      <div class="social" aria-label="Redes sociales">
+        <!-- TODO: pon tus links reales -->
+        <a href="https://www.youtube.com/" target="_blank" rel="noopener" aria-label="YouTube">
+          <i data-lucide="youtube"></i>
+        </a>
+        <a href="https://www.instagram.com/" target="_blank" rel="noopener" aria-label="Instagram">
+          <i data-lucide="instagram"></i>
+        </a>
+        <a href="https://www.linkedin.com/" target="_blank" rel="noopener" aria-label="LinkedIn">
+          <i data-lucide="linkedin"></i>
+        </a>
+      </div>
+    </div>
+
+    <div class="footer-bottom">
+      <p>© <span id="yearNow"></span> AIACO. Todos los derechos reservados.</p>
+      <p class="muted small">UI premium + SEO técnico + performance.</p>
+    </div>
+  </footer>
+
+  <!-- Video Modal (para demo tipo Reflect) -->
+  <div class="modal" id="videoModal" aria-hidden="true" role="dialog" aria-label="Video demo">
+    <div class="modal-backdrop" id="closeVideo" aria-hidden="true"></div>
+    <div class="modal-card" role="document">
+      <button class="modal-close" id="closeVideoBtn" type="button" aria-label="Cerrar">
+        <i data-lucide="x"></i>
+      </button>
+
+      <!-- TODO: coloca tu video real -->
+      <video class="modal-video" id="modalVideo" controls playsinline preload="metadata" poster="/images/hero-poster.jpg">
+        <source src="/videos/hero.mp4" type="video/mp4" />
+        Tu navegador no soporta video HTML5.
+      </video>
+    </div>
+  </div>
+
+  <!-- Toast -->
+  <div class="toast" id="toast" role="status" aria-live="polite" aria-atomic="true"></div>
+
+  <!-- JS -->
+  <script src="AIACO.js"></script>
 </body>
 </html>
