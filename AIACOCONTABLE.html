@@ -1,625 +1,651 @@
 <!DOCTYPE html>
-<html lang="es" data-theme="dark">
+<html lang="es" dir="ltr">
 <head>
   <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
-  <title>AIACO | Auxiliar Contable en México • Servicios Contables y Fiscales</title>
-<!-- Favicon - AGREGA ESTA LÍNEA -->
-  <link rel="icon" type="image/x-icon" href="LOGO AIACO.png">
-  <!-- SEO -->
-  <meta name="description" content="Auxiliar contable en México para personas físicas y pequeños negocios. Declaraciones mensuales y anual, CFDI, e.firma, devoluciones ISR. Paquetes claros, cumplimiento SAT y acompañamiento." />
-  <meta name="robots" content="index,follow" />
-  <meta property="og:title" content="AIACO | Auxiliar Contable en México" />
-  <meta property="og:description" content="Servicios contables y fiscales con paquetes claros: declaraciones, CFDI, e.firma, devoluciones ISR. Cumplimiento SAT sin complicaciones." />
-  <meta property="og:type" content="website" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta http-equiv="X-UA-Compatible" content="IE=edge" />
 
-  <!-- Google Fonts -->
-  <link rel="preconnect" href="https://fonts.googleapis.com">
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Fraunces:opsz,wght@9..144,600;9..144,700&display=swap" rel="stylesheet">
+  <!-- ══════════════════════════════════════
+       SEO PRIMARIO
+  ══════════════════════════════════════ -->
+  <title>AIACO Contable | Auxiliar Contable y Servicios Fiscales en México</title>
+  <meta name="description" content="Auxiliar contable profesional en México. Declaraciones SAT, CFDI, e.firma y devoluciones ISR con paquetes claros para personas físicas y pequeños negocios. Sin complicaciones, sin sorpresas." />
+  <meta name="keywords" content="auxiliar contable México, declaración anual SAT, CFDI, servicios fiscales, régimen fiscal, ISR, devolución ISR, contabilidad personas físicas, e.firma SAT, paquetes contables" />
+  <meta name="author" content="AIACO" />
+  <meta name="robots" content="index, follow, max-snippet:-1, max-image-preview:large" />
+  <meta name="theme-color" content="#020C1B" />
+  <link rel="canonical" href="https://aiacoweb.netlify.app/aiacocontable" />
 
-  <!-- Lucide Icons -->
-  <script src="https://unpkg.com/lucide@latest"></script>
+  <!-- Open Graph -->
+  <meta property="og:type"        content="website" />
+  <meta property="og:title"       content="AIACO Contable | Auxiliar Contable y Servicios Fiscales en México" />
+  <meta property="og:description" content="Declaraciones SAT, CFDI, e.firma y paquetes fiscales claros. Sin complicaciones ni sorpresas." />
+  <meta property="og:url"         content="https://aiacoweb.netlify.app/aiacocontable" />
+  <meta property="og:site_name"   content="AIACO" />
+  <meta property="og:locale"      content="es_MX" />
 
-  <link rel="stylesheet" href="AIACOCONTABLE.css" />
+  <!-- Twitter -->
+  <meta name="twitter:card"        content="summary_large_image" />
+  <meta name="twitter:title"       content="AIACO Contable | Servicios Fiscales México" />
+  <meta name="twitter:description" content="Auxiliar contable · SAT · CFDI · ISR. Paquetes claros para personas físicas y negocios." />
 
-  <!-- Structured data (edita los campos a tu info real) -->
+  <!-- Schema.org LocalBusiness + AccountingService -->
   <script type="application/ld+json">
   {
     "@context": "https://schema.org",
-    "@type": "ProfessionalService",
-    "name": "AIACO",
-    "description": "Auxiliar contable y servicios contables y fiscales en México. Declaraciones mensuales y anual, CFDI, e.firma y devoluciones ISR.",
-    "areaServed": "MX",
-    "serviceType": ["Auxiliar contable", "Servicios contables", "Servicios fiscales"],
-    "availableLanguage": ["es"],
-    "url": "https://tusitio.com",
-    "telephone": "+52-000-000-0000"
+    "@graph": [
+      {
+        "@type": "AccountingService",
+        "@id": "https://aiacoweb.netlify.app/aiacocontable#service",
+        "name": "AIACO Contable",
+        "description": "Auxiliar contable y servicios fiscales en México. Declaraciones SAT, CFDI, e.firma, devoluciones ISR. Paquetes claros para personas físicas y pequeños negocios.",
+        "url": "https://aiacoweb.netlify.app/aiacocontable",
+        "telephone": "+525570669666",
+        "email": "AIACO_E_M_P@hotmail.com",
+        "address": { "@type": "PostalAddress", "addressCountry": "MX", "addressLocality": "Ciudad de México", "postalCode": "09680" },
+        "areaServed": { "@type": "Country", "name": "México" },
+        "priceRange": "$$",
+        "availableChannel": { "@type": "ServiceChannel", "serviceType": "Online" },
+        "hasOfferCatalog": {
+          "@type": "OfferCatalog",
+          "name": "Paquetes Contables",
+          "itemListElement": [
+            { "@type": "Offer", "name": "Paquete Fiscal Básico", "price": "1500", "priceCurrency": "MXN", "description": "Declaración anual ISR + revisión básica" },
+            { "@type": "Offer", "name": "Paquete Fiscal Profesional", "price": "3000", "priceCurrency": "MXN", "description": "Declaraciones mensuales + anual + CFDI" },
+            { "@type": "Offer", "name": "Paquete Fiscal Plus", "price": "5500", "priceCurrency": "MXN", "description": "Asesoría continua + facturación ilimitada" }
+          ]
+        }
+      },
+      {
+        "@type": "FAQPage",
+        "mainEntity": [
+          { "@type": "Question", "name": "¿Qué hace un auxiliar contable?", "acceptedAnswer": { "@type": "Answer", "text": "Mantiene orden en CFDI, reportes y declaraciones para que tu información fiscal esté correcta y presentada en tiempo ante el SAT." } },
+          { "@type": "Question", "name": "¿Los paquetes son mensuales?", "acceptedAnswer": { "@type": "Answer", "text": "Profesional y Plus son mensuales. El Básico es pago único anual." } },
+          { "@type": "Question", "name": "¿Incluye defensa fiscal?", "acceptedAnswer": { "@type": "Answer", "text": "No. Los paquetes estándar no incluyen juicios ni representación legal." } }
+        ]
+      }
+    ]
   }
   </script>
+
+  <!-- ══════════════════════════════════════
+       FUENTES — Combo 2: Sora + Manrope
+  ══════════════════════════════════════ -->
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Sora:wght@300;400;500;600;700;800&family=Manrope:wght@300;400;500;600;700;800&display=swap" rel="stylesheet" />
+
+  <!-- ══════════════════════════════════════
+       LIBRERÍAS
+  ══════════════════════════════════════ -->
+  <!-- Lucide Icons -->
+  <script src="https://unpkg.com/lucide@latest/dist/umd/lucide.min.js"></script>
+  <!-- GSAP core + ScrollTrigger -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/ScrollTrigger.min.js"></script>
+  <!-- Lenis smooth scroll -->
+  <script src="https://cdn.jsdelivr.net/npm/@studio-freight/lenis@1.0.42/bundled/lenis.min.js"></script>
+
+  <link rel="stylesheet" href="AIACOCONTABLE.css" />
 </head>
+<body id="top">
 
-<body class="is-loading">
-  <!-- FX layers -->
-  <div class="top-progress" aria-hidden="true"></div>
-  <div class="fx-noise" aria-hidden="true"></div>
-  <div class="fx-grid" aria-hidden="true"></div>
+  <!-- ░░░ NOISE OVERLAY ░░░ -->
+  <div class="noise" aria-hidden="true"></div>
 
-  <!-- ✅ Header fijo (anclado toda la página) -->
-  <header class="header" id="top">
-    <div class="container header__inner">
-      <a class="brand" href="index.html" aria-label="Ir al inicio">
-       
-          <img class="brand__logo" src="/AIACO A2.jpg" alt="AIACO" />
-      
-        
-        <div class="brand__txt">
-          <span class="brand__name">AIACO</span>
-          <span class="brand__tag">Auxiliar contable • Fiscal • México</span>
-        </div>
+  <!-- ░░░ CURSOR ░░░ -->
+  <div class="cur-dot"  id="curDot"  aria-hidden="true"></div>
+  <div class="cur-ring" id="curRing" aria-hidden="true"></div>
+
+  <!-- ░░░ LOADER ░░░ -->
+  <div class="loader" id="loader" aria-hidden="true" role="status">
+    <div class="loader-box">
+      <div class="loader-logo">
+        <span class="ll-br">[</span>AIACO<span class="ll-dot">.</span>CONTABLE<span class="ll-br">]</span>
+      </div>
+      <div class="loader-track">
+        <div class="loader-fill" id="loaderFill"></div>
+      </div>
+      <span class="loader-pct" id="loaderPct">0%</span>
+    </div>
+  </div>
+
+  <!-- ░░░ NAVBAR ░░░ -->
+  <header class="nav" id="navbar" role="banner">
+    <div class="nav-inner">
+
+      <a href="/" class="nav-logo" aria-label="AIACO inicio">
+        <span class="nl-br">[</span><span class="nl-main">AIACO</span><span class="nl-sep">.</span><span class="nl-sub">CONTABLE</span><span class="nl-br">]</span>
       </a>
 
-      <!-- Desktop nav (sin hamburguesa) -->
-      <nav class="nav nav--desktop" aria-label="Navegación principal">
-        <a href="#servicios">Servicios</a>
-        <a href="#paquetes">Paquetes</a>
-        <a href="#proceso">Proceso</a>
-        <a href="#faq">FAQ</a>
-        <a href="#contacto">Contacto</a>
+      <!-- Desktop links -->
+      <nav aria-label="Navegación principal">
+        <ul class="nav-list" id="navList" role="list">
+          <li><a href="#servicios" class="nav-link" data-text="Servicios">Servicios</a></li>
+          <li><a href="#paquetes"  class="nav-link" data-text="Paquetes">Paquetes</a></li>
+          <li><a href="#proceso"   class="nav-link" data-text="Proceso">Proceso</a></li>
+          <li><a href="#faq"       class="nav-link" data-text="FAQ">FAQ</a></li>
+          <li><a href="#contacto"  class="nav-cta">Cotizar ahora <i data-lucide="arrow-right" class="ni"></i></a></li>
+        </ul>
       </nav>
 
-      <div class="header__actions">
-        <!-- Theme toggle (iconos sólidos y legibles) -->
-        <button class="icon-btn theme-toggle magnetic" type="button" aria-label="Cambiar tema" title="Cambiar tema">
-          <span class="theme-icon" aria-hidden="true">
-            <i data-lucide="sun" class="icon-sun"></i>
-            <i data-lucide="moon" class="icon-moon"></i>
-          </span>
-        </button>
-
-        <a class="btn btn--ghost magnetic hide-mobile" href="#contacto">
-          <i data-lucide="calendar"></i>
-          Agendar
-        </a>
-
-        <a class="btn btn--primary magnetic hide-mobile" href="#paquetes">
-          Ver paquetes
-          <i data-lucide="arrow-right"></i>
-        </a>
-
-        <!-- Mobile hamburger -->
-        <button class="icon-btn menu-btn magnetic show-mobile" type="button" aria-label="Abrir menú" aria-expanded="false" aria-controls="mobileMenu">
-          <i data-lucide="menu"></i>
-        </button>
-      </div>
+      <!-- Hamburger -->
+      <button class="ham-btn" id="hamBtn" type="button" aria-label="Abrir menú" aria-expanded="false" aria-controls="navDrawer">
+        <span class="ham-bar b1"></span>
+        <span class="ham-bar b2"></span>
+        <span class="ham-bar b3"></span>
+      </button>
     </div>
 
-    <!-- ✅ Mobile menu (sin blur difuso) -->
-    <div class="mobile-menu" id="mobileMenu" hidden>
-      <button class="mobile-menu__backdrop" type="button" aria-label="Cerrar menú"></button>
-
-      <div class="mobile-menu__panel" role="dialog" aria-modal="true" aria-label="Menú">
-        <div class="mobile-menu__top">
-          <span class="mobile-menu__title">Menú</span>
-          <button class="icon-btn close-btn magnetic" type="button" aria-label="Cerrar menú">
-            <i data-lucide="x"></i>
-          </button>
-        </div>
-
-        <nav class="nav nav--mobile" aria-label="Navegación móvil">
-          <a href="#servicios"><i data-lucide="layers"></i><span>Servicios</span></a>
-          <a href="#paquetes"><i data-lucide="badge-dollar-sign"></i><span>Paquetes</span></a>
-          <a href="#proceso"><i data-lucide="route"></i><span>Proceso</span></a>
-          <a href="#faq"><i data-lucide="help-circle"></i><span>FAQ</span></a>
-          <a href="#contacto"><i data-lucide="phone-call"></i><span>Contacto</span></a>
-        </nav>
-
-        <div class="mobile-menu__cta">
-          <a class="btn btn--primary btn--full magnetic" href="#contacto">
-            <i data-lucide="message-circle"></i>
-            Cotizar ahora
-          </a>
-          <p class="micro muted">* Cambia WhatsApp, email y datos por los reales.</p>
-        </div>
-      </div>
+    <!-- Mobile drawer -->
+    <div class="nav-drawer" id="navDrawer" aria-hidden="true" role="dialog" aria-modal="true" aria-label="Menú" tabindex="-1">
+      <ul class="drawer-list" role="list">
+        <li><a href="#servicios" class="drawer-link">Servicios</a></li>
+        <li><a href="#paquetes"  class="drawer-link">Paquetes</a></li>
+        <li><a href="#proceso"   class="drawer-link">Proceso</a></li>
+        <li><a href="#faq"       class="drawer-link">FAQ</a></li>
+        <li><a href="#contacto"  class="drawer-cta">Cotizar ahora</a></li>
+      </ul>
     </div>
+    <div class="nav-scrim" id="navScrim" aria-hidden="true"></div>
   </header>
 
-  <main>
-    <!-- Hero -->
-    <section class="hero">
-      <div class="container hero__grid">
-        <div class="hero__copy">
-          <div class="pill reveal" data-reveal="up">
-            <i data-lucide="shield-check"></i>
-            Auxiliar contable en México • Cumplimiento SAT • Paquetes claros
-          </div>
+  <!-- ░░░░░░░░░░░░░░░░░░░░░░░░░░░░░
+       HERO
+  ░░░░░░░░░░░░░░░░░░░░░░░░░░░░░ -->
+  <section class="hero" id="home" aria-label="Sección principal">
+    <!-- BG canvas layers -->
+    <div class="hero-bg" aria-hidden="true">
+      <div class="hbg-grid"></div>
+      <div class="hbg-glow gl-1"></div>
+      <div class="hbg-glow gl-2"></div>
+      <div class="hbg-glow gl-3"></div>
+      <!-- Animated lines -->
+      <div class="hbg-beams" aria-hidden="true">
+        <div class="beam b1"></div>
+        <div class="beam b2"></div>
+        <div class="beam b3"></div>
+      </div>
+    </div>
 
-          <h1 class="hero__title reveal" data-reveal="up" data-split>
-            Auxiliar contable y servicios fiscales <span class="grad">sin complicaciones</span>.
-          </h1>
-
-          <p class="hero__subtitle reveal" data-reveal="up">
-            Trabajamos con un enfoque profesional, claro y transparente para que tu información fiscal esté ordenada, correcta
-            y presentada en tiempo, evitando errores que generan multas o contratiempos ante el SAT.
-          </p>
-
-          <div class="hero__cta reveal" data-reveal="up">
-            <a class="btn btn--primary magnetic" href="#paquetes">
-              Ver paquetes
-              <i data-lucide="arrow-right"></i>
-            </a>
-            <a class="btn btn--ghost magnetic" href="#contacto">
-              Hablar con un asesor
-              <i data-lucide="phone-call"></i>
-            </a>
-          </div>
-
-          <div class="hero__meta reveal" data-reveal="up">
-            <div class="meta-item">
-              <i data-lucide="lock"></i><span>Confidencialidad y criterio profesional</span>
-            </div>
-            <div class="meta-item">
-              <i data-lucide="badge-check"></i><span>Personas físicas y pequeños negocios</span>
-            </div>
-            <div class="meta-item">
-              <i data-lucide="timer"></i><span>Comunicación directa y seguimiento</span>
-            </div>
-          </div>
-
-          <div class="hero__stats reveal" data-reveal="up">
-            <div class="stat">
-              <span class="stat__k">Orden</span>
-              <span class="stat__v" data-count="100" data-suffix="%">0%</span>
-            </div>
-            <div class="stat">
-              <span class="stat__k">Seguimiento</span>
-              <span class="stat__v" data-count="24" data-suffix="h">0h</span>
-            </div>
-            <div class="stat">
-              <span class="stat__k">Control</span>
-              <span class="stat__v" data-count="12" data-suffix="/12">0/12</span>
-            </div>
-          </div>
-        </div>
-
-        <!-- Hero media -->
-        <div class="hero__media" id="heroMedia">
-          <div class="media-card reveal" data-reveal="fade" data-parallax="0.18">
-            <div class="media-card__top">
-              <span class="dot dot--r"></span>
-              <span class="dot dot--y"></span>
-              <span class="dot dot--g"></span>
-            </div>
-
-            
-              <video class="hero-video" autoplay muted loop playsinline>
-                <source src="/video/video 1.mp4" type="video/mp4" />
-              </video>
-
-            <!-- ✅ IMAGEN OVERLAY opcional -->
-            <!--
-              <img class="hero-overlay" src="images/tu-mockup.png" alt="Mockup" />
-            -->
-
-            <div class="media-card__bottom">
-              <div class="mini-stat">
-                <span class="mini-stat__k">SAT</span>
-                <span class="mini-stat__v">Cumplimiento</span>
-              </div>
-              <div class="mini-stat">
-                <span class="mini-stat__k">CFDI</span>
-                <span class="mini-stat__v">Control</span>
-              </div>
-              <div class="mini-stat">
-                <span class="mini-stat__k">Tranquilidad</span>
-                <span class="mini-stat__v">Acompañamiento</span>
-              </div>
-            </div>
-          </div>
-
-          <div class="scroll-hint" aria-hidden="true">
-            <span class="scroll-hint__line"></span>
-            <span class="scroll-hint__text">Scroll</span>
-          </div>
-        </div>
+    <div class="hero-wrap">
+      <!-- Eyebrow -->
+      <div class="hero-eyebrow gsap-fadeup">
+        <span class="eyebrow-dot"></span>
+        <span class="eyebrow-text">Auxiliar contable · México · SAT · CFDI</span>
       </div>
 
-      <div class="marquee" aria-hidden="true">
-        <div class="marquee__track">
-          <span>AUXILIAR CONTABLE • DECLARACIONES • CFDI • e.firma • DEVOLUCIÓN ISR • SAT •</span>
-          <span>AUXILIAR CONTABLE • DECLARACIONES • CFDI • e.firma • DEVOLUCIÓN ISR • SAT •</span>
-          <span>AUXILIAR CONTABLE • DECLARACIONES • CFDI • e.firma • DEVOLUCIÓN ISR • SAT •</span>
+      <!-- Headline -->
+      <h1 class="hero-h1 gsap-fadeup">
+        Contabilidad<br>
+        <span class="h1-gradient">sin complicaciones.</span>
+      </h1>
+
+      <!-- Subline -->
+      <p class="hero-sub gsap-fadeup">
+        Información fiscal ordenada, correcta y presentada en tiempo —&nbsp;evitando errores que generan multas ante el SAT.
+      </p>
+
+      <!-- CTAs -->
+      <div class="hero-actions gsap-fadeup">
+        <a href="#paquetes" class="btn-prim">
+          Ver paquetes <i data-lucide="chevron-right" class="ni"></i>
+        </a>
+        <a href="https://wa.me/525570669666?text=Hola,%20quiero%20cotizar%20un%20servicio%20contable" class="btn-sec" target="_blank" rel="noopener noreferrer">
+          <i data-lucide="message-circle" class="ni ni-wa"></i>
+          Hablar con asesor
+        </a>
+      </div>
+
+      <!-- Stats row -->
+      <div class="hero-kpis gsap-fadeup">
+        <div class="kpi">
+          <span class="kpi-val"><span class="kpi-num" data-count="100">0</span>%</span>
+          <span class="kpi-lbl">Confidencialidad</span>
+        </div>
+        <div class="kpi-divider"></div>
+        <div class="kpi">
+          <span class="kpi-val"><span class="kpi-num" data-count="24">0</span>h</span>
+          <span class="kpi-lbl">Tiempo de respuesta</span>
+        </div>
+        <div class="kpi-divider"></div>
+        <div class="kpi">
+          <span class="kpi-val"><span class="kpi-num" data-count="12">0</span>/año</span>
+          <span class="kpi-lbl">Declaraciones</span>
         </div>
       </div>
-    </section>
+    </div>
 
-    <!-- Servicios -->
-    <section class="section" id="servicios">
-      <div class="container">
-        <div class="section__head">
-          <h2 class="section__title reveal" data-reveal="up">Servicios contables y fiscales</h2>
-          <p class="section__desc reveal" data-reveal="up">
-            Enfocados en cumplimiento, organización y prevención (sin procesos complicados ni costos innecesarios).
-          </p>
-        </div>
+    <!-- Scroll indicator -->
+    <div class="scroll-cue gsap-fadeup" aria-hidden="true">
+      <span class="sc-text">scroll</span>
+      <div class="sc-rail"><div class="sc-thumb"></div></div>
+    </div>
 
-        <div class="grid-2">
-          <article class="feature cardfx reveal" data-reveal="up">
-            <div class="feature__icon"><i data-lucide="file-check-2"></i></div>
-            <div>
-              <h3>Declaraciones mensuales y anual</h3>
-              <p class="muted">Cumplimiento en tiempo según tu paquete y régimen.</p>
-            </div>
-          </article>
-
-          <article class="feature cardfx reveal" data-reveal="up">
-            <div class="feature__icon"><i data-lucide="receipt"></i></div>
-            <div>
-              <h3>Emisión y recuperación de CFDI</h3>
-              <p class="muted">Emisión y control de CFDI con límites claros por paquete.</p>
-            </div>
-          </article>
-
-          <article class="feature cardfx reveal" data-reveal="up">
-            <div class="feature__icon"><i data-lucide="fingerprint"></i></div>
-            <div>
-              <h3>e.firma y citas SAT</h3>
-              <p class="muted">Acompañamiento y orientación para trámites y citas.</p>
-            </div>
-          </article>
-
-          <article class="feature cardfx reveal" data-reveal="up">
-            <div class="feature__icon"><i data-lucide="banknote"></i></div>
-            <div>
-              <h3>Devoluciones ISR</h3>
-              <p class="muted">Gestión automática (si aplica) + seguimiento según paquete.</p>
-            </div>
-          </article>
-        </div>
-
-        <div class="notice reveal" data-reveal="up">
-          <i data-lucide="info"></i>
-          <p class="muted">
-            Cada cliente cuenta con un paquete definido, alcances claros y comunicación directa.
-          </p>
+    <!-- Ticker -->
+    <div class="ticker-wrap" aria-hidden="true">
+      <div class="ticker-inner">
+        <div class="ticker-row">
+          <span>AUXILIAR CONTABLE</span><span class="sep">✦</span>
+          <span>DECLARACIONES SAT</span><span class="sep">✦</span>
+          <span>CFDI</span><span class="sep">✦</span>
+          <span>e.firma</span><span class="sep">✦</span>
+          <span>DEVOLUCIÓN ISR</span><span class="sep">✦</span>
+          <span>CUMPLIMIENTO FISCAL</span><span class="sep">✦</span>
+          <span>AUXILIAR CONTABLE</span><span class="sep">✦</span>
+          <span>DECLARACIONES SAT</span><span class="sep">✦</span>
+          <span>CFDI</span><span class="sep">✦</span>
+          <span>e.firma</span><span class="sep">✦</span>
+          <span>DEVOLUCIÓN ISR</span><span class="sep">✦</span>
+          <span>CUMPLIMIENTO FISCAL</span><span class="sep">✦</span>
         </div>
       </div>
-    </section>
+    </div>
+  </section>
 
-    <!-- Paquetes -->
-    <section class="section section--alt" id="paquetes">
-      <div class="container">
-        <div class="section__head">
-          <h2 class="section__title reveal" data-reveal="up">Paquetes de Auxiliar Contable</h2>
-          <p class="section__desc reveal" data-reveal="up">
-            Precios recomendados y modalidad de pago clara: Básico anual / Profesional y Plus mensuales.
-          </p>
-        </div>
+  <!-- ░░░ TRUST BAR ░░░ -->
+  <section class="trust" aria-label="Valores clave">
+    <div class="trust-inner">
+      <div class="trust-item"><i data-lucide="shield-check" class="ni"></i><span>Confidencialidad total</span></div>
+      <div class="trust-item"><i data-lucide="users" class="ni"></i><span>Personas físicas y negocios</span></div>
+      <div class="trust-item"><i data-lucide="message-square" class="ni"></i><span>Comunicación directa</span></div>
+      <div class="trust-item"><i data-lucide="rotate-ccw" class="ni"></i><span>Seguimiento continuo</span></div>
+    </div>
+  </section>
 
-        <div class="pricing">
-          <!-- Básico (ANUAL) -->
-          <article class="price-card cardfx reveal" data-reveal="up">
-            <div class="price-card__top">
-              <span class="badge">Pago único anual</span>
-              <h3>Paquete Fiscal Básico</h3>
-              <p class="muted">Ideal si necesitas declaración anual y revisión básica.</p>
-            </div>
+  <!-- ░░░░░░░░░░░░░░░░░░░░░░░░░░░░░
+       SERVICIOS
+  ░░░░░░░░░░░░░░░░░░░░░░░░░░░░░ -->
+  <section class="section" id="servicios" aria-labelledby="h-srv">
+    <div class="container">
+      <header class="sec-head">
+        <div class="sec-tag"><span class="tag-num">01</span> Servicios</div>
+        <h2 class="sec-h2" id="h-srv">Contables y fiscales<br><em>sin procesos complicados.</em></h2>
+        <p class="sec-sub">Enfocados en cumplimiento, organización y prevención — sin costos innecesarios.</p>
+      </header>
 
-            <div class="price">
-              <span class="price__amount">$1,500 – $2,000</span>
-              <span class="price__unit">MXN / anual</span>
-            </div>
-
-            <ul class="list">
-              <li><i data-lucide="check"></i> Declaración anual ISR (1 ejercicio)</li>
-              <li><i data-lucide="check"></i> Revisión básica de deducciones personales</li>
-              <li><i data-lucide="check"></i> Recuperación de hasta 20 CFDI</li>
-              <li><i data-lucide="check"></i> Gestión de devolución automática ISR (si aplica)</li>
-              <li><i data-lucide="check"></i> Orientación para cita SAT</li>
-            </ul>
-
-            <div class="divider"></div>
-
-            <p class="micro muted">
-              No incluye: mensuales, actividad empresarial, emisión de facturas, Infonavit, representación legal.
-            </p>
-
-            <a class="btn btn--ghost btn--full magnetic" href="#contacto">
-              Cotizar Básico <i data-lucide="arrow-right"></i>
-            </a>
-          </article>
-
-          <!-- Profesional (MENSUAL) -->
-          <article class="price-card price-card--featured cardfx reveal" data-reveal="up">
-            <div class="price-card__top">
-              <span class="badge badge--strong">Más contratado • Pago mensual</span>
-              <h3>Paquete Fiscal Profesional</h3>
-              <p class="muted">Para operación activa: mensuales + anual + facturación controlada.</p>
-            </div>
-
-            <div class="price">
-              <span class="price__amount">$3,000 – $4,500</span>
-              <span class="price__unit">MXN / mes</span>
-            </div>
-
-            <ul class="list">
-              <li><i data-lucide="check"></i> Declaraciones mensuales (hasta 12)</li>
-              <li><i data-lucide="check"></i> Declaración anual</li>
-              <li><i data-lucide="check"></i> Emisión de facturas (hasta 30/mes)</li>
-              <li><i data-lucide="check"></i> Recuperación de CFDI de compras</li>
-              <li><i data-lucide="check"></i> Renovación e.firma (acompañamiento)</li>
-              <li><i data-lucide="check"></i> Gestión de citas SAT</li>
-              <li><i data-lucide="check"></i> Devolución ISR (si aplica)</li>
-              <li><i data-lucide="check"></i> Asesoría básica en deducciones</li>
-            </ul>
-
-            <div class="divider"></div>
-
-            <p class="micro muted">
-              No incluye: planeación fiscal avanzada, auditorías, defensa fiscal, Infonavit complejos.
-            </p>
-
-            <a class="btn btn--primary btn--full magnetic" href="#contacto">
-              Quiero Profesional <i data-lucide="sparkles"></i>
-            </a>
-          </article>
-
-          <!-- Plus (MENSUAL) -->
-          <article class="price-card cardfx reveal" data-reveal="up">
-            <div class="price-card__top">
-              <span class="badge">Pago mensual</span>
-              <h3>Paquete Fiscal Plus</h3>
-              <p class="muted">Asesoría continua + facturación sin límite operativo razonable.</p>
-            </div>
-
-            <div class="price">
-              <span class="price__amount">$5,500 – $7,000 +</span>
-              <span class="price__unit">MXN / mes</span>
-            </div>
-
-            <ul class="list">
-              <li><i data-lucide="check"></i> Todo lo del Profesional</li>
-              <li><i data-lucide="check"></i> Asesoría fiscal continua</li>
-              <li><i data-lucide="check"></i> Facturación sin límite operativo razonable</li>
-              <li><i data-lucide="check"></i> Seguimiento devoluciones ISR</li>
-              <li><i data-lucide="check"></i> Acompañamiento en citas SAT</li>
-              <li><i data-lucide="check"></i> Infonavit (saldos a favor y devoluciones por pagos en exceso)</li>
-            </ul>
-
-            <div class="divider"></div>
-
-            <p class="micro muted">
-              No incluye: juicios fiscales, auditorías, dictámenes fiscales, representación legal.
-            </p>
-
-            <a class="btn btn--ghost btn--full magnetic" href="#contacto">
-              Cotizar Plus <i data-lucide="arrow-right"></i>
-            </a>
-          </article>
-        </div>
-
-        <div class="notice reveal" data-reveal="up">
-          <i data-lucide="badge-info"></i>
-          <p class="muted">
-            Modalidad de pago según paquete: Básico (pago único anual) y Profesional/Plus (pago mensual). Precios referenciales, pueden variar según régimen, actividad y necesidades específicas.
-          </p>
-        </div>
+      <div class="srv-grid">
+        <article class="srv-card">
+          <div class="srv-icon"><i data-lucide="file-text" class="ni ni-lg"></i></div>
+          <h3>Declaraciones mensuales y anual</h3>
+          <p>Cumplimiento en tiempo según tu paquete y régimen. Sin retrasos que generen multas.</p>
+          <div class="srv-tags"><span>SAT</span><span>ISR</span><span>IVA</span></div>
+        </article>
+        <article class="srv-card">
+          <div class="srv-icon"><i data-lucide="receipt" class="ni ni-lg"></i></div>
+          <h3>Emisión y recuperación de CFDI</h3>
+          <p>Control de facturas con límites claros por paquete. Organización total de comprobantes.</p>
+          <div class="srv-tags"><span>CFDI</span><span>Facturación</span></div>
+        </article>
+        <article class="srv-card">
+          <div class="srv-icon"><i data-lucide="fingerprint" class="ni ni-lg"></i></div>
+          <h3>e.firma y citas SAT</h3>
+          <p>Acompañamiento para trámites, renovación de e.firma y gestión de citas ante el SAT.</p>
+          <div class="srv-tags"><span>e.firma</span><span>Trámites</span></div>
+        </article>
+        <article class="srv-card">
+          <div class="srv-icon"><i data-lucide="trending-up" class="ni ni-lg"></i></div>
+          <h3>Devoluciones ISR</h3>
+          <p>Gestión automática (si aplica) con seguimiento detallado incluido en tu paquete.</p>
+          <div class="srv-tags"><span>ISR</span><span>Devoluciones</span></div>
+        </article>
       </div>
-    </section>
+    </div>
+  </section>
 
-    <!-- Proceso -->
-    <section class="section" id="proceso">
-      <div class="container">
-        <div class="section__head">
-          <h2 class="section__title reveal" data-reveal="up">Proceso simple, sin fricción</h2>
-          <p class="section__desc reveal" data-reveal="up">Tres pasos para orden fiscal real.</p>
-        </div>
+  <!-- ░░░░░░░░░░░░░░░░░░░░░░░░░░░░░
+       PAQUETES
+  ░░░░░░░░░░░░░░░░░░░░░░░░░░░░░ -->
+  <section class="section sec-alt" id="paquetes" aria-labelledby="h-pkg">
+    <div class="container">
+      <header class="sec-head">
+        <div class="sec-tag"><span class="tag-num">02</span> Paquetes</div>
+        <h2 class="sec-h2" id="h-pkg">Precios claros,<br><em>sin sorpresas.</em></h2>
+        <p class="sec-sub">Básico (anual único) &nbsp;·&nbsp; Profesional y Plus (mensual).</p>
+      </header>
 
-        <div class="steps">
-          <article class="step cardfx reveal" data-reveal="up">
-            <span class="step__n">01</span>
+      <div class="pkg-grid">
+
+        <!-- BÁSICO -->
+        <article class="pkg-card" aria-label="Paquete Fiscal Básico">
+          <div class="pkg-head">
+            <div class="pkg-badge">Pago único anual</div>
+            <h3>Fiscal Básico</h3>
+            <p class="pkg-desc">Ideal para declaración anual y revisión básica.</p>
+            <div class="pkg-price">
+              <strong>$1,500 – $2,000</strong>
+              <span>MXN / anual</span>
+            </div>
+          </div>
+          <ul class="pkg-feats" aria-label="Incluye">
+            <li><i data-lucide="check" class="ni ni-chk"></i>Declaración anual ISR (1 ejercicio)</li>
+            <li><i data-lucide="check" class="ni ni-chk"></i>Revisión básica de deducciones</li>
+            <li><i data-lucide="check" class="ni ni-chk"></i>Recuperación de hasta 20 CFDI</li>
+            <li><i data-lucide="check" class="ni ni-chk"></i>Gestión devolución ISR (si aplica)</li>
+            <li><i data-lucide="check" class="ni ni-chk"></i>Orientación para cita SAT</li>
+          </ul>
+          <p class="pkg-excl"><i data-lucide="x" class="ni ni-x"></i><span><strong>No incluye:</strong> mensuales, actividad empresarial, emisión de facturas, Infonavit.</span></p>
+          <a href="#contacto" class="pkg-btn">Cotizar Básico</a>
+        </article>
+
+        <!-- PROFESIONAL (featured) -->
+        <article class="pkg-card pkg-featured" aria-label="Paquete Fiscal Profesional, más contratado">
+          <div class="feat-halo" aria-hidden="true"></div>
+          <div class="pkg-head">
+            <div class="pkg-badge pkg-badge-feat">⭐ Más contratado · Mensual</div>
+            <h3>Fiscal Profesional</h3>
+            <p class="pkg-desc">Operación activa: mensuales + anual + facturación.</p>
+            <div class="pkg-price">
+              <strong>$3,000 – $4,500</strong>
+              <span>MXN / mes</span>
+            </div>
+          </div>
+          <ul class="pkg-feats">
+            <li><i data-lucide="check" class="ni ni-chk"></i>Declaraciones mensuales (hasta 12)</li>
+            <li><i data-lucide="check" class="ni ni-chk"></i>Declaración anual incluida</li>
+            <li><i data-lucide="check" class="ni ni-chk"></i>Emisión de facturas (hasta 30/mes)</li>
+            <li><i data-lucide="check" class="ni ni-chk"></i>Recuperación de CFDI de compras</li>
+            <li><i data-lucide="check" class="ni ni-chk"></i>Renovación e.firma (acompañamiento)</li>
+            <li><i data-lucide="check" class="ni ni-chk"></i>Gestión de citas SAT</li>
+            <li><i data-lucide="check" class="ni ni-chk"></i>Devolución ISR (si aplica)</li>
+            <li><i data-lucide="check" class="ni ni-chk"></i>Asesoría básica en deducciones</li>
+          </ul>
+          <p class="pkg-excl"><i data-lucide="x" class="ni ni-x"></i><span><strong>No incluye:</strong> planeación avanzada, auditorías, defensa fiscal.</span></p>
+          <a href="#contacto" class="pkg-btn pkg-btn-feat">Quiero Profesional</a>
+        </article>
+
+        <!-- PLUS -->
+        <article class="pkg-card" aria-label="Paquete Fiscal Plus">
+          <div class="pkg-head">
+            <div class="pkg-badge">Pago mensual</div>
+            <h3>Fiscal Plus</h3>
+            <p class="pkg-desc">Asesoría continua + facturación sin límite razonable.</p>
+            <div class="pkg-price">
+              <strong>$5,500 – $7,000+</strong>
+              <span>MXN / mes</span>
+            </div>
+          </div>
+          <ul class="pkg-feats">
+            <li><i data-lucide="check" class="ni ni-chk"></i>Todo lo del Profesional</li>
+            <li><i data-lucide="check" class="ni ni-chk"></i>Asesoría fiscal continua</li>
+            <li><i data-lucide="check" class="ni ni-chk"></i>Facturación sin límite razonable</li>
+            <li><i data-lucide="check" class="ni ni-chk"></i>Seguimiento devoluciones ISR</li>
+            <li><i data-lucide="check" class="ni ni-chk"></i>Acompañamiento en citas SAT</li>
+            <li><i data-lucide="check" class="ni ni-chk"></i>Infonavit (saldos a favor y devoluciones)</li>
+          </ul>
+          <p class="pkg-excl"><i data-lucide="x" class="ni ni-x"></i><span><strong>No incluye:</strong> juicios fiscales, auditorías, representación legal.</span></p>
+          <a href="#contacto" class="pkg-btn">Cotizar Plus</a>
+        </article>
+
+      </div>
+      <p class="pkg-disclaimer">Precios referenciales · varían según régimen, actividad y necesidades específicas.</p>
+    </div>
+  </section>
+
+  <!-- ░░░░░░░░░░░░░░░░░░░░░░░░░░░░░
+       PROCESO
+  ░░░░░░░░░░░░░░░░░░░░░░░░░░░░░ -->
+  <section class="section" id="proceso" aria-labelledby="h-proc">
+    <div class="container">
+      <header class="sec-head">
+        <div class="sec-tag"><span class="tag-num">03</span> Proceso</div>
+        <h2 class="sec-h2" id="h-proc">Simple,<br><em>sin fricción.</em></h2>
+        <p class="sec-sub">Tres pasos para orden fiscal real.</p>
+      </header>
+
+      <div class="proc-steps">
+        <div class="proc-step">
+          <div class="proc-num-wrap"><span class="proc-num">01</span></div>
+          <div class="proc-content">
             <h3>Diagnóstico</h3>
-            <p class="muted">Régimen/actividad, alcances y paquete ideal.</p>
-          </article>
-          <article class="step cardfx reveal" data-reveal="up">
-            <span class="step__n">02</span>
+            <p>Analizamos tu régimen, actividad y necesidades para identificar el paquete ideal. Sin compromisos, sin tecnicismos.</p>
+          </div>
+          <div class="proc-ico"><i data-lucide="search" class="ni ni-lg"></i></div>
+        </div>
+
+        <div class="proc-connector" aria-hidden="true">
+          <div class="conn-line"></div>
+          <div class="conn-dot"></div>
+        </div>
+
+        <div class="proc-step">
+          <div class="proc-num-wrap"><span class="proc-num">02</span></div>
+          <div class="proc-content">
             <h3>Orden y ejecución</h3>
-            <p class="muted">CFDI, declaraciones y entregables.</p>
-          </article>
-          <article class="step cardfx reveal" data-reveal="up">
-            <span class="step__n">03</span>
+            <p>Organizamos CFDI, presentamos declaraciones y entregables en tiempo y forma, según tu paquete.</p>
+          </div>
+          <div class="proc-ico"><i data-lucide="settings-2" class="ni ni-lg"></i></div>
+        </div>
+
+        <div class="proc-connector" aria-hidden="true">
+          <div class="conn-line"></div>
+          <div class="conn-dot"></div>
+        </div>
+
+        <div class="proc-step">
+          <div class="proc-num-wrap"><span class="proc-num">03</span></div>
+          <div class="proc-content">
             <h3>Seguimiento</h3>
-            <p class="muted">Comunicación directa y soporte según paquete.</p>
-          </article>
+            <p>Comunicación directa y soporte continuo. Siempre conoces el estado de tu situación fiscal.</p>
+          </div>
+          <div class="proc-ico"><i data-lucide="bar-chart-2" class="ni ni-lg"></i></div>
         </div>
       </div>
-    </section>
+    </div>
+  </section>
 
-    <!-- FAQ -->
-    <section class="section section--alt" id="faq">
-      <div class="container">
-        <div class="section__head">
-          <h2 class="section__title reveal" data-reveal="up">Preguntas frecuentes</h2>
-          <p class="section__desc reveal" data-reveal="up">Respuestas claras para decidir rápido.</p>
+  <!-- ░░░░░░░░░░░░░░░░░░░░░░░░░░░░░
+       FAQ
+  ░░░░░░░░░░░░░░░░░░░░░░░░░░░░░ -->
+  <section class="section sec-alt" id="faq" aria-labelledby="h-faq">
+    <div class="container">
+      <header class="sec-head">
+        <div class="sec-tag"><span class="tag-num">04</span> FAQ</div>
+        <h2 class="sec-h2" id="h-faq">Preguntas<br><em>frecuentes.</em></h2>
+        <p class="sec-sub">Respuestas claras para decidir rápido.</p>
+      </header>
+
+      <div class="faq-list" role="list">
+
+        <div class="faq-item" role="listitem">
+          <button class="faq-trigger" aria-expanded="false">
+            <span>¿Qué hace un auxiliar contable y cómo me ayuda?</span>
+            <span class="faq-icon" aria-hidden="true"><i data-lucide="plus" class="ni"></i></span>
+          </button>
+          <div class="faq-panel">
+            <p>Un auxiliar contable mantiene orden en tu CFDI, control y reportes base para que tus declaraciones se presenten con información correcta, minimizando errores y retrabajos ante el SAT.</p>
+          </div>
         </div>
 
-        <div class="faq">
-          <details class="faq__item cardfx reveal" data-reveal="up">
-            <summary>
-              <span>¿Qué hace un auxiliar contable y cómo me ayuda?</span>
-              <i data-lucide="chevron-down"></i>
-            </summary>
-            <p class="muted">
-              Un auxiliar contable te ayuda a mantener orden (CFDI, control y reportes base) para que tus declaraciones se presenten
-              con información correcta, minimizando errores y retrabajos.
-            </p>
-          </details>
-
-          <details class="faq__item cardfx reveal" data-reveal="up">
-            <summary>
-              <span>¿Los paquetes son mensuales?</span>
-              <i data-lucide="chevron-down"></i>
-            </summary>
-            <p class="muted">
-              Profesional y Plus son mensuales. El Básico es pago único anual (solo anual + revisión básica). 
-            </p>
-          </details>
-
-          <details class="faq__item cardfx reveal" data-reveal="up">
-            <summary>
-              <span>¿Incluye defensa fiscal o auditorías?</span>
-              <i data-lucide="chevron-down"></i>
-            </summary>
-            <p class="muted">
-              No. Los paquetes estándar no incluyen juicios/defensa fiscal, auditorías ni representación legal.
-            </p>
-          </details>
+        <div class="faq-item" role="listitem">
+          <button class="faq-trigger" aria-expanded="false">
+            <span>¿Los paquetes son mensuales?</span>
+            <span class="faq-icon" aria-hidden="true"><i data-lucide="plus" class="ni"></i></span>
+          </button>
+          <div class="faq-panel">
+            <p>Profesional y Plus son pago mensual. El Básico es pago único anual — incluye solo declaración anual y revisión básica.</p>
+          </div>
         </div>
+
+        <div class="faq-item" role="listitem">
+          <button class="faq-trigger" aria-expanded="false">
+            <span>¿Incluye defensa fiscal o auditorías?</span>
+            <span class="faq-icon" aria-hidden="true"><i data-lucide="plus" class="ni"></i></span>
+          </button>
+          <div class="faq-panel">
+            <p>No. Los paquetes estándar no incluyen juicios, defensa fiscal, auditorías ni representación legal. Si lo necesitas, podemos orientarte por separado.</p>
+          </div>
+        </div>
+
+        <div class="faq-item" role="listitem">
+          <button class="faq-trigger" aria-expanded="false">
+            <span>¿Para qué regímenes fiscales aplican sus servicios?</span>
+            <span class="faq-icon" aria-hidden="true"><i data-lucide="plus" class="ni"></i></span>
+          </button>
+          <div class="faq-panel">
+            <p>Principalmente personas físicas: asalariados, honorarios, actividad empresarial y RESICO. Realizamos diagnóstico inicial para confirmar el encaje.</p>
+          </div>
+        </div>
+
+        <div class="faq-item" role="listitem">
+          <button class="faq-trigger" aria-expanded="false">
+            <span>¿Cómo se maneja mi información fiscal?</span>
+            <span class="faq-icon" aria-hidden="true"><i data-lucide="plus" class="ni"></i></span>
+          </button>
+          <div class="faq-panel">
+            <p>Con total confidencialidad. Tu información solo se usa para los fines contables acordados y nunca se comparte con terceros. Criterio profesional en cada caso.</p>
+          </div>
+        </div>
+
       </div>
-    </section>
+    </div>
+  </section>
 
-    <!-- Contacto -->
-    <section class="section" id="contacto">
-      <div class="container">
-        <div class="contact">
-          <div class="contact__left">
-            <h2 class="section__title reveal" data-reveal="up">Cotiza en minutos</h2>
-            <p class="section__desc reveal" data-reveal="up">
-              Dinos tu régimen y qué necesitas (auxiliar contable, mensuales, anual, CFDI, e.firma). Te respondemos con un plan claro.
-            </p>
+  <!-- ░░░░░░░░░░░░░░░░░░░░░░░░░░░░░
+       CONTACTO
+  ░░░░░░░░░░░░░░░░░░░░░░░░░░░░░ -->
+  <section class="section" id="contacto" aria-labelledby="h-ct">
+    <div class="container">
+      <header class="sec-head">
+        <div class="sec-tag"><span class="tag-num">05</span> Contacto</div>
+        <h2 class="sec-h2" id="h-ct">Cotiza<br><em>en minutos.</em></h2>
+        <p class="sec-sub">Dinos tu régimen y qué necesitas. Te respondemos con un plan claro.</p>
+      </header>
 
-            <div class="contact__quick reveal" data-reveal="up">
-              <a class="quick-card magnetic cardfx" href="https://wa.me/525570669666?text=Hola,%20vi%20su%20página%20y%20quiero%20cotizar%20un%20servicio%20contable" target="_blank" rel="noopener">
-                <i data-lucide="message-circle"></i>
-                <div>
-                  <strong>WhatsApp</strong>
-                  <span class="muted">Respuesta rápida</span>
-                </div>
-              </a>
+      <div class="ct-layout">
 
-              <div class="quick-card cardfx">
-                <i data-lucide="mail"></i>
-                <div>
-                  <strong>Email</strong>
-                  <span class="muted">AIACO_E_M_P@hotmail.com</span>
-                </div>
-              </div>
+        <!-- Canales -->
+        <div class="ct-channels">
+          <a href="https://wa.me/525570669666?text=Hola,%20quiero%20cotizar%20un%20servicio%20contable" class="ch-card ch-wa" target="_blank" rel="noopener noreferrer">
+            <div class="ch-ic"><i data-lucide="message-circle" class="ni ni-lg"></i></div>
+            <div class="ch-info">
+              <strong>WhatsApp</strong>
+              <span>Respuesta en menos de 24h hábiles</span>
+            </div>
+            <i data-lucide="external-link" class="ni ni-sm ch-arr"></i>
+          </a>
 
-              <div class="quick-card cardfx">
-                <i data-lucide="map-pin"></i>
-                <div>
-                  <strong>Ubicación</strong>
-                  <span class="muted">México (remoto)</span>
-                </div>
-              </div>
+          <a href="mailto:AIACO_E_M_P@hotmail.com?subject=Cotización%20contable" class="ch-card" target="_blank" rel="noopener noreferrer">
+            <div class="ch-ic"><i data-lucide="mail" class="ni ni-lg"></i></div>
+            <div class="ch-info">
+              <strong>Email</strong>
+              <span>AIACO_E_M_P@hotmail.com</span>
+            </div>
+            <i data-lucide="external-link" class="ni ni-sm ch-arr"></i>
+          </a>
+
+          <div class="ch-card ch-static">
+            <div class="ch-ic"><i data-lucide="map-pin" class="ni ni-lg"></i></div>
+            <div class="ch-info">
+              <strong>Ubicación</strong>
+              <span>México · Servicio 100% remoto</span>
+            </div>
+          </div>
+        </div>
+
+        <!-- Formulario -->
+        <form class="ct-form" id="ctForm" novalidate aria-label="Formulario de cotización">
+          <!-- Honeypot anti-spam -->
+          <input type="text" name="_trap" style="display:none" tabindex="-1" autocomplete="off" aria-hidden="true" />
+
+          <div class="form-row">
+            <div class="field">
+              <label for="f-nombre">Nombre <span class="req" aria-hidden="true">*</span></label>
+              <input type="text" id="f-nombre" name="nombre" placeholder="Tu nombre completo" required autocomplete="name" />
+            </div>
+            <div class="field">
+              <label for="f-tel">Teléfono</label>
+              <input type="tel" id="f-tel" name="telefono" placeholder="Tu número" autocomplete="tel" />
             </div>
           </div>
 
-          <div class="contact__right">
-            <form class="form cardfx reveal" data-reveal="up"
-              name="contacto-aiaco" method="POST" data-netlify="true" netlify-honeypot="bot-field">
-              <input type="hidden" name="form-name" value="contacto-aiaco" />
-              <p class="hidden">
-                <label>No llenar: <input name="bot-field" /></label>
-              </p>
-
-              <div class="form__row">
-                <label>
-                  Nombre
-                  <input name="nombre" type="text" placeholder="Tu nombre" required />
-                </label>
-
-                <label>
-                  Teléfono
-                  <input name="telefono" type="tel" placeholder="+52..." required />
-                </label>
-              </div>
-
-              <label>
-                Email
-                <input name="email" type="email" placeholder="tucorreo@ejemplo.com" required />
-              </label>
-
-              <label>
-                Paquete de interés
-                <select name="paquete" required>
-                  <option value="" selected disabled>Selecciona…</option>
-                  <option>Paquete Fiscal Básico (Anual)</option>
-                  <option>Paquete Fiscal Profesional (Mensual)</option>
-                  <option>Paquete Fiscal Plus (Mensual)</option>
-                </select>
-              </label>
-
-              <label>
-                Mensaje
-                <textarea name="mensaje" rows="5" placeholder="Cuéntanos tu régimen, actividad y qué necesitas…" required></textarea>
-              </label>
-
-              <button class="btn btn--primary btn--full magnetic" type="submit">
-                Enviar solicitud
-                <i data-lucide="send"></i>
-              </button>
-
-              <p class="micro muted form__hint">
-                te contactaremos en menos de 24 horas hábiles.
-              </p>
-            </form>
+          <div class="field">
+            <label for="f-email">Email <span class="req" aria-hidden="true">*</span></label>
+            <input type="email" id="f-email" name="email" placeholder="tu@email.com" required autocomplete="email" />
           </div>
-        </div>
-      </div>
-    </section>
 
-    <!-- Footer -->
-    <footer class="footer" id="footer">
-      <div class="container footer__grid">
-        <div class="footer__brand">
-          <div class="brand brand--footer">
-            <img class="brand__logo brand__logo--footer" src="/AIACO A2.jpg" alt="AIACO" loading="lazy" decoding="async" />
-            <div class="brand__txt">
-              <span class="brand__name">AIACO</span>
-              <span class="brand__tag">Auxiliar contable</span>
+          <div class="field">
+            <label for="f-pkg">Paquete de interés</label>
+            <div class="select-wrap">
+              <select id="f-pkg" name="paquete">
+                <option value="">Selecciona un paquete…</option>
+                <option value="Fiscal Básico (Anual)">Paquete Fiscal Básico (Anual)</option>
+                <option value="Fiscal Profesional (Mensual)">Paquete Fiscal Profesional (Mensual)</option>
+                <option value="Fiscal Plus (Mensual)">Paquete Fiscal Plus (Mensual)</option>
+              </select>
+              <i data-lucide="chevron-down" class="ni ni-sm sel-arr"></i>
             </div>
           </div>
 
-          <p class="muted">
-            Servicios contables y fiscales con enfoque profesional, claro y transparente.
-          </p>
-
-          <div class="social">
-            <a class="icon-btn magnetic" href="#" aria-label="X"><i data-lucide="twitter"></i></a>
-            <a class="icon-btn magnetic" href="#" aria-label="LinkedIn"><i data-lucide="linkedin"></i></a>
-            <a class="icon-btn magnetic" href="#" aria-label="Facebook"><i data-lucide="facebook"></i></a>
+          <div class="field">
+            <label for="f-msg">Mensaje <span class="req" aria-hidden="true">*</span></label>
+            <textarea id="f-msg" name="mensaje" rows="4" placeholder="Cuéntanos tu régimen fiscal y qué necesitas…" required></textarea>
           </div>
+
+          <button type="submit" class="btn-prim btn-full" id="ctSubmit">
+            Enviar solicitud <i data-lucide="send" class="ni"></i>
+          </button>
+
+          <div class="form-success" id="formSuccess" role="alert" aria-live="polite" style="display:none">
+            <i data-lucide="check-circle" class="ni ni-lg"></i>
+            <span>¡Recibido! Te contactaremos en menos de 24 horas hábiles.</span>
+          </div>
+        </form>
+
+      </div>
+    </div>
+  </section>
+
+  <!-- ░░░ FOOTER ░░░ -->
+  <footer class="footer" aria-label="Pie de página">
+    <div class="container">
+      <div class="foot-grid">
+
+        <div class="foot-brand">
+          <a href="/" class="nav-logo foot-logo" aria-label="AIACO inicio">
+            <span class="nl-br">[</span><span class="nl-main">AIACO</span><span class="nl-sep">.</span><span class="nl-sub">CONTABLE</span><span class="nl-br">]</span>
+          </a>
+          <p>Servicios contables y fiscales con enfoque profesional, claro y transparente.</p>
+          <a href="https://wa.me/525570669666" class="foot-wa" target="_blank" rel="noopener noreferrer">
+            <i data-lucide="message-circle" class="ni"></i> WhatsApp
+          </a>
         </div>
 
-        <div class="footer__cols">
-          <div>
-            <h4>Empresa</h4>
-            <a href="#servicios">Servicios</a>
-            <a href="#paquetes">Paquetes</a>
-            <a href="#proceso">Proceso</a>
-          </div>
-          <div>
-            <h4>Soporte</h4>
-            <a href="#faq">FAQ</a>
-            <a href="#contacto">Contacto</a>
-            <a href="#top">Volver arriba</a>
-          </div>
-          <div>
-            <h4>Legal</h4>
-            <a href="#">Aviso de privacidad</a>
-            <a href="#">Términos</a>
-          </div>
-        </div>
+        <nav class="foot-col" aria-label="Empresa">
+          <h4>Empresa</h4>
+          <ul>
+            <li><a href="#servicios">Servicios</a></li>
+            <li><a href="#paquetes">Paquetes</a></li>
+            <li><a href="#proceso">Proceso</a></li>
+          </ul>
+        </nav>
+
+        <nav class="foot-col" aria-label="Soporte">
+          <h4>Soporte</h4>
+          <ul>
+            <li><a href="#faq">FAQ</a></li>
+            <li><a href="#contacto">Contacto</a></li>
+            <li><a href="#top">Volver arriba</a></li>
+          </ul>
+        </nav>
+
+        <nav class="foot-col" aria-label="Legal">
+          <h4>Legal</h4>
+          <ul>
+            <li><a href="#">Aviso de privacidad</a></li>
+            <li><a href="#">Términos y condiciones</a></li>
+            <li><a href="/">AIACO Principal</a></li>
+          </ul>
+        </nav>
+
       </div>
 
-      <div class="container footer__bottom">
-        <span class="micro muted">© <span id="year"></span> AIACO. Todos los derechos reservados.</span>
-        <span class="micro muted">Auxiliar contable • SAT • CFDI</span>
+      <div class="foot-bottom">
+        <span>© 2025 AIACO. Todos los derechos reservados.</span>
+        <span class="foot-mono">Auxiliar contable · SAT · CFDI · México</span>
       </div>
-    </footer>
-  </main>
+    </div>
+  </footer>
 
   <script src="AIACOCONTABLE.js"></script>
 </body>

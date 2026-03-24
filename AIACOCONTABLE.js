@@ -1,272 +1,660 @@
-(() => {
-  // Icons
-  if (window.lucide) window.lucide.createIcons();
+/*!
+ * AIACOCONTABLE.js — v3
+ * Stack: Lenis (smooth scroll) · GSAP 3 + ScrollTrigger
+ *        Lucide icons · Vanilla JS
+ *
+ * Sections:
+ *  1. Init order
+ *  2. Lucide icons
+ *  3. Page loader
+ *  4. Lenis smooth scroll
+ *  5. Custom cursor
+ *  6. Navbar stuck + scroll spy
+ *  7. Hamburger / mobile drawer
+ *  8. GSAP hero entrance
+ *  9. GSAP scroll reveals
+ * 10. KPI counter
+ * 11. FAQ accordion
+ * 12. Contact form
+ * 13. Pricing tilt (desktop)
+ */
 
-  // Year
-  const y = document.getElementById("year");
-  if (y) y.textContent = String(new Date().getFullYear());
+/* ═══════════════════════════════════════
+   1. INIT ORDER
+═══════════════════════════════════════ */
+(function () {
+  'use strict';
 
-  const root = document.documentElement;
+  // Kick off after DOM is parsed (scripts are deferred inline)
+  if (document.readyState === 'loading') {
+    document.addEventListener('DOMContentLoaded', bootstrap);
+  } else {
+    bootstrap();
+  }
 
-  // Page load fade-in + blur
-  requestAnimationFrame(() => {
-    requestAnimationFrame(() => {
-      document.body.classList.remove("is-loading");
+  function bootstrap () {
+    initLucide();
+    initLoader();
+    initLenis();
+    initCursor();
+    initNavbar();
+    initHamburger();
+    initHeroGSAP();
+    initScrollReveal();
+    initKPICounter();
+    initFAQ();
+    initForm();
+    initPricingTilt();
+  }
+
+  /* ═══════════════════════════════════════
+     2. LUCIDE ICONS
+  ═══════════════════════════════════════ */
+  function initLucide () {
+    if (typeof lucide !== 'undefined') {
+      lucide.createIcons();
+    }
+  }
+
+  /* ═══════════════════════════════════════
+     3. PAGE LOADER
+  ═══════════════════════════════════════ */
+  function initLoader () {
+    const loader = document.getElementById('loader');
+    const fill   = document.getElementById('loaderFill');
+    const pct    = document.getElementById('loaderPct');
+    if (!loader) return;
+
+    let progress = 0;
+    const interval = setInterval(() => {
+      progress += Math.random() * 20 + 5;
+      if (progress >= 100) { progress = 100; clearInterval(interval); }
+      const val = Math.floor(progress);
+      if (fill) fill.style.width = val + '%';
+      if (pct)  pct.textContent  = val + '%';
+    }, 80);
+
+    // Hide on full load
+    function hide () {
+      clearInterval(interval);
+      if (fill) fill.style.width = '100%';
+      if (pct)  pct.textContent  = '100%';
+      setTimeout(() => loader.classList.add('gone'), 250);
+    }
+
+    if (document.readyState === 'complete') {
+      setTimeout(hide, 400);
+    } else {
+      window.addEventListener('load', () => setTimeout(hide, 300));
+    }
+    // Hard fallback
+    setTimeout(hide, 3000);
+  }
+
+  /* ═══════════════════════════════════════
+     4. LENIS SMOOTH SCROLL
+  ═══════════════════════════════════════ */
+  let lenis;
+
+  function initLenis () {
+    if (typeof Lenis === 'undefined') return;
+    if (window.matchMedia && window.matchMedia("(pointer: coarse)").matches) return;
+
+    lenis = new Lenis({
+      duration: 1.15,
+      easing:   t => Math.min(1, 1.001 - Math.pow(2, -10 * t)),
+      smooth:   true,
+      smoothTouch: false,
     });
-  });
 
-  // Theme
-  const themeBtn = document.querySelector(".theme-toggle");
-  const storedTheme = localStorage.getItem("aiaco_theme");
-  if (storedTheme === "light" || storedTheme === "dark") root.setAttribute("data-theme", storedTheme);
+    // Connect GSAP ticker → Lenis
+    if (typeof gsap !== 'undefined') {
+      gsap.ticker.add(time => lenis.raf(time * 1000));
+      gsap.ticker.lagSmoothing(0);
+    } else {
+      // Fallback RAF
+      (function raf (time) { lenis.raf(time); requestAnimationFrame(raf); })(0);
+    }
 
-  const setTheme = (t) => {
-    root.setAttribute("data-theme", t);
-    localStorage.setItem("aiaco_theme", t);
-  };
+    // Anchor smooth scroll with offset for fixed nav
+    document.querySelectorAll('a[href^="#"]').forEach(a => {
+      a.addEventListener('click', e => {
+        const target = document.querySelector(a.getAttribute('href'));
+        if (!target) return;
+        e.preventDefault();
+        lenis.scrollTo(target, { offset: -78, duration: 1.2 });
+      });
+    });
+  }
 
-  themeBtn?.addEventListener("click", () => {
-    const current = root.getAttribute("data-theme") || "dark";
-    setTheme(current === "dark" ? "light" : "dark");
-  });
+  /* ═══════════════════════════════════════
+     5. CUSTOM CURSOR
+  ═══════════════════════════════════════ */
+  function initCursor () {
+    // Skip custom cursor on touch devices
+    if (window.matchMedia && window.matchMedia("(pointer: coarse)").matches) {
+      const dot0  = document.getElementById("curDot");
+      const ring0 = document.getElementById("curRing");
+      if (dot0) dot0.style.display = "none";
+      if (ring0) ring0.style.display = "none";
+      document.body.style.cursor = "";
+      return;
+    }
 
-  // Mobile menu
-  const menuBtn = document.querySelector(".menu-btn");
-  const menu = document.getElementById("mobileMenu");
-  const closeBtn = document.querySelector(".close-btn");
-  const backdrop = document.querySelector(".mobile-menu__backdrop");
-  const mobileLinks = document.querySelectorAll(".nav--mobile a");
+    const dot  = document.getElementById('curDot');
+    const ring = document.getElementById('curRing');
+    if (!dot || !ring) return;
 
-  const openMenu = () => {
-    if (!menu) return;
-    menu.hidden = false;
-    menuBtn?.setAttribute("aria-expanded", "true");
-    document.body.style.overflow = "hidden";
-  };
+    let mx = 0, my = 0, rx = 0, ry = 0;
 
-  const closeMenu = () => {
-    if (!menu) return;
-    menu.hidden = true;
-    menuBtn?.setAttribute("aria-expanded", "false");
-    document.body.style.overflow = "";
-  };
+    document.addEventListener('mousemove', e => { mx = e.clientX; my = e.clientY; });
+    document.addEventListener('mouseleave', () => { dot.style.opacity = '0'; ring.style.opacity = '0'; });
+    document.addEventListener('mouseenter', () => { dot.style.opacity = '1'; ring.style.opacity = '1'; });
 
-  menuBtn?.addEventListener("click", openMenu);
-  closeBtn?.addEventListener("click", closeMenu);
-  backdrop?.addEventListener("click", closeMenu);
-  mobileLinks.forEach((a) => a.addEventListener("click", closeMenu));
+    // RAF loop for butter-smooth follower
+    (function loop () {
+      dot.style.left = mx + 'px';
+      dot.style.top  = my + 'px';
+      rx += (mx - rx) * 0.095;
+      ry += (my - ry) * 0.095;
+      ring.style.left = rx + 'px';
+      ring.style.top  = ry + 'px';
+      requestAnimationFrame(loop);
+    })();
 
-  window.addEventListener("keydown", (e) => {
-    if (e.key === "Escape" && menu && !menu.hidden) closeMenu();
-  });
+    // Expand on interactive elements
+    const interactives = document.querySelectorAll(
+      'a, button, .srv-card, .pkg-card, .faq-trigger, input, select, textarea, .ch-card'
+    );
+    interactives.forEach(el => {
+      el.addEventListener('mouseenter', () => ring.classList.add('expand'));
+      el.addEventListener('mouseleave', () => ring.classList.remove('expand'));
+    });
+  }
 
-  // Smooth scroll (offset dinámico por header fijo)
-  const easeOutCubic = (t) => 1 - Math.pow(1 - t, 3);
+  /* ═══════════════════════════════════════
+     6. NAVBAR STUCK + SCROLL SPY
+  ═══════════════════════════════════════ */
+  function initNavbar () {
+    const nav     = document.getElementById('navbar');
+    const links   = document.querySelectorAll('.nav-link, .drawer-link');
+    const sections = document.querySelectorAll('section[id]');
+    if (!nav) return;
 
-  const getHeaderOffset = () => {
-    const header = document.querySelector(".header");
-    const h = header ? header.getBoundingClientRect().height : 74;
-    // pequeño margen extra para que el título del section respire
-    return Math.ceil(h + 12);
-  };
-
-  const smoothScrollTo = (targetY, duration = 650) => {
-    const startY = window.scrollY;
-    const diff = targetY - startY;
-    const start = performance.now();
-
-    const step = (now) => {
-      const p = Math.min(1, (now - start) / duration);
-      const eased = easeOutCubic(p);
-      window.scrollTo(0, startY + diff * eased);
-      if (p < 1) requestAnimationFrame(step);
+    // Stuck class
+    const onScroll = () => {
+      nav.classList.toggle('stuck', window.scrollY > 20);
     };
-    requestAnimationFrame(step);
-  };
+    window.addEventListener('scroll', onScroll, { passive: true });
+    onScroll();
 
-  document.querySelectorAll('a[href^="#"]').forEach((a) => {
-    a.addEventListener("click", (e) => {
-      const href = a.getAttribute("href");
-      if (!href || href.length < 2) return;
+    // Scroll spy
+    if (!sections.length || !links.length) return;
+    const spy = new IntersectionObserver(entries => {
+      entries.forEach(e => {
+        if (!e.isIntersecting) return;
+        const id = '#' + e.target.id;
+        links.forEach(l => l.classList.toggle('active', l.getAttribute('href') === id));
+      });
+    }, { rootMargin: '-35% 0px -58% 0px' });
+    sections.forEach(s => spy.observe(s));
+  }
 
-      const target = document.querySelector(href);
-      if (!target) return;
+  /* ═══════════════════════════════════════
+     7. HAMBURGER / MOBILE DRAWER
+  ═══════════════════════════════════════ */
+  function initHamburger () {
+    const btn    = document.getElementById('hamBtn');
+    const drawer = document.getElementById('navDrawer');
+    const scrim  = document.getElementById('navScrim');
+    if (!btn || !drawer) return;
 
-      e.preventDefault();
-      const y = target.getBoundingClientRect().top + window.scrollY - getHeaderOffset();
-      smoothScrollTo(y);
+    let lastFocus = null;
+    let trapHandler = null;
+
+    const focusablesSelector = 'a,button,input,select,textarea,[tabindex]:not([tabindex="-1"])';
+
+    function setScrim (show) {
+      if (!scrim) return;
+      if (show) {
+        scrim.style.display = 'block';
+        requestAnimationFrame(() => scrim.classList.add('show'));
+      } else {
+        scrim.classList.remove('show');
+        setTimeout(() => { scrim.style.display = ''; }, 260);
+      }
+    }
+
+    function trapFocus () {
+      const focusables = Array.from(drawer.querySelectorAll(focusablesSelector))
+        .filter(el => !el.hasAttribute('disabled') && el.offsetParent !== null);
+
+      if (!focusables.length) return;
+
+      const first = focusables[0];
+      const last  = focusables[focusables.length - 1];
+
+      trapHandler = (e) => {
+        if (e.key === 'Escape') { close(); return; }
+        if (e.key !== 'Tab') return;
+
+        if (e.shiftKey && document.activeElement === first) {
+          e.preventDefault();
+          last.focus();
+        } else if (!e.shiftKey && document.activeElement === last) {
+          e.preventDefault();
+          first.focus();
+        }
+      };
+
+      drawer.addEventListener('keydown', trapHandler);
+    }
+
+    function open () {
+      lastFocus = document.activeElement;
+      btn.classList.add('is-open');
+      drawer.classList.add('open');
+      btn.setAttribute('aria-expanded', 'true');
+      drawer.setAttribute('aria-hidden', 'false');
+      document.body.classList.add('nav-open');
+      setScrim(true);
+
+      // Focus drawer (accessibility)
+      setTimeout(() => {
+        drawer.focus();
+        const firstLink = drawer.querySelector('.drawer-link, .drawer-cta');
+        if (firstLink) firstLink.focus();
+        trapFocus();
+      }, 0);
+
+      // Animate list items with GSAP if available
+      if (typeof gsap !== 'undefined') {
+        gsap.fromTo('.drawer-list li',
+          { x: 22, opacity: 0 },
+          { x: 0, opacity: 1, duration: 0.42, stagger: 0.06, ease: 'power3.out', delay: 0.08, overwrite: true }
+        );
+      }
+    }
+
+    function close () {
+      btn.classList.remove('is-open');
+      drawer.classList.remove('open');
+      btn.setAttribute('aria-expanded', 'false');
+      drawer.setAttribute('aria-hidden', 'true');
+      document.body.classList.remove('nav-open');
+      setScrim(false);
+
+      if (trapHandler) {
+        drawer.removeEventListener('keydown', trapHandler);
+        trapHandler = null;
+      }
+      if (lastFocus && typeof lastFocus.focus === 'function') {
+        lastFocus.focus();
+      }
+    }
+
+    btn.addEventListener('click', () => {
+      btn.getAttribute('aria-expanded') === 'true' ? close() : open();
     });
-  });
 
-  // Reveal on scroll
-  const revealEls = document.querySelectorAll(".reveal");
-  const io = new IntersectionObserver(
-    (entries) => {
-      entries.forEach((entry) => {
-        if (entry.isIntersecting) {
-          entry.target.classList.add("is-in");
-          io.unobserve(entry.target);
+    if (scrim) scrim.addEventListener('click', close);
+
+    drawer.querySelectorAll('.drawer-link, .drawer-cta').forEach(a => {
+      a.addEventListener('click', close);
+    });
+
+    window.addEventListener('resize', () => {
+      // Close drawer when switching to desktop
+      if (window.innerWidth > 768 && drawer.classList.contains('open')) close();
+    }, { passive: true });
+
+    document.addEventListener('keydown', e => {
+      if (e.key === 'Escape' && drawer.classList.contains('open')) close();
+    });
+  }
+
+  /* ═══════════════════════════════════════
+     8. GSAP HERO ENTRANCE
+  ═══════════════════════════════════════ */
+  function initHeroGSAP () {
+    if (typeof gsap === 'undefined') {
+      // CSS fallback
+      document.querySelectorAll('.gsap-fadeup').forEach((el, i) => {
+        el.style.transition = `opacity .7s ${i * .12}s ease, transform .7s ${i * .12}s ease`;
+        setTimeout(() => { el.style.opacity = '1'; el.style.transform = 'translateY(0)'; }, 100);
+      });
+      return;
+    }
+
+    const tl = gsap.timeline({ delay: 0.35 });
+
+    // Glows
+    tl.from('.hbg-glow', { opacity: 0, scale: 0.6, duration: 1.6, ease: 'power3.out', stagger: 0.25 }, 0);
+
+    // Hero elements stagger
+    const heroEls = document.querySelectorAll('.gsap-fadeup');
+    heroEls.forEach((el, i) => {
+      tl.to(el,
+        { opacity: 1, y: 0, duration: 0.85, ease: 'power3.out' },
+        0.1 + i * 0.11
+      );
+    });
+
+    // Ticker fade
+    tl.from('.ticker-wrap', { opacity: 0, y: 12, duration: 0.6, ease: 'power2.out' }, 0.95);
+
+    // Scroll cue
+    tl.from('.scroll-cue', { opacity: 0, x: 14, duration: 0.55, ease: 'power2.out' }, 1.0);
+  }
+
+  /* ═══════════════════════════════════════
+     9. GSAP SCROLL REVEALS
+  ═══════════════════════════════════════ */
+  function initScrollReveal () {
+    if (typeof gsap === 'undefined' || typeof ScrollTrigger === 'undefined') {
+      fallbackReveal();
+      return;
+    }
+
+    gsap.registerPlugin(ScrollTrigger);
+
+    // Helper
+    const reveal = (selector, vars, triggerVars) => {
+      const els = document.querySelectorAll(selector);
+      if (!els.length) return;
+      els.forEach((el, i) => {
+        gsap.from(el, {
+          opacity: 0, y: 38,
+          duration: 0.75,
+          delay: (vars.staggerBase || 0) * i,
+          ease: 'power3.out',
+          ...vars,
+          scrollTrigger: {
+            trigger: el,
+            start: 'top 88%',
+            once: true,
+            ...triggerVars,
+          },
+        });
+      });
+    };
+
+    // Trust items
+    gsap.from('.trust-item', {
+      opacity: 0, y: 20, stagger: 0.08, duration: 0.6, ease: 'power2.out',
+      scrollTrigger: { trigger: '.trust', start: 'top 88%', once: true },
+    });
+
+    // Section headers
+    reveal('.sec-head', { y: 30, duration: 0.8 });
+
+    // Service cards — fan in
+    document.querySelectorAll('.srv-card').forEach((el, i) => {
+      gsap.from(el, {
+        opacity: 0, y: 44, scale: 0.97,
+        duration: 0.72, delay: i * 0.08, ease: 'power3.out',
+        scrollTrigger: { trigger: el, start: 'top 89%', once: true },
+      });
+    });
+
+    // Pricing cards
+    document.querySelectorAll('.pkg-card').forEach((el, i) => {
+      gsap.from(el, {
+        opacity: 0, y: 52,
+        duration: 0.82, delay: i * 0.1, ease: 'power3.out',
+        scrollTrigger: { trigger: el, start: 'top 88%', once: true },
+      });
+    });
+
+    // Process steps — slide in from left
+    document.querySelectorAll('.proc-step').forEach((el, i) => {
+      gsap.from(el, {
+        opacity: 0, x: -36,
+        duration: 0.72, delay: i * 0.1, ease: 'power3.out',
+        scrollTrigger: { trigger: el, start: 'top 88%', once: true },
+      });
+    });
+
+    // FAQ items
+    document.querySelectorAll('.faq-item').forEach((el, i) => {
+      gsap.from(el, {
+        opacity: 0, y: 20,
+        duration: 0.58, delay: i * 0.06, ease: 'power2.out',
+        scrollTrigger: { trigger: el, start: 'top 90%', once: true },
+      });
+    });
+
+    // Contact channels
+    document.querySelectorAll('.ch-card').forEach((el, i) => {
+      gsap.from(el, {
+        opacity: 0, x: -24,
+        duration: 0.6, delay: i * 0.08, ease: 'power3.out',
+        scrollTrigger: { trigger: el, start: 'top 90%', once: true },
+      });
+    });
+
+    // Contact form
+    const ctForm = document.querySelector('.ct-form');
+    if (ctForm) {
+      gsap.from(ctForm, {
+        opacity: 0, y: 32, duration: 0.8, ease: 'power3.out',
+        scrollTrigger: { trigger: ctForm, start: 'top 88%', once: true },
+      });
+    }
+
+    // Footer
+    gsap.from('.foot-brand, .foot-col', {
+      opacity: 0, y: 24, stagger: 0.09, duration: 0.65, ease: 'power2.out',
+      scrollTrigger: { trigger: '.footer', start: 'top 90%', once: true },
+    });
+  }
+
+  // Intersection Observer fallback (no GSAP)
+  function fallbackReveal () {
+    const targets = document.querySelectorAll(
+      '.sec-head,.srv-card,.pkg-card,.proc-step,.faq-item,.ch-card,.trust-item'
+    );
+    targets.forEach(el => {
+      el.style.cssText += 'opacity:0;transform:translateY(28px);transition:opacity .7s ease,transform .7s ease;';
+    });
+    const obs = new IntersectionObserver(entries => {
+      entries.forEach(e => {
+        if (e.isIntersecting) {
+          e.target.style.opacity = '1';
+          e.target.style.transform = 'none';
+          obs.unobserve(e.target);
         }
       });
-    },
-    { threshold: 0.16 }
-  );
-  revealEls.forEach((el) => io.observe(el));
+    }, { threshold: 0.1 });
+    targets.forEach(el => obs.observe(el));
+  }
 
-  // Split text
-  const splitTargets = document.querySelectorAll("[data-split]");
-  splitTargets.forEach((el) => {
-    if (el.querySelector(".w")) return;
-    const text = el.textContent || "";
-    const words = text.trim().split(/\s+/);
+  /* ═══════════════════════════════════════
+     10. KPI COUNTER
+  ═══════════════════════════════════════ */
+  function initKPICounter () {
+    const nums = document.querySelectorAll('.kpi-num[data-count]');
+    if (!nums.length) return;
 
-    el.setAttribute("aria-label", text.trim());
-    el.innerHTML = words
-      .map((w, i) => `<span class="w" style="--d:${i * 18}ms">${w}</span>`)
-      .join(" ");
+    function animateNum (el) {
+      const target = parseInt(el.dataset.count, 10);
+      const dur    = 1800;
+      const start  = performance.now();
+      function step (now) {
+        const t    = Math.min((now - start) / dur, 1);
+        const ease = 1 - Math.pow(1 - t, 4); // ease out quart
+        el.textContent = Math.round(ease * target);
+        if (t < 1) requestAnimationFrame(step);
+        else el.textContent = target;
+      }
+      requestAnimationFrame(step);
+    }
 
-    el.classList.add("split");
-  });
-
-  const splitObserver = new IntersectionObserver(
-    (entries) => {
-      entries.forEach((entry) => {
-        if (!entry.isIntersecting) return;
-        entry.target.classList.add("split-in");
-        splitObserver.unobserve(entry.target);
+    const seen = new Set();
+    const obs  = new IntersectionObserver(entries => {
+      entries.forEach(e => {
+        if (e.isIntersecting && !seen.has(e.target)) {
+          seen.add(e.target);
+          animateNum(e.target);
+        }
       });
-    },
-    { threshold: 0.22 }
-  );
-  document.querySelectorAll(".split").forEach((el) => splitObserver.observe(el));
+    }, { threshold: 0.7 });
+    nums.forEach(el => obs.observe(el));
+  }
 
-  const style = document.createElement("style");
-  style.textContent = `
-    .split .w{
-      display:inline-block;
-      transform: translateY(12px);
-      opacity:0;
-      filter: blur(6px);
-      transition: transform .7s cubic-bezier(.2,.8,.2,1), opacity .7s cubic-bezier(.2,.8,.2,1), filter .7s cubic-bezier(.2,.8,.2,1);
-      transition-delay: var(--d);
-    }
-    .split.split-in .w{transform: translateY(0); opacity:1; filter: blur(0)}
-    @media (prefers-reduced-motion: reduce){
-      .split .w{transition:none; opacity:1; transform:none; filter:none}
-    }
-  `;
-  document.head.appendChild(style);
+  /* ═══════════════════════════════════════
+     11. FAQ ACCORDION
+  ═══════════════════════════════════════ */
+  function initFAQ () {
+    document.querySelectorAll('.faq-trigger').forEach(btn => {
+      btn.addEventListener('click', () => {
+        const isOpen = btn.getAttribute('aria-expanded') === 'true';
+        const panel  = btn.nextElementSibling;
 
-  // Top progress
-  const progress = document.querySelector(".top-progress");
-  const updateProgress = () => {
-    const doc = document.documentElement;
-    const scrollTop = window.scrollY || doc.scrollTop;
-    const height = doc.scrollHeight - doc.clientHeight;
-    const pct = height > 0 ? (scrollTop / height) * 100 : 0;
-    if (progress) progress.style.width = `${pct}%`;
-  };
+        // Close all
+        document.querySelectorAll('.faq-trigger').forEach(b => {
+          b.setAttribute('aria-expanded', 'false');
+          const p = b.nextElementSibling;
+          if (p) p.classList.remove('open');
+        });
 
-  // Parallax
-  const parallaxEls = Array.from(document.querySelectorAll("[data-parallax]")).map((el) => ({
-    el,
-    k: parseFloat(el.getAttribute("data-parallax") || "0.12"),
-  }));
-
-  const tickParallax = () => {
-    const vh = window.innerHeight || 800;
-    parallaxEls.forEach(({ el, k }) => {
-      const r = el.getBoundingClientRect();
-      const t = (r.top + r.height * 0.5 - vh * 0.5) / vh;
-      const y = -t * 28 * k;
-      el.style.transform = `translateY(${y.toFixed(2)}px)`;
+        // Toggle
+        if (!isOpen) {
+          btn.setAttribute('aria-expanded', 'true');
+          if (panel) panel.classList.add('open');
+        }
+      });
     });
-  };
+  }
 
-  // Hero subtle transform
-  const heroMedia = document.getElementById("heroMedia");
-  const tickHero = () => {
-    if (!heroMedia) return;
-    const r = heroMedia.getBoundingClientRect();
-    const t = Math.min(1, Math.max(0, (120 - r.top) / 320));
-    const scale = 1 + t * 0.018;
-    const rotate = t * 0.28;
-    heroMedia.style.transform = `scale(${scale}) rotate(${rotate}deg)`;
-  };
+  /* ═══════════════════════════════════════
+     12. CONTACT FORM
+  ═══════════════════════════════════════ */
+  function initForm () {
+    const form    = document.getElementById('ctForm');
+    const success = document.getElementById('formSuccess');
+    const submitBtn = document.getElementById('ctSubmit');
+    if (!form) return;
 
-  const onScroll = () => {
-    updateProgress();
-    tickParallax();
-    tickHero();
-  };
-  window.addEventListener("scroll", onScroll, { passive: true });
-  onScroll();
+    // Inject shake keyframe once
+    const styleEl = document.createElement('style');
+    styleEl.textContent = `
+      @keyframes field-shake {
+        0%,100%{transform:translateX(0)}
+        20%,60%{transform:translateX(-7px)}
+        40%,80%{transform:translateX(7px)}
+      }
+      .err{animation:field-shake .38s ease}
+    `;
+    document.head.appendChild(styleEl);
 
-  // Spotlight hover
-  const setPointerVars = (el, e) => {
-    const rect = el.getBoundingClientRect();
-    const x = ((e.clientX - rect.left) / rect.width) * 100;
-    const y = ((e.clientY - rect.top) / rect.height) * 100;
-    el.style.setProperty("--mx", `${x}%`);
-    el.style.setProperty("--my", `${y}%`);
-  };
-  const pointerTargets = document.querySelectorAll(".cardfx, .btn--primary, .media-card");
-  pointerTargets.forEach((el) => {
-    el.addEventListener("pointermove", (e) => setPointerVars(el, e));
-  });
-
-  // Magnetic hover
-  const magneticEls = document.querySelectorAll(".magnetic");
-  magneticEls.forEach((el) => {
-    let raf = null;
-
-    const onMove = (e) => {
-      const rect = el.getBoundingClientRect();
-      const dx = e.clientX - (rect.left + rect.width / 2);
-      const dy = e.clientY - (rect.top + rect.height / 2);
-      const tx = (dx / rect.width) * 10;
-      const ty = (dy / rect.height) * 10;
-
-      if (raf) cancelAnimationFrame(raf);
-      raf = requestAnimationFrame(() => {
-        el.style.transform = `translate(${tx.toFixed(2)}px, ${ty.toFixed(2)}px)`;
+    // Remove error on user input
+    form.querySelectorAll('input,textarea').forEach(el => {
+      el.addEventListener('input', () => {
+        el.classList.remove('err');
+        el.style.animation = '';
       });
-    };
+    });
 
-    const reset = () => {
-      if (raf) cancelAnimationFrame(raf);
-      el.style.transform = "";
-    };
+    form.addEventListener('submit', async e => {
+      e.preventDefault();
 
-    el.addEventListener("pointermove", onMove);
-    el.addEventListener("pointerleave", reset);
-  });
+      // Honeypot
+      if (form.querySelector('[name="_trap"]')?.value) return;
 
-  // Count-up stats
-  const countEls = document.querySelectorAll("[data-count]");
-  const countObserver = new IntersectionObserver(
-    (entries) => {
-      entries.forEach((entry) => {
-        if (!entry.isIntersecting) return;
+      const nombre = form.querySelector('#f-nombre');
+      const email  = form.querySelector('#f-email');
+      const msg    = form.querySelector('#f-msg');
+      const pkg    = form.querySelector('#f-pkg');
+      const tel    = form.querySelector('#f-tel');
 
-        const el = entry.target;
-        const target = parseFloat(el.getAttribute("data-count") || "0");
-        const suffix = el.getAttribute("data-suffix") || "";
-        const dur = 900;
-        const t0 = performance.now();
-
-        const step = (now) => {
-          const p = Math.min(1, (now - t0) / dur);
-          const v = Math.round(target * easeOutCubic(p));
-          el.textContent = `${v}${suffix}`;
-          if (p < 1) requestAnimationFrame(step);
-        };
-
-        requestAnimationFrame(step);
-        countObserver.unobserve(el);
+      // Validate
+      let ok = true;
+      [nombre, email, msg].forEach(el => {
+        el.classList.remove('err');
+        if (!el.value.trim()) {
+          el.classList.add('err');
+          ok = false;
+          // Re-trigger animation
+          void el.offsetWidth;
+        }
       });
-    },
-    { threshold: 0.35 }
-  );
-  countEls.forEach((el) => countObserver.observe(el));
+      if (email.value && !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email.value)) {
+        email.classList.add('err');
+        void email.offsetWidth;
+        ok = false;
+      }
+      if (!ok) { form.querySelector('.err')?.focus(); return; }
+
+      // Loading state
+      const origContent = submitBtn.innerHTML;
+      submitBtn.disabled = true;
+      submitBtn.innerHTML = `
+        <svg style="width:1em;height:1em;animation:spin 1s linear infinite" viewBox="0 0 24 24" fill="none"
+          stroke="currentColor" stroke-width="2" stroke-linecap="round">
+          <path d="M21 12a9 9 0 1 1-6.219-8.56"/>
+        </svg>
+        Enviando…
+      `;
+
+      // Inject spin keyframe
+      if (!document.getElementById('spin-style')) {
+        const ss = document.createElement('style');
+        ss.id = 'spin-style';
+        ss.textContent = '@keyframes spin{to{transform:rotate(360deg)}}';
+        document.head.appendChild(ss);
+      }
+
+      await sleep(900);
+
+      // Build WhatsApp message
+      const waLines = [
+        'Hola, vi su página y quiero cotizar un servicio contable.',
+        '',
+        `• Nombre: ${nombre.value.trim()}`,
+        `• Email: ${email.value.trim()}`,
+        tel.value  ? `• Teléfono: ${tel.value.trim()}` : '',
+        pkg.value  ? `• Paquete: ${pkg.value}` : '',
+        '',
+        msg.value.trim(),
+      ].filter(Boolean).join('\n');
+
+      // Show success
+      submitBtn.style.display = 'none';
+      if (success) {
+        success.style.display = 'flex';
+        if (typeof lucide !== 'undefined') lucide.createIcons(); // re-render icon inside
+      }
+      form.reset();
+
+      // Open WhatsApp
+      setTimeout(() => {
+        window.open(
+          `https://wa.me/525570669666?text=${encodeURIComponent(waLines)}`,
+          '_blank', 'noopener,noreferrer'
+        );
+      }, 800);
+    });
+  }
+
+  /* ═══════════════════════════════════════
+     13. PRICING TILT (desktop only)
+  ═══════════════════════════════════════ */
+  function initPricingTilt () {
+    if (window.innerWidth < 1024) return;
+    document.querySelectorAll('.pkg-card').forEach(card => {
+      const reset = () => (card.style.transform = '');
+      card.addEventListener('mousemove', e => {
+        const r  = card.getBoundingClientRect();
+        const x  = (e.clientX - r.left - r.width  / 2) / (r.width  / 2);
+        const y  = (e.clientY - r.top  - r.height / 2) / (r.height / 2);
+        card.style.transform = `perspective(800px) rotateX(${-y * 5}deg) rotateY(${x * 5}deg) translateY(-6px)`;
+      });
+      card.addEventListener('mouseleave', reset);
+    });
+  }
+
+  /* ── Utility ── */
+  function sleep (ms) { return new Promise(r => setTimeout(r, ms)); }
+
 })();
