@@ -1,0 +1,5 @@
+export { Hero }       from './Hero.jsx'
+export { Technology } from './Technology.jsx'
+export { Services }   from './Services.jsx'
+export { Portfolio }  from './Portfolio.jsx'
+export { Contact }    from './Contact.jsx'
