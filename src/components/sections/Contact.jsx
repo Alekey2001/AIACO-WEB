@@ -21,15 +21,15 @@ export function Contact() {
     const ctx = gsap.context(() => {
       gsap.from(titleRef.current, {
         scrollTrigger: { trigger: titleRef.current, start: 'top 85%' },
-        y: 40, opacity: 0, duration: 0.9, ease: 'power3.out',
+        y: 30, opacity: 0, duration: 0.9, ease: 'power3.out',
       })
       gsap.from(infoRef.current, {
         scrollTrigger: { trigger: infoRef.current, start: 'top 85%' },
-        x: -40, opacity: 0, duration: 0.8, ease: 'power3.out',
+        y: 30, opacity: 0, duration: 0.8, ease: 'power3.out',
       })
       gsap.from(formRef.current, {
         scrollTrigger: { trigger: formRef.current, start: 'top 85%' },
-        x: 40, opacity: 0, duration: 0.8, ease: 'power3.out',
+        y: 30, opacity: 0, duration: 0.8, ease: 'power3.out',
       })
     }, sectionRef)
     return () => ctx.revert()
