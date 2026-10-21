@@ -1,4 +1,4 @@
-import { Suspense, lazy, useEffect, useRef } from 'react'
+import { Suspense, lazy, useCallback, useEffect, useRef, useState } from 'react'
 import { useNavigate } from 'react-router-dom'
 import { motion } from 'framer-motion'
 import { gsap } from 'gsap'
@@ -14,8 +14,57 @@ export function Hero() {
   const navigate = useNavigate()
   const sectionRef = useRef(null)
   const contentRef = useRef(null)
+  const splineAppRef = useRef(null)
+  const isVisibleRef = useRef(true)
+  const isMountedRef = useRef(false)
+  const [isScrolling, setIsScrolling] = useState(false)
 
- 
+  const handleSplineLoad = useCallback((splineApp) => {
+    if (!isMountedRef.current) return
+    splineAppRef.current = splineApp
+    if (isVisibleRef.current) splineApp.play()
+    else splineApp.stop()
+  }, [])
+
+  useEffect(() => {
+    isMountedRef.current = true
+    const observer = new IntersectionObserver(([entry]) => {
+      isVisibleRef.current = entry.isIntersecting
+      const splineApp = splineAppRef.current
+      if (!splineApp) return
+      if (entry.isIntersecting) splineApp.play()
+      else splineApp.stop()
+    })
+    observer.observe(sectionRef.current)
+
+    return () => {
+      isMountedRef.current = false
+      observer.disconnect()
+      splineAppRef.current = null
+    }
+  }, [])
+
+  useEffect(() => {
+    let scrollTimeout
+    let scrolling = false
+    const handleScroll = () => {
+      if (!scrolling) {
+        scrolling = true
+        setIsScrolling(true)
+      }
+      window.clearTimeout(scrollTimeout)
+      scrollTimeout = window.setTimeout(() => {
+        scrolling = false
+        setIsScrolling(false)
+      }, 150)
+    }
+    window.addEventListener('scroll', handleScroll, { passive: true })
+
+    return () => {
+      window.removeEventListener('scroll', handleScroll)
+      window.clearTimeout(scrollTimeout)
+    }
+  }, [])
 
   const heroTitle = useContent(
     'main_hero_title',
@@ -91,7 +140,12 @@ opacity: 0.35,
   >
     <SplineScene
       scene="https://prod.spline.design/Slk6b8kz3LRlKiyk/scene.splinecode"
-      style={{ width: '100%', height: '100%' }}
+      onLoad={handleSplineLoad}
+      style={{
+        width: '100%',
+        height: '100%',
+        pointerEvents: isScrolling ? 'none' : 'auto',
+      }}
     />
   </Suspense>
 </div>
