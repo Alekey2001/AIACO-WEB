@@ -178,7 +178,7 @@ const portfolioProjects = projects.map((project, index) => {
               key={project.id}
               ref={el => cardsRef.current[i] = el}
               className="group relative rounded-[20px] overflow-hidden cursor-pointer"
-              style={{ border: '1px solid hsl(var(--border))', aspectRatio: '1', transition: 'all 0.4s cubic-bezier(0.16,1,0.3,1)' }}
+              style={{ border: '1px solid hsl(var(--border))', aspectRatio: '1',transition: 'transform 0.4s cubic-bezier(0.16,1,0.3,1), border-color 0.4s ease, box-shadow 0.4s ease' }}
               onMouseEnter={e => {
                 e.currentTarget.style.borderColor = 'rgba(157,92,255,0.4)'
                 e.currentTarget.style.transform   = 'translateY(-4px)'

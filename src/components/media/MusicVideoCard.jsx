@@ -168,7 +168,7 @@ export default function MusicVideoCard({
           right: -140,
           borderRadius: '50%',
           background: accentColor,
-          filter: 'blur(140px)',
+          filter: 'blur(100px)',
           opacity: isPlaying ? 0.16 : 0.09,
           zIndex: 0,
           transition: 'opacity 500ms ease',

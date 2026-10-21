@@ -67,27 +67,54 @@ const technologyCards = [
         scrollTrigger: { trigger: titleRef.current, start: 'top 85%' },
         y: 40, opacity: 0, duration: 0.9, ease: 'power3.out',
       })
-
       cardsRef.current.forEach((card, i) => {
         if (!card) return
 
-        const img     = card.querySelector('.tech-img')
+        const img = card.querySelector('.tech-img')
         const overlay = card.querySelector('.tech-overlay')
-        const text    = card.querySelector('.tech-text')
+        const text = card.querySelector('.tech-text')
 
-        gsap.from(img, {
-          scrollTrigger: { trigger: card, start: 'top 88%' },
-          scale: 0.92, opacity: 0, duration: 1.2, delay: i * 0.15, ease: 'power3.out',
+        const timeline = gsap.timeline({
+          scrollTrigger: {
+            trigger: card,
+            start: 'top 88%',
+          },
+          delay: i * 0.15,
         })
-        gsap.from(overlay, {
-          scrollTrigger: { trigger: card, start: 'top 88%' },
-          opacity: 0, duration: 1, delay: i * 0.15 + 0.2, ease: 'power3.out',
-        })
-        gsap.from(text, {
-          scrollTrigger: { trigger: card, start: 'top 88%' },
-          y: 30, opacity: 0, duration: 0.9, delay: i * 0.15 + 0.3, ease: 'power3.out',
-        })
+
+        timeline.from(
+          img,
+          {
+            scale: 0.92,
+            opacity: 0,
+            duration: 1.2,
+            ease: 'power3.out',
+          },
+          0
+        )
+
+        timeline.from(
+          overlay,
+          {
+            opacity: 0,
+            duration: 1,
+            ease: 'power3.out',
+          },
+          0.2
+        )
+
+        timeline.from(
+          text,
+          {
+            y: 30,
+            opacity: 0,
+            duration: 0.9,
+            ease: 'power3.out',
+          },
+          0.3
+        )
       })
+
     }, sectionRef)
     return () => ctx.revert()
   }, [])

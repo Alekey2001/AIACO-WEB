@@ -20,24 +20,56 @@ export function Navbar() {
   const navigate  = useNavigate()
   const location  = useLocation()
   const isHome    = location.pathname === '/'
-
+  
   useEffect(() => {
+    let frameId = null
+
     const onScroll = () => {
-      setIsScrolled(window.scrollY > 40)
-      if (!isHome) return
-      const bottom  = window.scrollY + window.innerHeight
-      const docH    = document.documentElement.scrollHeight
-      if (bottom >= docH - 50) { setActive('contacto'); return }
-      let cur = 'inicio'
-      sectionIds.forEach(id => {
-        const el = document.getElementById(id)
-        if (el && window.scrollY >= el.offsetTop - window.innerHeight * 0.4) cur = id
+      if (frameId !== null) return
+
+      frameId = window.requestAnimationFrame(() => {
+        frameId = null
+
+        const scrollY = window.scrollY
+        setIsScrolled(scrollY > 40)
+
+        if (!isHome) return
+
+        const bottom = scrollY + window.innerHeight
+        const docH = document.documentElement.scrollHeight
+
+        if (bottom >= docH - 50) {
+          setActive('contacto')
+          return
+        }
+
+        let cur = 'inicio'
+
+        sectionIds.forEach(id => {
+          const el = document.getElementById(id)
+
+          if (
+            el &&
+            scrollY >= el.offsetTop - window.innerHeight * 0.4
+          ) {
+            cur = id
+          }
+        })
+
+        setActive(cur)
       })
-      setActive(cur)
     }
+
     onScroll()
-    window.addEventListener('scroll', onScroll)
-    return () => window.removeEventListener('scroll', onScroll)
+    window.addEventListener('scroll', onScroll, { passive: true })
+
+    return () => {
+      window.removeEventListener('scroll', onScroll)
+
+      if (frameId !== null) {
+        window.cancelAnimationFrame(frameId)
+      }
+    }
   }, [isHome])
 
   const handleNav = (href) => {

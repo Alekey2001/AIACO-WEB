@@ -121,7 +121,7 @@ const serviceCards = [
   style={{
     backgroundColor: "#242424",
     backgroundImage: `url(${background})`,
-    backgroundAttachment: "fixed",
+    backgroundAttachment: "scroll",
     backgroundPosition: "center",
     backgroundRepeat: "no-repeat",
     backgroundSize: "cover",
