@@ -15,6 +15,8 @@ export function Contact() {
 
   const [form,    setForm]    = useState({ name: '', email: '', subject: '', message: '' })
   const [sent,    setSent]    = useState(false)
+  const [isSubmitting, setIsSubmitting] = useState(false)
+  const [submitError, setSubmitError] = useState('')
   const [focused, setFocused] = useState('')
 
   useEffect(() => {
@@ -37,9 +39,28 @@ export function Contact() {
 
   const handleSubmit = (e) => {
     e.preventDefault()
-    setSent(true)
-    setTimeout(() => setSent(false), 3000)
-    setForm({ name: '', email: '', subject: '', message: '' })
+    if (isSubmitting) return
+    const formElement = e.target
+    const formData = new FormData(formElement)
+    setIsSubmitting(true)
+    setSent(false)
+    setSubmitError('')
+
+    fetch('/', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
+      body: new URLSearchParams(formData).toString(),
+    })
+      .then(response => {
+        if (!response.ok) throw new Error('No se pudo enviar el formulario')
+        formElement.reset()
+        setForm({ name: '', email: '', subject: '', message: '' })
+        setSent(true)
+      })
+      .catch(() => {
+        setSubmitError('No se pudo enviar. Tus datos se conservaron; inténtalo de nuevo.')
+      })
+      .finally(() => setIsSubmitting(false))
   }
 
   const inputStyle = (name) => ({
@@ -100,10 +121,11 @@ export function Contact() {
 
             <div className="flex gap-3">
               {[
-                { icon: FaYoutube,   href: '#', label: 'YouTube'   },
-                { icon: FaInstagram, href: '#', label: 'Instagram' },
+                { icon: FaYoutube,   href: 'https://www.youtube.com/@AIACO-c3i', label: 'YouTube'   },
+                { icon: FaInstagram, href: 'https://www.instagram.com/a_i_a_c_o/', label: 'Instagram' },
               ].map(({ icon: Icon, href, label }) => (
                 <a key={label} href={href} aria-label={label}
+                  target="_blank" rel="noopener noreferrer"
                   className="w-10 h-10 rounded-xl flex items-center justify-center transition-all duration-300"
                   style={{ background: 'rgba(157,92,255,0.08)', border: '1px solid hsl(var(--border))', color: 'hsl(var(--muted-foreground))' }}
                   onMouseEnter={e => { e.currentTarget.style.color = '#9d5cff'; e.currentTarget.style.borderColor = 'rgba(157,92,255,0.4)' }}
@@ -117,23 +139,28 @@ export function Contact() {
             <span className="font-sora font-bold text-4xl text-gradient-aiaco">AIACO</span>
           </div>
 
-          <form ref={formRef} onSubmit={handleSubmit} className="flex flex-col gap-4">
+          <form name="contact" ref={formRef} onSubmit={handleSubmit} className="flex flex-col gap-4">
+                <input type="hidden" name="form-name" value="contact" />
+                <p className="hidden"><label>Don't fill this out if you're human: <input name="bot-field" /></label></p>
+                {sent && <p role="status" className="text-sm text-emerald-400">¡Mensaje enviado correctamente!</p>}
+                {submitError && <p role="alert" className="text-sm text-red-400">{submitError}</p>}
+                {isSubmitting && <p role="status" className="text-sm">Enviando…</p>}
             <div className="grid sm:grid-cols-2 gap-4">
-              <input value={form.name} onChange={e => setForm({...form, name: e.target.value})}
+              <input name="name" value={form.name} onChange={e => setForm({...form, name: e.target.value})}
                 placeholder="Tu nombre" required style={inputStyle('name')}
                 onFocus={() => setFocused('name')} onBlur={() => setFocused('')} />
-              <input value={form.email} type="email" onChange={e => setForm({...form, email: e.target.value})}
+              <input name="email" value={form.email} type="email" onChange={e => setForm({...form, email: e.target.value})}
                 placeholder="you@company.com" required style={inputStyle('email')}
                 onFocus={() => setFocused('email')} onBlur={() => setFocused('')} />
             </div>
-            <input value={form.subject} onChange={e => setForm({...form, subject: e.target.value})}
+            <input name="subject" value={form.subject} onChange={e => setForm({...form, subject: e.target.value})}
               placeholder="Asunto" required style={inputStyle('subject')}
               onFocus={() => setFocused('subject')} onBlur={() => setFocused('')} />
-            <textarea value={form.message} onChange={e => setForm({...form, message: e.target.value})}
+            <textarea name="message" value={form.message} onChange={e => setForm({...form, message: e.target.value})}
               placeholder="Mensaje" rows={5} required
               style={{ ...inputStyle('message'), resize: 'none' }}
               onFocus={() => setFocused('message')} onBlur={() => setFocused('')} />
-            <button type="submit"
+            <button type="submit" disabled={isSubmitting} aria-busy={isSubmitting}
               className="inline-flex items-center justify-center gap-2 px-7 py-3.5 font-sora font-bold text-xs uppercase tracking-widest rounded-full transition-all duration-300 hover:scale-105 hover:shadow-[0_8px_30px_rgba(157,92,255,0.4)] self-start w-full sm:w-auto"
              style={{background: 'linear-gradient(90deg,#00E5FF,#00A3FF)',color: '#000000',textShadow: '0 0 20px rgba(0,229,255,0.3)' // Efecto Glow Cian
     }}

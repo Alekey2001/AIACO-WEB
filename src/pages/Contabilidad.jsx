@@ -1,9 +1,13 @@
-import { useEffect, useState,useRef} from 'react'
-import { useNavigate } from 'react-router-dom'
+import { useEffect, useId, useState,useRef} from 'react'
+import { gsap } from 'gsap'
+import { ScrollTrigger } from 'gsap/ScrollTrigger'
 import contaBg from '../assets/conta.svg'
-import { CheckCircle2, XCircle, MapPin, Mail, ChevronDown, Shield, Briefcase, MessageCircle, Activity, Menu, X } from 'lucide-react'
-import AccountNavAction from '../components/account/AccountNavAction'
+import { CheckCircle2, XCircle, MapPin, Mail, ChevronDown, Shield, Briefcase, MessageCircle, Activity } from 'lucide-react'
+import AccountingNavbar from '../components/layout/AccountingNavbar'
+import { Footer } from '../components/layout/Footer'
 import useContent from '../content/useContent'
+
+gsap.registerPlugin(ScrollTrigger)
 // ── Constellation Canvas (fondo interactivo hero) ───────
 function ConstellationCanvas() {
   const canvasRef = useRef(null)
@@ -143,7 +147,6 @@ function ConstellationCanvas() {
 }
 
 // ── Datos ──────────────────────────────────────────────
-const navLinks = ['Soluciones', 'Precios', 'Proceso', 'FAQ']
 const faqs = [
   { q: '¿Cómo emiten mis declaraciones?',           a: 'Presentamos tus declaraciones directamente en el portal del SAT con tu e.firma o CIEC, enviándote confirmación inmediata por WhatsApp y correo.' },
   { q: '¿Qué pasa si tengo multas previas?',        a: 'Realizamos un diagnóstico fiscal completo, identificamos multas y recargos, y gestionamos aclaraciones o convenios de pago ante el SAT.' },
@@ -154,17 +157,26 @@ const faqs = [
 
 // ── Reveal Hook ────────────────────────────────────────
 function useReveal() {
-  const [visible, setVisible] = useState(false)
   const [node, setNode] = useState(null)
   useEffect(() => {
     if (!node) return
-    const obs = new IntersectionObserver(([e]) => {
-      if (e.isIntersecting) { setVisible(true); obs.unobserve(e.target) }
-    }, { threshold: 0.1 })
-    obs.observe(node)
-    return () => obs.disconnect()
+    const ctx = gsap.context(() => {
+      gsap.from(node, {
+        y: 30,
+        opacity: 0,
+        duration: 0.8,
+        ease: 'power3.out',
+        force3D: true,
+        scrollTrigger: {
+          trigger: node,
+          start: 'top 90%',
+          toggleActions: 'play none none none',
+        },
+      })
+    }, node)
+    return () => ctx.revert()
   }, [node])
-  return { elRef: setNode, visible }
+  return { elRef: setNode }
 }
 
 // ── Glass Card — acabado metálico ─────────────────────
@@ -260,10 +272,11 @@ function GlassCard({ children, className = '', style = {}, glow = 'purple' }) {
 // ── FAQ Item ───────────────────────────────────────────
 function FaqItem({ q, a }) {
   const [open, setOpen] = useState(false)
+  const answerId = useId()
 
   return (
     <div
-      className="group rounded-2xl overflow-hidden transition-all duration-500 cursor-pointer"
+      className="group relative rounded-2xl overflow-hidden transition-[border-color,box-shadow] duration-300"
       style={{
         background: `
           linear-gradient(
@@ -277,15 +290,18 @@ function FaqItem({ q, a }) {
         border: '1px solid rgba(255,255,255,0.08)',
         boxShadow: '0 12px 40px rgba(0,0,0,0.25)',
       }}
-      onClick={() => setOpen(!open)}
+      onBlur={e => {
+        if (!e.currentTarget.contains(e.relatedTarget)) setOpen(false)
+      }}
       onMouseEnter={e => {
-        e.currentTarget.style.transform = 'translateY(-3px)'
+        if (!window.matchMedia('(hover: hover)').matches) return
+        setOpen(true)
         e.currentTarget.style.borderColor = 'rgba(0,238,252,0.28)'
         e.currentTarget.style.boxShadow =
           '0 0 30px rgba(0,238,252,0.08), 0 18px 45px rgba(0,0,0,0.35)'
       }}
       onMouseLeave={e => {
-        e.currentTarget.style.transform = 'translateY(0)'
+        setOpen(false)
         e.currentTarget.style.borderColor = 'rgba(255,255,255,0.08)'
         e.currentTarget.style.boxShadow =
           '0 12px 40px rgba(0,0,0,0.25)'
@@ -306,7 +322,17 @@ function FaqItem({ q, a }) {
       />
 
       {/* Pregunta */}
-      <div className="relative flex items-center justify-between px-6 py-5">
+      <button
+        type="button"
+        aria-expanded={open}
+        aria-controls={answerId}
+        className="relative flex w-full items-center justify-between px-6 py-5 text-left cursor-pointer focus-visible:outline focus-visible:outline-2 focus-visible:outline-cyan-400 focus-visible:-outline-offset-2"
+        onClick={e => {
+          if (e.detail === 0 || !window.matchMedia('(hover: hover)').matches) {
+            setOpen(current => !current)
+          }
+        }}
+      >
         <span
           style={{
             fontFamily: "'Sora', sans-serif",
@@ -332,10 +358,17 @@ function FaqItem({ q, a }) {
             transition: 'transform 0.3s ease',
           }}
         />
-      </div>
+      </button>
 
-      {/* Respuesta */}
-      {open && (
+      {/* Respuesta: permanece montada para animar su altura natural. */}
+      <div
+        id={answerId}
+        aria-hidden={!open}
+        inert={!open}
+        className="grid transition-[grid-template-rows] duration-300 ease-out motion-reduce:transition-none"
+        style={{ gridTemplateRows: open ? '1fr' : '0fr' }}
+      >
+        <div className="min-h-0 overflow-hidden">
         <div
           className="relative px-6 pb-5"
           style={{
@@ -349,13 +382,13 @@ function FaqItem({ q, a }) {
         >
           {a}
         </div>
-      )}
+        </div>
+      </div>
     </div>
   )
 }
 // ── Main Page ──────────────────────────────────────────
 export default function Contabilidad() {
-  const navigate = useNavigate()
     const accountingHeroTitle = useContent(
     'accounting_hero_title',
     'AIACO CONTABLE'
@@ -842,22 +875,40 @@ const accountingSteps = [
 
   const [form, setForm]       = useState({ name: '', phone: '', email: '', interest: '', message: '' })
   const [sent, setSent]       = useState(false)
+  const [isSubmitting, setIsSubmitting] = useState(false)
+  const [submitError, setSubmitError] = useState('')
   const [focused, setFocused] = useState('')
-  const [isScrolled, setIsScrolled] = useState(false)
-  const [menuOpen, setMenuOpen] = useState(false)
   const [activeSection, setActiveSection] = useState('soluciones')
 
 
   const handleSubmit = (e) => {
     e.preventDefault()
-    setSent(true)
-    setTimeout(() => setSent(false), 3000)
-    setForm({ name: '', phone: '', email: '', interest: '', message: '' })
+    if (isSubmitting) return
+    const formElement = e.target
+    const formData = new FormData(formElement)
+    setIsSubmitting(true)
+    setSent(false)
+    setSubmitError('')
+
+    fetch('/', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
+      body: new URLSearchParams(formData).toString(),
+    })
+      .then(response => {
+        if (!response.ok) throw new Error('No se pudo enviar el formulario')
+        formElement.reset()
+        setForm({ name: '', phone: '', email: '', interest: '', message: '' })
+        setSent(true)
+      })
+      .catch(() => {
+        setSubmitError('No se pudo enviar. Tus datos se conservaron; inténtalo de nuevo.')
+      })
+      .finally(() => setIsSubmitting(false))
   }
 
   const reveal = (r) => ({
     ref: r.elRef,
-    style: { transition: 'all 0.9s cubic-bezier(0.16,1,0.3,1)', opacity: r.visible ? 1 : 0, transform: r.visible ? 'translateY(0)' : 'translateY(40px)' }
   })
 
   const inputStyle = (name) => ({
@@ -877,7 +928,6 @@ const accountingSteps = [
 useEffect(() => {
   const ids = ['soluciones', 'precios', 'proceso', 'faq']
   const onScroll = () => {
-    setIsScrolled(window.scrollY > 40)
     const bottom = window.scrollY + window.innerHeight
     if (bottom >= document.documentElement.scrollHeight - 50) { setActiveSection('faq'); return }
     let cur = ''
@@ -901,106 +951,12 @@ useEffect(() => {
       </div>
 
      {/* ── NAVBAR ── */}
-<nav className="fixed top-0 left-0 right-0 z-50 transition-all duration-500"
-  style={{
-    background: isScrolled ? 'rgba(7,11,20,0.9)' : 'transparent',
-    backdropFilter: isScrolled ? 'blur(24px)' : 'none',
-    WebkitBackdropFilter: isScrolled ? 'blur(24px)' : 'none',
-    borderBottom: isScrolled ? '1px solid rgba(255,255,255,0.1)' : 'none',
-    boxShadow: isScrolled ? '0 0 15px rgba(236,178,255,0.15)' : 'none',
-  }}
->
-  <div className="max-w-7xl mx-auto px-6 md:px-10 h-20 flex items-center justify-between">
-    <button onClick={() => navigate('/')} className="font-black text-2xl tracking-tighter"
-      style={{ fontFamily: "'Sora', sans-serif", color: '#fbf8fce3', textShadow: '0 0 8px rgba(245, 241, 241, 0.74)' }}>
-      AIACO
-    </button>
-    <div className="hidden md:flex items-center gap-8">
-     {navLinks.map((l) => {
-  const id = l.toLowerCase()
-  const isActive = activeSection === id
-  return (
-    <a key={l} href={`#${id}`}
-      className="text-xs font-bold uppercase tracking-widest transition-colors duration-300"
-      style={{ fontFamily: "'JetBrains Mono', monospace", color: isActive ? '#00eefc' : 'rgba(212,192,215,0.8)', borderBottom: isActive ? '2px solid #00eefc' : 'none', paddingBottom: isActive ? 4 : 0 }}
-      onMouseEnter={e => e.currentTarget.style.color = '#ecb2ff'}
-      onMouseLeave={e => e.currentTarget.style.color = isActive ? '#00eefc' : 'rgba(212,192,215,0.8)'}
-    >{l}</a>
-  )
-})}
-    </div>
-    <div className="flex items-center gap-4">
-      <button onClick={() => navigate('/')}
-   className="hidden md:inline-flex px-5 py-2 text-xs font-bold uppercase tracking-widest transition-all duration-300"
-  style={{ borderRadius: 8, background: 'rgba(255,255,255,0.08)', color: '#ffffff', border: '1px solid rgba(255,255,255,0.15)', backdropFilter: 'blur(8px)', fontFamily: "'JetBrains Mono', monospace" }}
-  onMouseEnter={e => {
-    e.currentTarget.style.background = 'rgba(189,0,255,0.15)'
-    e.currentTarget.style.borderColor = '#bd00ff'
-    e.currentTarget.style.color = '#bd00ff'
-    e.currentTarget.style.boxShadow = '0 0 20px rgba(189,0,255,0.3)'
-  }}
-  onMouseLeave={e => {
-    e.currentTarget.style.background = 'rgba(255,255,255,0.08)'
-    e.currentTarget.style.borderColor = 'rgba(255,255,255,0.15)'
-    e.currentTarget.style.color = '#ffffff'
-    e.currentTarget.style.boxShadow = 'none'
-  }}>
-  Volver
-</button>
-<div className="hidden md:block">
-  <AccountNavAction />
-</div>
-{/* Acciones mobile */}
-<div className="md:hidden flex items-center gap-2">
-
-  {/* Cuenta / Avatar */}
-  <AccountNavAction />
-
-  {/* Botón Hamburger */}
-  <button
-    className="p-2"
-    onClick={() => setMenuOpen(!menuOpen)}
-    style={{ color: '#dfe2f0' }}
-    aria-label="Abrir menú"
-  >
-    {menuOpen
-      ? <X size={20} />
-      : <Menu size={20} />
-    }
-  </button>
-
-</div>
-    </div>
-  </div>
-</nav>
- {menuOpen && (
-  <div className="fixed inset-0 z-40 md:hidden flex flex-col items-center justify-center gap-8"
-    style={{ background: 'rgba(7,11,20,0.98)', backdropFilter: 'blur(24px)' }}>
-    {navLinks.map((l) => {
-  const id = l.toLowerCase()
-  const isActive = activeSection === id
-  return (
-    <a key={l} href={`#${id}`}
-      onClick={() => setMenuOpen(false)}
-      className="text-2xl font-black uppercase tracking-widest"
-      style={{ fontFamily: "'Sora', sans-serif", color: isActive ? '#00eefc' : '#9d8ba0' }}>
-      {l}
-    </a>
-  )
-})}
-    <button onClick={() => { navigate('/'); setMenuOpen(false) }}
-  className="mt-4 px-8 py-3 text-xs font-bold uppercase tracking-widest"
-  style={{ borderRadius: 9999, background: 'linear-gradient(135deg, #bd00ff, #00eefc)', color: '#070b14', fontFamily: "'JetBrains Mono', monospace" }}>
-  Volver al inicio
-</button>
-
-  </div>
-)}
+<AccountingNavbar activeSection={activeSection} />
       <main>
 
     {/* ── HERO ── */}
 <section
-  className="relative min-h-[760px] pt-28 pb-16 overflow-hidden"
+  className="relative min-h-[760px] pt-28 pb-16 overflow-hidden will-change-transform"
   {...reveal(heroR)}
 >
   {/* ─────────────────────────────────────────────
@@ -1321,7 +1277,7 @@ useEffect(() => {
   ───────────────────────────────────────────── */}
 
   <div
-    className="relative z-10 max-w-6xl mx-auto px-6 w-full mt-20"
+    className="relative z-10 max-w-6xl mx-auto px-6 w-full mt-20 will-change-transform"
     {...reveal(kpiR)}
   >
     <div
@@ -1402,7 +1358,7 @@ useEffect(() => {
 
      {/* ── VALUE PROPS / FISCAL SHIELD ── */}
 <section
-  className="relative py-28 px-6 md:px-20 max-w-7xl mx-auto overflow-hidden"
+  className="relative py-28 px-6 md:px-20 max-w-7xl mx-auto overflow-hidden will-change-transform"
   {...reveal(valR)}
 >
   {/* Glow ambiental de la sección */}
@@ -1750,7 +1706,7 @@ useEffect(() => {
        {/* ── SERVICIOS ── */}
 <section
   id="soluciones"
-  className="relative w-full py-24 px-6 md:px-20 overflow-hidden"
+  className="relative w-full py-24 px-6 md:px-20 overflow-hidden will-change-transform"
   {...reveal(svcR)}
 >
 
@@ -1904,7 +1860,7 @@ useEffect(() => {
       {/* ── PLANES ── */}
 <section
   id="precios"
-  className="py-24 px-6 md:px-20 max-w-7xl mx-auto"
+  className="py-24 px-6 md:px-20 max-w-7xl mx-auto will-change-transform"
   {...reveal(planR)}
 >
   <h2
@@ -2170,7 +2126,7 @@ useEffect(() => {
       {/* ── FLUJO OPERATIVO ── */}
 <section
   id="proceso"
-  className="relative w-full py-24 px-6 md:px-20 overflow-hidden"
+  className="relative w-full py-24 px-6 md:px-20 overflow-hidden will-change-transform"
   {...reveal(stepR)}
 >
 
@@ -2288,7 +2244,7 @@ useEffect(() => {
 </section>
 
         {/* ── FAQ ── */}
-        <section id="faq" className="py-24 px-6 md:px-20 max-w-4xl mx-auto" {...reveal(faqR)}>
+        <section id="faq" className="py-24 px-6 md:px-20 max-w-4xl mx-auto will-change-transform" {...reveal(faqR)}>
           <h2 className="font-bold text-center mb-12" style={{ fontFamily: "'Sora', sans-serif", fontSize: 40, letterSpacing: '-0.02em' }}>
             Preguntas Frecuentes
           </h2>
@@ -2300,7 +2256,7 @@ useEffect(() => {
       {/* ── CONTACTO ── */}
 <section
   id="contacto"
-  className="relative w-full py-24 px-6 md:px-20 overflow-hidden"
+  className="relative w-full py-24 px-6 md:px-20 overflow-hidden will-change-transform"
   {...reveal(ctaR)}
 >
 
@@ -2469,19 +2425,24 @@ useEffect(() => {
 </div>
             </div>
 
-            <form onSubmit={handleSubmit} className="flex flex-col gap-5">
+            <form name="contact" onSubmit={handleSubmit} className="flex flex-col gap-5">
+                <input type="hidden" name="form-name" value="contact" />
+                <p className="hidden"><label>Don't fill this out if you're human: <input name="bot-field" /></label></p>
+                {sent && <p role="status" className="text-sm text-emerald-400">¡Mensaje enviado correctamente!</p>}
+                {submitError && <p role="alert" className="text-sm text-red-400">{submitError}</p>}
+                {isSubmitting && <p role="status" className="text-sm">Enviando…</p>}
               <div className="grid grid-cols-1 md:grid-cols-2 gap-5">
-                <input value={form.name} onChange={e => setForm({...form, name: e.target.value})}
+                <input name="name" value={form.name} onChange={e => setForm({...form, name: e.target.value})}
                   placeholder="Nombre Completo" required style={inputStyle('name')}
                   onFocus={() => setFocused('name')} onBlur={() => setFocused('')} />
-                <input value={form.phone} onChange={e => setForm({...form, phone: e.target.value})}
+                <input name="phone" value={form.phone} onChange={e => setForm({...form, phone: e.target.value})}
                   placeholder="+52" style={inputStyle('phone')}
                   onFocus={() => setFocused('phone')} onBlur={() => setFocused('')} />
               </div>
-              <input value={form.email} type="email" onChange={e => setForm({...form, email: e.target.value})}
+              <input name="email" value={form.email} type="email" onChange={e => setForm({...form, email: e.target.value})}
                 placeholder="correo@ejemplo.com" required style={inputStyle('email')}
                 onFocus={() => setFocused('email')} onBlur={() => setFocused('')} />
-              <select value={form.interest} onChange={e => setForm({...form, interest: e.target.value})}
+              <select name="interest" value={form.interest} onChange={e => setForm({...form, interest: e.target.value})}
                 style={{ ...inputStyle('interest'), appearance: 'none' }}
                 onFocus={() => setFocused('interest')} onBlur={() => setFocused('')}>
                 <option value="" style={{ background: '#1b2029' }}>Paquete de interés</option>
@@ -2489,11 +2450,11 @@ useEffect(() => {
                 <option value="profesional"  style={{ background: '#1b2029' }}>Fiscal Profesional — $3,000 MXN</option>
                 <option value="plus"         style={{ background: '#1b2029' }}>Fiscal Plus — $5,500 MXN</option>
               </select>
-              <textarea value={form.message} onChange={e => setForm({...form, message: e.target.value})}
+              <textarea name="message" value={form.message} onChange={e => setForm({...form, message: e.target.value})}
                 placeholder="Describe tu situación fiscal actual..." rows={4}
                 style={{ ...inputStyle('message'), resize: 'none' }}
                 onFocus={() => setFocused('message')} onBlur={() => setFocused('')} />
-              <button type="submit"
+              <button type="submit" disabled={isSubmitting} aria-busy={isSubmitting}
                 className="w-full py-4 font-bold text-xs uppercase tracking-widest transition-all duration-300 hover:scale-105"
                 style={{ borderRadius: 9999, background: 'linear-gradient(135deg, #bd00ff, #00eefc)', color: '#fff', fontFamily: "'JetBrains Mono', monospace", letterSpacing: '0.2em', boxShadow: '0 0 20px rgba(189,0,255,0.4)' }}>
                 {sent ? '¡Solicitud enviada! ✓' : 'Enviar solicitud'}
@@ -2504,23 +2465,7 @@ useEffect(() => {
       </main>
 
       {/* ── FOOTER ── */}
-      <footer className="px-6 md:px-20 py-10" style={{ borderTop: '1px solid rgba(81,66,85,0.3)' }}>
-        <div className="max-w-7xl mx-auto flex flex-col md:flex-row justify-between items-center gap-6">
-          <span className="font-black text-xl" style={{ fontFamily: "'Sora', sans-serif", color: '#ecb2ff' }}>AIACO</span>
-          <div className="flex gap-6">
-            {['Security Protocol', 'Privacy Policy', 'SAT Integration'].map(l => (
-              <a key={l} href="#" className="text-xs uppercase tracking-widest transition-colors duration-300"
-                style={{ fontFamily: "'JetBrains Mono', monospace", color: '#9d8ba0' }}
-                onMouseEnter={e => e.currentTarget.style.color = '#00eefc'}
-                onMouseLeave={e => e.currentTarget.style.color = '#9d8ba0'}
-              >{l}</a>
-            ))}
-          </div>
-        </div>
-        <div className="text-center text-xs uppercase tracking-widest mt-6 pt-6" style={{ fontFamily: "'JetBrains Mono', monospace", color: '#514255', borderTop: '1px solid rgba(81,66,85,0.2)' }}>
-          © 2025 AIACO Quantum Tax Systems. All rights reserved.
-        </div>
-      </footer>
+      <Footer />
     </div>
   )
 }

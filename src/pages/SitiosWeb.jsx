@@ -1,3 +1,4 @@
+import { Footer } from '../components/layout/Footer'
 import { useEffect, useRef, useState } from 'react'
 import { useNavigate }   from 'react-router-dom'
 import { motion }        from 'framer-motion'
@@ -43,12 +44,11 @@ const packages = [
 ]
 
 const carouselItems = [
-  { label: 'Dashboard Empresarial', img: 'https://images.unsplash.com/photo-1551288049-bebda4e38f71?w=600&q=80' },
-  { label: 'App Fintech',           img: 'https://images.unsplash.com/photo-1563013544-824ae1b704d3?w=600&q=80' },
-  { label: 'E-Commerce',            img: 'https://images.unsplash.com/photo-1460925895917-afdab827c52f?w=600&q=80' },
-  { label: 'Dashboard Empresarial', img: 'https://images.unsplash.com/photo-1551288049-bebda4e38f71?w=600&q=80' },
-  { label: 'App Fintech',           img: 'https://images.unsplash.com/photo-1563013544-824ae1b704d3?w=600&q=80' },
-  { label: 'E-Commerce',            img: 'https://images.unsplash.com/photo-1460925895917-afdab827c52f?w=600&q=80' },
+  { id: 'car-1', label: 'Proyecto web AIACO 1', src: '/carrusel/car1.webp' },
+  { id: 'car-2', label: 'Proyecto web AIACO 2', src: '/carrusel/car2.webp' },
+  { id: 'car-3', label: 'Proyecto web AIACO 3', src: '/carrusel/car3.webp' },
+  { id: 'car-4', label: 'Proyecto web AIACO 4', src: '/carrusel/car4.webp' },
+  { id: 'car-5', label: 'Proyecto web AIACO 5', src: '/carrusel/car5.webp' },
 ]
 const marqueeLogos = [
   'React', 'Node.js', 'MongoDB', 'AWS', 'Docker', 'Vite',
@@ -478,7 +478,7 @@ function BentoCard({ children, className = '', accent = C.purple, style = {} }) 
   const rgb = accent === C.purple ? '157,92,255' : '0,212,255'
   return (
     <div
-      className={`relative rounded-[20px] transition-all duration-500 ${className}`}
+      className={`relative rounded-[20px] transition-[border-color,box-shadow] duration-500 ${className}`}
       style={{
         background: C.card,
         border: `1px solid ${C.border}`,
@@ -487,12 +487,10 @@ function BentoCard({ children, className = '', accent = C.purple, style = {} }) 
       }}
       onMouseEnter={e => {
         e.currentTarget.style.borderColor = `rgba(${rgb},0.3)`
-        e.currentTarget.style.transform   = 'translateY(-6px) scale(1.01)'
         e.currentTarget.style.boxShadow   = `0 24px 48px -12px rgba(0,0,0,0.45), 0 0 0 1px rgba(${rgb},0.08)`
       }}
       onMouseLeave={e => {
         e.currentTarget.style.borderColor = C.border
-        e.currentTarget.style.transform   = 'translateY(0) scale(1)'
         e.currentTarget.style.boxShadow   = 'none'
       }}
     >
@@ -734,20 +732,6 @@ const webProjectsDescription = useContent(
   'Soluciones digitales únicas, sin plantillas, sin límites.'
 )
 
-const webProject1Label = useContent(
-  'web_project_1_label',
-  'Dashboard Empresarial'
-)
-
-const webProject2Label = useContent(
-  'web_project_2_label',
-  'App Fintech'
-)
-
-const webProject3Label = useContent(
-  'web_project_3_label',
-  'E-Commerce'
-)
   const webHeroTitle = useContent(
   'web_hero_title',
   'Transformamos tus\nideas en activos digitales\nde alto rendimiento'
@@ -774,6 +758,8 @@ const [isScrolled,    setIsScrolled]    = useState(false)
 const [activeSection, setActiveSection] = useState('servicios')
 const [form,          setForm]          = useState({ name: '', email: '', subject: '', message: '' })
 const [sent,          setSent]          = useState(false)
+  const [isSubmitting, setIsSubmitting] = useState(false)
+  const [submitError, setSubmitError] = useState('')
 const [focused,       setFocused]       = useState('')
 
 // other variables to store the refs of the sections so we can use them in the scroll trigger
@@ -788,6 +774,7 @@ const [ckNode,        setCkNode]        = useState(null)
 const [ctaNode,       setCtaNode]       = useState(null)
 
   const pkgCardsRef = useRef([])
+  const [isMarqueePaused, setIsMarqueePaused] = useState(false)
   const scrollToContent = () => {
     document.getElementById('servicios')?.scrollIntoView({ behavior: 'smooth' })
   }
@@ -815,21 +802,21 @@ const [ctaNode,       setCtaNode]       = useState(null)
 
     const ctx = gsap.context(() => {
       if (heroNode && headNode) {
-        gsap.to(headNode, {
-          scrollTrigger: { trigger: heroNode, start: 'top top', end: 'bottom top', scrub: true },
-          y: -60, opacity: 0,
+        gsap.from(headNode, {
+          scrollTrigger: { trigger: heroNode, start: 'top 85%', toggleActions: 'play none none none' },
+          y: 30, opacity: 0, duration: 0.8, ease: 'power3.out', force3D: true,
         })
       }
       if (heroNode && orbNode) {
-        gsap.to(orbNode, {
-          scrollTrigger: { trigger: heroNode, start: 'top top', end: 'bottom top', scrub: 1.5 },
-          scale: 1.3, opacity: 0, rotate: 45,
+        gsap.from(orbNode, {
+          scrollTrigger: { trigger: heroNode, start: 'top 85%', toggleActions: 'play none none none' },
+          y: 30, opacity: 0, duration: 0.8, ease: 'power3.out', force3D: true,
         })
       }
       if (carouselNode) {
         gsap.from(carouselNode, {
           scrollTrigger: { trigger: carouselNode, start: 'top 85%', toggleActions: 'play none none none' },
-          y: 50, opacity: 0, duration: 0.9, ease: 'power3.out',
+          y: 30, opacity: 0, duration: 0.8, ease: 'power3.out', force3D: true,
         })
       }
       if (aboutNode) {
@@ -837,22 +824,15 @@ const [ctaNode,       setCtaNode]       = useState(null)
 
         gsap.from(revealItems, {
           scrollTrigger: { trigger: aboutNode, start: 'top 85%', toggleActions: 'play none none none' },
-          y: 24, opacity: 0, scale: 0.97, duration: 0.6, stagger: 0.1, ease: 'power2.out',
+          y: 30, opacity: 0, duration: 0.8, stagger: 0.1, ease: 'power3.out', force3D: true,
         })
 
-        // Red de seguridad: si ScrollTrigger no dispara a tiempo (layout shift,
-        // refresh tardío por assets async), forzamos visibilidad tras 1.5s.
-        // Esto garantiza que las tarjetas de "Sobre AIACO" nunca queden
-        // ocultas de forma permanente, sin importar el timing del scroll.
-        gsap.delayedCall(1.5, () => {
-          gsap.set(revealItems, { clearProps: 'opacity,transform' })
-        })
       }
       pkgCardsRef.current.forEach((card, i) => {
         if (!card) return
         gsap.from(card, {
           scrollTrigger: { trigger: card, start: 'top 88%', toggleActions: 'play none none none' },
-          y: 50, opacity: 0, duration: 0.7, delay: i * 0.12, ease: 'power3.out',
+          y: 30, opacity: 0, duration: 0.8, delay: i * 0.12, ease: 'power3.out', force3D: true,
         })
       })
       if (ckNode) {
@@ -887,9 +867,28 @@ const [ctaNode,       setCtaNode]       = useState(null)
 
   const handleSubmit = (e) => {
     e.preventDefault()
-    setSent(true)
-    setTimeout(() => setSent(false), 3000)
-    setForm({ name: '', email: '', subject: '', message: '' })
+    if (isSubmitting) return
+    const formElement = e.target
+    const formData = new FormData(formElement)
+    setIsSubmitting(true)
+    setSent(false)
+    setSubmitError('')
+
+    fetch('/', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
+      body: new URLSearchParams(formData).toString(),
+    })
+      .then(response => {
+        if (!response.ok) throw new Error('No se pudo enviar el formulario')
+        formElement.reset()
+        setForm({ name: '', email: '', subject: '', message: '' })
+        setSent(true)
+      })
+      .catch(() => {
+        setSubmitError('No se pudo enviar. Tus datos se conservaron; inténtalo de nuevo.')
+      })
+      .finally(() => setIsSubmitting(false))
   }
 
   const inputStyle = (name) => ({
@@ -1057,7 +1056,7 @@ const [ctaNode,       setCtaNode]       = useState(null)
           `}</style>
 
          {/* Fondo shader Aurora — reemplaza el orbe decorativo */}
-<div ref={setOrbNode} className="absolute inset-0" style={{ zIndex: 0 }}>
+<div ref={setOrbNode} className="absolute inset-0 will-change-transform" style={{ zIndex: 0 }}>
   <AuroraCanvas />
   {/* Overlay para legibilidad, tonos AIACO */}
   <div style={{
@@ -1070,12 +1069,9 @@ const [ctaNode,       setCtaNode]       = useState(null)
   }} />
 </div>
 
-          <div ref={setHeadNode} className="relative z-10 max-w-7xl mx-auto px-6 md:px-10 w-full pt-10 pb-20">
+          <div ref={setHeadNode} className="relative z-10 max-w-7xl mx-auto px-6 md:px-10 w-full pt-10 pb-20 will-change-transform">
             <div className="max-w-2xl">
-              <motion.h1
-                initial={{ opacity: 0, y: 40 }}
-                animate={{ opacity: 1, y: 0 }}
-                transition={{ duration: 0.9, delay: 0.2, ease: [0.16,1,0.3,1] }}
+              <h1
                 className="font-black leading-none mb-6"
                 style={{ fontFamily: "'Montserrat', sans-serif", fontSize: 'clamp(48px, 7vw, 88px)', letterSpacing: '-0.04em' }}
               >
@@ -1092,22 +1088,16 @@ const [ctaNode,       setCtaNode]       = useState(null)
     {index < 2 && <br />}
   </span>
 ))}
-              </motion.h1>
+              </h1>
 
-              <motion.p
-                initial={{ opacity: 0, y: 30 }}
-                animate={{ opacity: 1, y: 0 }}
-                transition={{ duration: 0.8, delay: 0.4, ease: [0.16,1,0.3,1] }}
+              <p
                 className="mb-10"
                 style={{ fontSize: 18, color: C.soft, lineHeight: 1.7, maxWidth: 520 }}
               >
                 {webHeroDescription}
-              </motion.p>
+              </p>
 
-              <motion.div
-                initial={{ opacity: 0, y: 20 }}
-                animate={{ opacity: 1, y: 0 }}
-                transition={{ duration: 0.6, delay: 0.55 }}
+              <div
                 className="flex flex-wrap gap-4"
               >
                 <button
@@ -1125,13 +1115,13 @@ const [ctaNode,       setCtaNode]       = useState(null)
                 >
                   {webHeroSecondaryButton}
                 </button>
-              </motion.div>
+              </div>
             </div>
           </div>
         </section>
 
         {/* ── CAROUSEL / SERVICIOS ────────────────────────── */}
-<section id="servicios" ref={setCarouselNode} className="relative py-24 overflow-hidden" style={{ background: C.surface }}>
+<section id="servicios" ref={setCarouselNode} className="relative py-24 overflow-hidden will-change-transform" style={{ background: C.surface }}>
 
   {/* Fondo baseweb.svg */}
 <div
@@ -1160,57 +1150,50 @@ const [ctaNode,       setCtaNode]       = useState(null)
     </div>
   </div>
 
-  <div className="relative w-full overflow-hidden" style={{ cursor: 'grab', zIndex: 1 }}
-            onMouseEnter={e => e.currentTarget.querySelector('.sw-track').style.animationPlayState = 'paused'}
-            onMouseLeave={e => e.currentTarget.querySelector('.sw-track').style.animationPlayState = 'running'}
-          >
-            <style>{`
-              @keyframes swScroll { 0%{transform:translateX(0)} 100%{transform:translateX(calc(-50% - 12px))} }
-              .sw-track { display:flex; gap:20px; width:max-content; animation:swScroll 30s linear infinite; }
-            `}</style>
-            <div className="sw-track">
-              {carouselItems.map((item, i) => (
-                <div key={i} className="shrink-0 rounded-[16px] overflow-hidden transition-all duration-300"
-                  style={{ width: 460, border: `1px solid ${C.border}`, background: C.card }}
-                  onMouseEnter={e => { e.currentTarget.style.borderColor = `rgba(157,92,255,0.35)`; e.currentTarget.style.boxShadow = `0 0 20px rgba(157,92,255,0.15)` }}
-                  onMouseLeave={e => { e.currentTarget.style.borderColor = C.border; e.currentTarget.style.boxShadow = 'none' }}
-                >
-                  <img
-                    src={item.img}
-                    alt={item.label}
-                    width={460}
-                    height={260}
-                    loading="lazy"
-                    decoding="async"
-                    className="w-full object-cover"
-                    style={{ height: 260, aspectRatio: '460 / 260' }}
-                  />
-                  <div className="px-4 py-3">
-                    <span
-  className="text-xs font-semibold uppercase tracking-widest"
-  style={{
-    fontFamily: "'Montserrat', sans-serif",
-    color: C.muted
-  }}
->
-  {i % 3 === 0
-    ? webProject1Label
-    : i % 3 === 1
-      ? webProject2Label
-      : webProject3Label}
-</span>
-                  </div>
-                </div>
-              ))}
+  <div
+    className="relative z-[1] max-w-7xl mx-auto overflow-hidden px-6 md:px-10"
+    role="region"
+    aria-label="Proyectos destacados"
+    onMouseEnter={() => setIsMarqueePaused(true)}
+    onMouseLeave={() => setIsMarqueePaused(false)}
+  >
+    <style>{`
+      @keyframes aiaco-marquee {
+        from { transform: translate3d(0, 0, 0); }
+        to { transform: translate3d(-50%, 0, 0); }
+      }
+    `}</style>
+    <div
+      id="projects-carousel"
+      className="flex w-max pt-3 pb-8"
+      style={{
+        animation: 'aiaco-marquee 42s linear infinite',
+        animationPlayState: isMarqueePaused ? 'paused' : 'running',
+      }}
+    >
+      {[0, 1].map(copy => (
+        <div key={`marquee-copy-${copy}`} className="flex shrink-0 gap-5 pr-5" aria-hidden={copy === 1}>
+          {carouselItems.map(item => (
+            <div key={`${item.id}-${copy}`} className="shrink-0 w-[85vw] sm:w-[460px] aspect-video rounded-2xl overflow-hidden shadow-lg shadow-black/30 border border-white/10">
+              <img
+                src={item.src}
+                alt={copy === 0 ? item.label : ''}
+                className="block w-full h-full object-cover"
+                loading={copy === 0 ? 'eager' : 'lazy'}
+              />
             </div>
-          </div>
+          ))}
+        </div>
+      ))}
+    </div>
+  </div>
         </section>
 
         {/* ── NOSOTROS ────────────────────────────────────── */}
         <section id="nosotros" ref={setAboutNode} className="py-24 px-6 md:px-10" style={{ background: C.bg }}>
           <div className="max-w-7xl mx-auto">
 
-            <div className="reveal-item mb-12">
+            <div className="reveal-item will-change-transform mb-12">
               <p className="text-xs font-semibold uppercase tracking-widest mb-3"
                 style={{ fontFamily: "'Montserrat', sans-serif", color: C.purple }}>
                 {webAboutEyebrow}
@@ -1227,7 +1210,7 @@ const [ctaNode,       setCtaNode]       = useState(null)
             {/* Stats */}
 <div className="grid grid-cols-1 sm:grid-cols-3 gap-4 mb-6">
 
-  <BentoCard className="reveal-item p-8 text-center" accent={C.purple}>
+  <BentoCard className="reveal-item will-change-transform p-8 text-center" accent={C.purple}>
     <div
       className="font-black mb-2"
       style={{
@@ -1252,7 +1235,7 @@ const [ctaNode,       setCtaNode]       = useState(null)
     </p>
   </BentoCard>
 
-  <BentoCard className="reveal-item p-8 text-center" accent={C.cyan}>
+  <BentoCard className="reveal-item will-change-transform p-8 text-center" accent={C.cyan}>
     <div
       className="font-black mb-2"
       style={{
@@ -1277,7 +1260,7 @@ const [ctaNode,       setCtaNode]       = useState(null)
     </p>
   </BentoCard>
 
-  <BentoCard className="reveal-item p-8 text-center" accent={C.purple}>
+  <BentoCard className="reveal-item will-change-transform p-8 text-center" accent={C.purple}>
     <div
       className="font-black mb-2"
       style={{
@@ -1307,7 +1290,7 @@ const [ctaNode,       setCtaNode]       = useState(null)
 <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
 
   <BentoCard
-    className="reveal-item p-8"
+    className="reveal-item will-change-transform p-8"
     accent={C.purple}
   >
     <div
@@ -1335,7 +1318,7 @@ const [ctaNode,       setCtaNode]       = useState(null)
     </p>
   </BentoCard>
   <BentoCard
-    className="reveal-item p-8"
+    className="reveal-item will-change-transform p-8"
     accent={C.cyan}
   >
     <div
@@ -1396,22 +1379,20 @@ const [ctaNode,       setCtaNode]       = useState(null)
                 <div
                   key={i}
                   ref={el => pkgCardsRef.current[i] = el}
-                  className="relative rounded-[20px] p-8 flex flex-col gap-4"
+                  className="relative rounded-[20px] p-8 flex flex-col gap-4 will-change-transform"
                   style={{
                     background: pkg.recommended
                       ? `linear-gradient(135deg, rgba(157,92,255,0.08), rgba(0,212,255,0.05))`
                       : C.card,
                     border: `1px solid ${pkg.recommended ? `rgba(${pkg.rgb},0.5)` : C.border}`,
                     boxShadow: pkg.recommended ? `0 0 60px rgba(${pkg.rgb},0.1), inset 0 1px 0 rgba(255,255,255,0.05)` : 'none',
-                    transition: 'all 0.5s cubic-bezier(0.16,1,0.3,1)',
+                    transition: 'border-color 0.5s, box-shadow 0.5s',
                   }}
                   onMouseEnter={e => {
-                    e.currentTarget.style.transform = 'translateY(-8px)'
                     e.currentTarget.style.boxShadow = `0 30px 80px rgba(${pkg.rgb},0.2)`
                     e.currentTarget.style.borderColor = `rgba(${pkg.rgb},0.6)`
                   }}
                   onMouseLeave={e => {
-                    e.currentTarget.style.transform = 'translateY(0)'
                     e.currentTarget.style.boxShadow = pkg.recommended ? `0 0 60px rgba(${pkg.rgb},0.1)` : 'none'
                     e.currentTarget.style.borderColor = pkg.recommended ? `rgba(${pkg.rgb},0.5)` : C.border
                   }}
@@ -1484,10 +1465,10 @@ const [ctaNode,       setCtaNode]       = useState(null)
                 <h2 className="font-bold text-2xl mb-2" style={{ fontFamily: "'Montserrat', sans-serif", color: C.white }}>{webChecklistTitle}</h2>
                 <p style={{ color: C.soft, fontSize: 15 }}>{webChecklistDescription}</p>
               </div>
-              <button className="px-8 py-4 font-bold uppercase tracking-widest text-xs shrink-0 transition-all duration-300 hover:scale-105"
+              <a href="/checklist-web-genera-clientes.pdf" download className="px-8 py-4 font-bold uppercase tracking-widest text-xs shrink-0 transition-all duration-300 hover:scale-105"
                 style={{ borderRadius: 9999, background: `linear-gradient(135deg, ${C.purple}, ${C.cyan})`, color: C.bg, fontFamily: "'Montserrat', sans-serif", boxShadow: `0 0 25px rgba(157,92,255,0.3)` }}>
                 {webChecklistButton}
-              </button>
+              </a>
             </BentoCard>
           </div>
         </section>
@@ -1544,23 +1525,28 @@ const [ctaNode,       setCtaNode]       = useState(null)
                 </span>
               </div>
 
-              <form onSubmit={handleSubmit} className="flex flex-col gap-4">
+              <form name="contact" onSubmit={handleSubmit} className="flex flex-col gap-4">
+                <input type="hidden" name="form-name" value="contact" />
+                <p className="hidden"><label>Don't fill this out if you're human: <input name="bot-field" /></label></p>
+                {sent && <p role="status" className="text-sm text-emerald-400">¡Mensaje enviado correctamente!</p>}
+                {submitError && <p role="alert" className="text-sm text-red-400">{submitError}</p>}
+                {isSubmitting && <p role="status" className="text-sm">Enviando…</p>}
                 <div className="grid sm:grid-cols-2 gap-4">
-                  <input value={form.name} onChange={e => setForm({...form, name: e.target.value})}
+                  <input name="name" value={form.name} onChange={e => setForm({...form, name: e.target.value})}
                     placeholder="Tu nombre" required style={inputStyle('name')}
                     onFocus={() => setFocused('name')} onBlur={() => setFocused('')} />
-                  <input value={form.email} type="email" onChange={e => setForm({...form, email: e.target.value})}
+                  <input name="email" value={form.email} type="email" onChange={e => setForm({...form, email: e.target.value})}
                     placeholder="you@company.com" required style={inputStyle('email')}
                     onFocus={() => setFocused('email')} onBlur={() => setFocused('')} />
                 </div>
-                <input value={form.subject} onChange={e => setForm({...form, subject: e.target.value})}
+                <input name="subject" value={form.subject} onChange={e => setForm({...form, subject: e.target.value})}
                   placeholder="Asunto" required style={inputStyle('subject')}
                   onFocus={() => setFocused('subject')} onBlur={() => setFocused('')} />
-                <textarea value={form.message} onChange={e => setForm({...form, message: e.target.value})}
+                <textarea name="message" value={form.message} onChange={e => setForm({...form, message: e.target.value})}
                   placeholder="Mensaje..." rows={5} required
                   style={{ ...inputStyle('message'), resize: 'none' }}
                   onFocus={() => setFocused('message')} onBlur={() => setFocused('')} />
-                <button type="submit"
+                <button type="submit" disabled={isSubmitting} aria-busy={isSubmitting}
                   className="inline-flex items-center justify-center gap-2 px-7 py-3.5 font-bold text-xs uppercase tracking-widest transition-all duration-300 hover:scale-105"
                   style={{ borderRadius: 9999, background: `linear-gradient(135deg, ${C.purple}, ${C.cyan})`, color: C.bg, fontFamily: "'Montserrat', sans-serif", boxShadow: `0 0 20px rgba(157,92,255,0.25)` }}>
                   {sent ? '¡Enviado! ✓' : <><span>Iniciar Conversación</span><ArrowRight size={14} /></>}
@@ -1572,23 +1558,7 @@ const [ctaNode,       setCtaNode]       = useState(null)
       </main>
 
       {/* ── FOOTER ──────────────────────────────────────── */}
-      <footer className="px-6 md:px-10 py-10" style={{ background: C.bg, borderTop: `1px solid ${C.border}`, position: 'relative', zIndex: 1 }}>
-        <div className="max-w-7xl mx-auto flex flex-col md:flex-row items-center justify-between gap-6">
-          <span className="font-black" style={{ fontFamily: "'Montserrat', sans-serif", background: `linear-gradient(90deg, ${C.purple}, ${C.cyan})`, WebkitBackgroundClip: 'text', WebkitTextFillColor: 'transparent' }}>AIACO</span>
-          <div className="flex gap-6">
-            {['Política de Privacidad', 'Términos de Servicio', 'Cookies'].map(l => (
-              <a key={l} href="#" className="text-xs font-semibold uppercase tracking-widest transition-colors duration-200"
-                style={{ fontFamily: "'Montserrat', sans-serif", color: C.muted }}
-                onMouseEnter={e => e.currentTarget.style.color = C.white}
-                onMouseLeave={e => e.currentTarget.style.color = C.muted}
-              >{l}</a>
-            ))}
-          </div>
-          <p className="text-xs font-semibold uppercase tracking-widest" style={{ fontFamily: "'Montserrat', sans-serif", color: C.muted }}>
-            © 2025 AIACO Agency
-          </p>
-        </div>
-      </footer>
+      <Footer />
     </div>
   )
 }

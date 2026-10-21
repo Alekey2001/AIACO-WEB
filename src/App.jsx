@@ -9,6 +9,10 @@ import { Contact }     from './components/sections/Contact.jsx'
 import SitiosWeb       from './pages/SitiosWeb.jsx'
 import Contabilidad    from './pages/Contabilidad.jsx'
 import Youtube from './pages/Youtube.jsx'
+import { useEffect } from 'react'
+import PoliticasPrivacidad from './pages/PoliticasPrivacidad.jsx'
+import ProtocolosSeguridad from './pages/ProtocolosSeguridad.jsx'
+import Confidencialidad from './pages/Confidencialidad.jsx'
 
 // ── AUTH/SUPABASE: imports sin uso mientras las rutas están deshabilitadas — reactivar junto con App.jsx ──
 // import Login from './pages/Login.jsx'
@@ -39,6 +43,16 @@ function Home() {
 function Layout() {
   const location = useLocation()
   const isHome   = location.pathname === '/'
+  useEffect(() => {
+    const frame = requestAnimationFrame(() => {
+      if (location.hash) {
+        document.getElementById(location.hash.slice(1))?.scrollIntoView()
+      } else {
+        window.scrollTo(0, 0)
+      }
+    })
+    return () => cancelAnimationFrame(frame)
+  }, [location.pathname, location.hash])
   return (
     <>
       {isHome && <Navbar />}
@@ -49,6 +63,9 @@ function Layout() {
   <Route path="/sitios-web"   element={<SitiosWeb />}    />
   <Route path="/contabilidad" element={<Contabilidad />} />
   <Route path="/youtube" element={<Youtube />} />
+  <Route path="/politicas-de-privacidad" element={<PoliticasPrivacidad />} />
+  <Route path="/protocolos-de-seguridad" element={<ProtocolosSeguridad />} />
+  <Route path="/confidencialidad" element={<Confidencialidad />} />
 
   {/* ── AUTH/SUPABASE: pendiente de conectar backend — rutas deshabilitadas temporalmente ──
       Reactivar cuando Supabase esté listo. No borrar. */}
