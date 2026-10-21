@@ -53,9 +53,10 @@ export function Hero() {
           trigger: sectionRef.current,
           start: 'top top',
           end: 'bottom top',
-          scrub: 0.5,
+          scrub: true,
         },
         y: -40,
+        force3D: true,
 opacity: 0.35,
       })
     }, sectionRef)
@@ -116,7 +117,7 @@ opacity: 0.35,
       {/* Contenido centrado */}
       <div
         ref={contentRef}
-        className="relative z-[3] w-full flex flex-col items-center justify-center text-center px-6 md:px-10 pt-24 pb-20"
+        className="relative z-[3] w-full flex flex-col items-center justify-center text-center px-6 md:px-10 pt-24 pb-20 will-change-transform"
       >
         {/* AIACO */}
         <motion.h1
@@ -132,7 +133,7 @@ opacity: 0.35,
             fontSize: 'clamp(4rem, 12vw, 9rem)',
             color: '#bd00ff',
             textShadow:
-              '0 0 40px rgba(189,0,255,0.9), 0 0 80px rgba(189,0,255,0.5), 0 0 120px rgba(189,0,255,0.3)',
+              '0 0 15px rgba(189,0,255,0.6), 0 0 20px rgba(189,0,255,0.3)',
           }}
         >
           {heroTitle}
