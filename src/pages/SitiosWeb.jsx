@@ -1190,7 +1190,7 @@ const [ctaNode,       setCtaNode]       = useState(null)
         </section>
 
         {/* ── NOSOTROS ────────────────────────────────────── */}
-        <section id="nosotros" ref={setAboutNode} className="py-24 px-6 md:px-10" style={{ background: C.bg }}>
+        <section id="nosotros" ref={setAboutNode} className="py-24 md:py-32 px-6 md:px-10" style={{ background: C.bg }}>
           <div className="max-w-7xl mx-auto">
 
             <div className="reveal-item will-change-transform mb-12">
@@ -1208,9 +1208,10 @@ const [ctaNode,       setCtaNode]       = useState(null)
             </div>
 
             {/* Stats */}
-<div className="grid grid-cols-1 sm:grid-cols-3 gap-4 mb-6">
+<div className="grid grid-cols-1 sm:grid-cols-3 gap-6 mb-8">
 
-  <BentoCard className="reveal-item will-change-transform p-8 text-center" accent={C.purple}>
+  <div className="reveal-item will-change-transform">
+    <div className="h-full rounded-3xl border border-white/10 bg-white/5 backdrop-blur-md p-8 shadow-2xl shadow-purple-950/20 transition-all duration-300 hover:-translate-y-2 hover:bg-white/10 hover:border-white/20 motion-reduce:transform-none motion-reduce:transition-none text-center">
     <div
       className="font-black mb-2"
       style={{
@@ -1233,9 +1234,11 @@ const [ctaNode,       setCtaNode]       = useState(null)
     >
       {webStat1Label}
     </p>
-  </BentoCard>
+    </div>
+  </div>
 
-  <BentoCard className="reveal-item will-change-transform p-8 text-center" accent={C.cyan}>
+  <div className="reveal-item will-change-transform">
+    <div className="h-full rounded-3xl border border-white/10 bg-white/5 backdrop-blur-md p-8 shadow-2xl shadow-purple-950/20 transition-all duration-300 hover:-translate-y-2 hover:bg-white/10 hover:border-white/20 motion-reduce:transform-none motion-reduce:transition-none text-center">
     <div
       className="font-black mb-2"
       style={{
@@ -1258,9 +1261,11 @@ const [ctaNode,       setCtaNode]       = useState(null)
     >
       {webStat2Label}
     </p>
-  </BentoCard>
+    </div>
+  </div>
 
-  <BentoCard className="reveal-item will-change-transform p-8 text-center" accent={C.purple}>
+  <div className="reveal-item will-change-transform">
+    <div className="h-full rounded-3xl border border-white/10 bg-white/5 backdrop-blur-md p-8 shadow-2xl shadow-purple-950/20 transition-all duration-300 hover:-translate-y-2 hover:bg-white/10 hover:border-white/20 motion-reduce:transform-none motion-reduce:transition-none text-center">
     <div
       className="font-black mb-2"
       style={{
@@ -1283,22 +1288,20 @@ const [ctaNode,       setCtaNode]       = useState(null)
     >
       {webStat3Label}
     </p>
-  </BentoCard>
+    </div>
+  </div>
 
 </div>
 {/* Mission / Vision */}
-<div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+<div className="grid grid-cols-1 md:grid-cols-2 gap-6">
 
-  <BentoCard
-    className="reveal-item will-change-transform p-8"
-    accent={C.purple}
-  >
-    <div
-      className="w-8 h-0.5 mb-5"
-      style={{
-        background: `linear-gradient(90deg, ${C.purple}, transparent)`
-      }}
-    />
+  <div className="reveal-item will-change-transform">
+    <div className="h-full rounded-3xl border border-white/10 bg-white/5 backdrop-blur-md p-8 md:p-10 shadow-2xl shadow-purple-950/20 transition-all duration-300 hover:-translate-y-2 hover:bg-white/10 hover:border-white/20 motion-reduce:transform-none motion-reduce:transition-none">
+    <div className="mb-6 flex h-16 w-16 items-center justify-center rounded-full border border-white/10 bg-purple-500/10 text-purple-400">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" className="h-8 w-8 drop-shadow-md" aria-hidden="true">
+        <circle cx="12" cy="12" r="9" /><circle cx="12" cy="12" r="5" /><circle cx="12" cy="12" r="1" />
+      </svg>
+    </div>
 
     <h3
       className="font-bold text-xl mb-3"
@@ -1316,17 +1319,15 @@ const [ctaNode,       setCtaNode]       = useState(null)
     >
       {webMissionDescription}
     </p>
-  </BentoCard>
-  <BentoCard
-    className="reveal-item will-change-transform p-8"
-    accent={C.cyan}
-  >
-    <div
-      className="w-8 h-0.5 mb-5"
-      style={{
-        background: `linear-gradient(90deg, ${C.cyan}, transparent)`
-      }}
-    />
+    </div>
+  </div>
+  <div className="reveal-item will-change-transform">
+    <div className="h-full rounded-3xl border border-white/10 bg-white/5 backdrop-blur-md p-8 md:p-10 shadow-2xl shadow-purple-950/20 transition-all duration-300 hover:-translate-y-2 hover:bg-white/10 hover:border-white/20 motion-reduce:transform-none motion-reduce:transition-none">
+    <div className="mb-6 flex h-16 w-16 items-center justify-center rounded-full border border-white/10 bg-cyan-400/10 text-cyan-300">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" className="h-8 w-8 drop-shadow-md" aria-hidden="true">
+        <path d="M2 12s3.5-7 10-7 10 7 10 7-3.5 7-10 7S2 12 2 12Z" /><circle cx="12" cy="12" r="3" />
+      </svg>
+    </div>
     <h3
       className="font-bold text-xl mb-3"
       style={{
@@ -1342,7 +1343,8 @@ const [ctaNode,       setCtaNode]       = useState(null)
     >
       {webVisionDescription}
     </p>
-  </BentoCard>
+    </div>
+  </div>
 </div>
           </div>
         </section>

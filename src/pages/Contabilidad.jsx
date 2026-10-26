@@ -2326,7 +2326,7 @@ useEffect(() => {
 
   {/* WhatsApp */}
   <a
-    href="https://wa.me/52216512345678"
+    href="https://wa.me/5215570669666"
     target="_blank"
     rel="noopener noreferrer"
     className="flex items-center gap-4 group"
