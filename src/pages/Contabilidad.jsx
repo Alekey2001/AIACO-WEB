@@ -2324,7 +2324,7 @@ useEffect(() => {
               </p>
               <div className="flex flex-col gap-4">
 
-  {/* WhatsApp */}
+ {/* WhatsApp */}
   <a
     href="https://wa.me/5215570669666"
     target="_blank"
